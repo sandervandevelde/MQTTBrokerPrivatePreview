@@ -107,7 +107,7 @@ Here are a few scenarios you can try out.  Please refer the details below about 
 
 | # | Scenario | Description |
 | ------------ | ------------ | ------------ |
-| 1 | Fan-out (one-to-many) messages  | This scenario simulates cloud-to-client commands to several clients and can be leveraged for use cases such as sending alerts to clients. Consider the use case where a fleet management service needs to send a weather alert to all the vehicles in the fleet. For instructions see README.  |
+| 1 | Fan-out (one-to-many) messages  | This scenario simulates cloud-to-client commands to several clients and can be leveraged for use cases such as sending alerts to clients. Consider the use case where a fleet management service needs to send a weather alert to all the vehicles in the fleet. For instructions see [README](/Scenario1_Fan-out%20messages/README.md).  |
 | 2 | Fan-in (many to one) messaging  | This scenario simulates publishing messages from multiple clients to a single client.  Consider a use case where one needs to identify location of vehicles on a map.  For instructions see README. |
 | 3 | One to one messaging  | This scenario simulates publishing messages from one client to another.  Consider a use case where a user can unlock their car from a mobile app.  For instructions see README.  |
 | 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from broker to the endpoint: Kafka on Event Hub through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see README.  |
