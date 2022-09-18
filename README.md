@@ -95,15 +95,11 @@ Let us get started with a \"hello world\" scenario, with a publisher and subscri
 |Pub_client|Pub_Client_Group|Publisher|sample/topic|sample/#|
 |Sub_client|Sub_Client_Group|Subscriber|sample/topic|sample/#|
 
-Ensure you have the MQTT broker is enabled for the subscription you provided. (--- how? ---)
-Control plane setup – subscription, namespace details, etc.
-For quick start, please download all the files in this folder (--- to be added ---).
-This folder contains all the necessary artifacts required to run the quick start including a dummy certificate and a .exe file that you can run (--- how/where? ---) to create all the necessary resources.
-Also, code is made available to customize as per your testing needs. However, before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
- – script
-Then the new .exe for hello world
-Need to create a client to run management plane commands, etc.  
-For quick start, out of the box, client gets instantiated and runs.
+- Ensure you have the MQTT broker is enabled for the subscription you provided. (--- how? ---)
+- For quick start, out of the box, client gets instantiated and runs.  Perform the control plane setup – subscription, namespace details, etc.
+- Download all the files in this folder (--- to be added ---).
+    - This folder contains all the necessary artifacts required to run the quick start including a sample CA certificate and a .exe file that you can run (--- how/where? ---) to create all the necessary resources.
+    - Also, code is made available to customize as per your testing needs. However, before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
 
 
 ## Scenarios
