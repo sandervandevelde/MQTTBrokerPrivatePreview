@@ -56,6 +56,12 @@ This private preview provides the following capabilities
 - Large message of 512KB supported 
 - Pay As You Go Billing
 
+
+<img src="Example of flow.png"
+     alt="Example of flow"
+     style="float: left; margin-right: 10px;" />
+
+
 ## Prerequisites
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this form
 - To create an MQTT broker, use the ARM template/ use these APIs
