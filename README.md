@@ -3,7 +3,7 @@
 The Microsoft Azure messaging team invites you and your organization to preview the MQTT Broker feature.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group. We look forward to your feedback  as you leverage this capability for your pub/sub solutions. Please note that this preview is available by invitation only  and requires an NDA. By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).
 
 ## Overview of MQTT Broker
-MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages to and from IoT clients and applications. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (clients/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients (clients/services).
+MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (clients/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients (clients/services).
 
 |Concepts|
 | ------------ |
@@ -33,16 +33,15 @@ This private preview provides the following capabilities
 
 **MQTT Broker functionality** in Canary via APIs.
 - Cloud MQTT Broker with pub/sub to flexible topic structure, support wildcards in topic structure to allow subscription to filtered messages
-- MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 not supported) 
+- MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
 - QoS 0, 1 - MQTT manages the re-transmission of messages and guarantees delivery making communication in unreliable networks a lot reliable.
 - Fine grained access control on pub/sub, means users can configure precisely for specific clients to pub/sub on specific topics level
 - Compatibility with standard MQTT client libraries (ex. Eclipse Paho) allows users to migrate configuration much faster
-- Route MQTT messages through Event Grid subscriptions to integrate data with Azure services  for flexibility to further process the data on various Azure endpoints
+- Route MQTT messages through Event Grid subscriptions to integrate data with Azure services or customer endpoints for flexibility to further process the data on various Azure endpoints
 - Persistent session will allow for clean session if client disconnects and reconnects, ensuring subscribed messages are sent after reconnection.
-- High fan out/broadcasting to large number of subscribers on each topic  
 - Support for 1-1, 1-many and many-1 messaging patterns to accommodate for a variety of pub/sub scenarios
 - Client (client/service)  onboarding and authentication using X.509 certificates
-- Ability for registered clients to publish or subscribe to any topic through client groups
+- Client groups provide the ability for registered clients to publish or subscribe to any topic
 - Topic Spaces is a new concept introduced to simplify management of topics used for pub/sub  
 - Support for TLS 1.2   endpoints for data plane operations to keep the data transmission secure
 - Also, see [throttle limit tables](#limits) below
@@ -54,7 +53,7 @@ This private preview provides the following capabilities
 - Enhanced performance and scale limits
 - MQTT v5 (partial)
 - Customer facing Azure monitoring metrics, Azure diagnostic logs for troubleshooting and monitoring operations
-- Large message of 1MB  supported 
+- Large message of 512KB supported 
 - Pay As You Go Billing
 
 ## Prerequisites
@@ -128,11 +127,11 @@ Some of the key terms relevant for private preview are explained below.
 | Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  For example, Floor 3 is an attribute that provides the client's location. |
 | Client group| Client group is a collection of clients that are segregated by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific TopicSpace |
 | Topic space | Topic space is a new concept introduced to simplify management of topics used for pub/sub.  A topic space is a set of topics within the broker.  Topic space is defined using MQTT topic templates and filters with support for MQTT wildcards and variable substitutions. It can be used to limit the set of topics based on the properties of the MQTT client. |
-| Topic filter| An MQTT topic filter is an MQTT topic, possibly with wildcards for one or more segments allowing it to match multiple MQTT topics.  Supported wildcards are +, which matches a single segment and #, which matches zero or more segments at the end of the topic.  See Topic Wildcards from the MQTT spec for more details. – need link? |
+| Topic filter| An MQTT topic filter is an MQTT topic, possibly with wildcards for one or more segments allowing it to match multiple MQTT topics.  Supported wildcards are +, which matches a single segment and #, which matches zero or more segments at the end of the topic.  See Topic Wildcards from the MQTT specification for more details. |
 | Topic template| Topic templates are an extension of the topic filter that includes support for variables. This simplifies management for high scale applications.  A topic space can consist of multiple topic templates.  For example, vehicles/\${principal.clientid}/GPS/#.  Here, ${principal.clientid} part is the variable that substitutes into the client Id during an MQTT session. |
 | Variable| A value in a topic template that will be filled in based on the properties of the authenticated client.  A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment.  For example, if we want the client to publish on its own topic, you can use the topic vehicles/${principal.clientId}/GPS/location.  For this topic template, vehicle1 can only publish to vehicles/vehicle1/GPS/location.  If vehicle1 attempts to publish on topic vehicles/vehicle2/GPS/location, it will fail. | 
 | Topic space type| The type of the topic space.  Must be one of HighFanout, LowFanout or PublishOnly . The high fanout and low fanout types are needed to adjust for the expected number of clients receiving each message, while the publish only option makes a topic space useable only for publishing. |
-| Fanout| The number of clients that will receive a given message. A low fanout message would be received by only a small number of clients. See throttle limit |
+| Fanout| The number of clients that will receive a given message. A low fanout message would be received by only a small number of clients. See throttle limits |
 | PermissionBinding| Associates a client group with a specific TopicSpace as a publisher and/or subscriber  |
 
 ## Concepts
@@ -217,12 +216,12 @@ Event Grid is a highly scalable, serverless event broker that you can use to int
 You can either use the X ARM template to create the Event Grid custom topic as well as the namespace or create your Event Grid custom topic as the first step to route your messages.
 
 **Using the ARM template:**
-1. Use the ARM template to create the Event Grid topic as well as the namespace. The created custom topic is where all MQTT Broker messages will be forwarded.
-2. Create an Event Grid subscription to route these messages to one of the supported Azure services or a custom endpoint.
+1. Use the ARM template to create the [Event Grid topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-topics) as well as the namespace. The created custom topic is where all MQTT Broker messages will be forwarded.
+2. Create an [Event Grid subscription](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route these messages to one of the supported Azure services or a custom endpoint.
 
 **Create your Event Grid custom topic:**
 1. [Create an Event Grid custom topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-event-quickstart-portal) where all MQTT Broker messages will be forwarded. This topic needs to fulfill the requirements detailed below in the routing considerations.
-2. Create an Event Grid subscription to route these messages to one of the supported Azure services or a custom endpoint.
+2. Create an [Event Grid subscription](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route these messages to one of the supported Azure services or a custom endpoint.
 3. Create the namespace with MQTT Enabled and pass on the ARM ID for the custom topic that you created in step 1.
 
 ### Routing Considerations:
@@ -233,7 +232,7 @@ You can either use the X ARM template to create the Event Grid custom topic as w
 	- You can use the Event Grid Subscription’s filtering capability to filter the routed messages based on the MQTT topic through filtering on the “subject” property in the Cloud Event schema. Event Grid Subscriptions supports free simple subject filtering by specifying a starting or ending value for the subject. For example, 
 		- You can specify the subject ends with “gps” to only route messages reporting on location. 
 		- You can filter the subject begins with “factory1/Area2/” to route only the messages that belong to facotry1 and area 2 to a specific endpoint and you can replicate this configuration to route messages from other factories/areas to different endpoints.
-	- You can also take advantage of the Event Subscription’s advanced filtering to filter based on the MQTT topic through filtering on the subject property in the Cloud Event Schema. This enable you to set more complex filters by secifying a comparison operator, key, and value. See the example below.
+	- You can also take advantage of the [Event Subscription’s advanced filtering](https://docs.microsoft.com/en-us/azure/event-grid/event-filtering#advanced-filtering) to filter based on the MQTT topic through filtering on the subject property in the Cloud Event Schema. This enable you to set more complex filters by secifying a comparison operator, key, and value. See the example below.
 
 #### The schema for the Cloud Event Schema:
 Each message being routed is enveloped in a Cloud Event according to the following schema sample: 
