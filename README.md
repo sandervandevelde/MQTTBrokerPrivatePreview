@@ -92,8 +92,10 @@ In this method, a root or intermediate X.509 certificate is registered with the 
 
 ### Topic Spaces
 Topic space is a new concept introduced to simplify management of topics used for publishing and subscribing by your clients.
+
 **Topic space:**  A topic space is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics.  
 It is important to note that the publishing is a supported action on all topic spaces by default; however, you need to configure the subscription support as detailed below.
+
 **Topic filter:**  An [MQTT topic filter](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718106) is an MQTT topic that can include wildcards for one or more of its segments, allowing it to match multiple MQTT topics. It is used to simplify subscriptions declarations as one topic filter can match multiple topics.
 
 The service supports all the MQTT wildcards defined by the [MQTT specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718107) as follows:
@@ -244,3 +246,6 @@ MQTT Topics and Topic Filters| 256 bytes| | Max number of topic levels: 8|
 	- Topic space updates take up-to 5 minutes to propagate, please retry the samples post that. 
 - How do I connect to the MQTT broker with a third party tool that requires username and password as string? 
 	- Username and password based authentication is currently not supported.  It will be supported in future release.
+
+
+    
