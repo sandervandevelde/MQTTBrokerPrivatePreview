@@ -5,6 +5,13 @@ The Microsoft Azure messaging team invites you and your organization to preview 
 ## Overview of MQTT Broker
 MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages to and from IoT  clients and applications. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (clients/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients (clients/services).
 
+|Concepts|
+| ------------ |
+| [MQTT standard protocol](https://mqtt.org/) |
+| [Client Authentication](#client-authentication) |
+| [Client Groups](#topic-space-considerations) |
+| [Topic Space](#topic-spaces)|
+
 ## Private preview program information
 The private preview is only for testing.  Please do NOT use it for your production.
 
@@ -19,7 +26,9 @@ When the private preview program ends, or when your tests are complete, we will 
 
 However, if you prefer to cleanup the private preview configuration, you can follow these below steps.
 
-## Capabilities  available in this preview
+--- To be added ---
+
+## Capabilities available in this preview
 This private preview provides the following capabilities
 
 **MQTT Broker functionality** in Canary via APIs.
@@ -37,6 +46,7 @@ This private preview provides the following capabilities
 - Topic Spaces is a new concept introduced to simplify management of topics used for pub/sub  
 - Support for TLS 1.2   endpoints for data plane operations to keep the data transmission secure
 - See throttle limits table below
+
 ## Capabilities coming up in future releases
 - Last Will and Testament (LWT)
 - Retain flag
@@ -46,6 +56,28 @@ This private preview provides the following capabilities
 - Customer facing Azure monitoring metrics, Azure diagnostic logs for troubleshooting and monitoring operations
 - Large message of 1MB  supported 
 - Pay As You Go Billing
+
+## Prerequisites
+- We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this form
+- To create an MQTT broker, use the ARM template/ use these APIs
+	- Canary is the only region where MQTT Broker is currently supported
+	- You can use one of the two ARM templates available. 
+		- ARM template without routing
+		- ARM template with routing
+- 3.	Clone the repo
+	- For all the scenarios below we have provided sample code in Python using the Paho MQTT client.
+	- Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.  To connect to the new MQTT broker, the clients must use authentication based on X.509 certificates.  Once the client is connected regular pub/sub operations will work.
+- Use portal or ARM client or CLI to create resourcing using ARM templates, GitHub deploy to Azure – click here to get to the ARM template
+- CLI – generic ARM template commands;
+- Install Azure ARM client to perform HTTP requests against broker management service to create/read/update/delete child resources.  Or, use a different tool that allows you to perform HTTP requests and use client certificates.
+- To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
+	- Use the X ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
+	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
+- If client uses X509, self-signed do this
+- Should we provide a way to create X.509 certificates? – customers will bring their own certs
+- Support MQTTX Explorer? – add tutorial to use for a simple scenario? P1
+- Use your favorite mqtt tool to test
+
 
 
 ## Terminology
@@ -68,12 +100,6 @@ Some of the key terms relevant for private preview are explained below.
 | PermissionBinding| Associates a client group with a specific TopicSpace as a publisher and/or subscriber  |
 
 ## Concepts
-||
-| ------------ |
-| [MQTT standard protocol](https://mqtt.org/) |
-| [Client Authentication](#client-authentication) |
-| [Client Groups](#topic-space-considerations) |
-| [Topic Space](#topic-spaces)|
 
 ### Client Authentication
 In the context of an identity-based access control system, authentication is the process of verifying an identity. Authentication occurs by the client proving to the server that it possesses the secret data/credential, which links to it’s identity via a trusted channel.  To authenticate the identity, the client proves possession of the credential, and through the transitive property, its identity.
@@ -248,4 +274,3 @@ MQTT Topics and Topic Filters| 256 bytes| | Max number of topic levels: 8|
 	- Username and password based authentication is currently not supported.  It will be supported in future release.
 
 
-    
