@@ -3,7 +3,7 @@
 The Microsoft Azure messaging team invites you and your organization to preview the MQTT Broker feature.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group. We look forward to your feedback  as you leverage this capability for your pub/sub solutions. Please note that this preview is available by invitation only  and requires an NDA. By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).
 
 ## Overview of MQTT Broker
-MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages to and from IoT  clients and applications. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (clients/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients (clients/services).
+MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages to and from IoT clients and applications. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (clients/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients (clients/services).
 
 |Concepts|
 | ------------ |
@@ -78,6 +78,42 @@ This private preview provides the following capabilities
 - Support MQTTX Explorer? – add tutorial to use for a simple scenario? P1
 - Use your favorite mqtt tool to test
 
+### Warning
+- MQTT broker is in early development and this tech preview is available in the spirit of transparency. Bugs are expected, and we look forward to feedback via email to mqttbroker@microsoft.com.
+- Before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
+
+## QuickStart
+Let us get started with a \"hello world\" scenario, with a publisher and subscriber communicating on a topic. Below table enumerates all the resources used in this example.
+
+|Client name|Client Group|PermissionBinding|TopicSpace|Topic template|
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|Pub_client|Pub_Client_Group|Publisher|sample/topic|sample/#|
+|Sub_client|Sub_Client_Group|Subscriber|sample/topic|sample/#|
+
+Ensure you have the MQTT broker is enabled for the subscription you provided. (--- how? ---)
+Control plane setup – subscription, namespace details, etc.
+For quick start, please download all the files in this folder (--- to be added ---).
+This folder contains all the necessary artifacts required to run the quick start including a dummy certificate and a .exe file that you can run (--- how/where? ---) to create all the necessary resources.
+Also, code is made available to customize as per your testing needs. However, before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
+ – script
+Then the new .exe for hello world
+Need to create a client to run management plane commands, etc.  
+For quick start, out of the box, client gets instantiated and runs.
+
+
+## Scenarios
+Here are a few scenarios you can try out.  Please refer the details below about the limitations.
+
+| # | Scenario | Description |
+| ------------ | ------------ | ------------ |
+| 1 | Fan-out (one-to-many) messages  | This scenario simulates cloud-to-client commands to several clients and can be leveraged for use cases such as sending alerts to clients. Consider the use case where a fleet management service needs to send a weather alert to all the vehicles in the fleet. For instructions see README.  |
+| 2 | Fan-in (many to one) messaging  | This scenario simulates publishing messages from multiple clients to a single client.  Consider a use case where one needs to identify location of vehicles on a map.  For instructions see README. |
+| 3 | One to one messaging  | This scenario simulates publishing messages from one client to another.  Consider a use case where a user can unlock their car from a mobile app.  For instructions see README.  |
+| 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from broker to the endpoint: Kafka on Event Hub through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see README.  |
+
+### Other scenarios to consider
+- Test the throttle limits
+- Test the naming considerations
 
 
 ## Terminology
