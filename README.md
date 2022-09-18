@@ -52,7 +52,7 @@ This private preview provides the following capabilities
 ||
 | ------------ |
 | [MQTT standard protocol](https://mqtt.org/) |
-| Client Authentication |
+| Client Authentication(#Client Authentication) |
 | Client Groups |
 | Topic Space |
 
@@ -71,7 +71,7 @@ In this method, a root or intermediate X.509 certificate is registered with the 
 
 **Self-signed certificates:**  For self-signed certificates, the identity registry must store either the identity certificate’s public key or the identity’s certificate thumbprint alongside the identity record.  The certificate thumbprint is a cryptographic hash of the certificate data (public key and metadata).  The identity registry needs to store the exact ID of the certificate that the client is going to use to authenticate. 
 
-## Topic Spaces
+### Topic Spaces
 Topic space is a new concept introduced to simplify management of topics used for publishing and subscribing by your clients.
 **Topic space:**  A topic space is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics.  
 It is important to note that the publishing is a supported action on all topic spaces by default; however, you need to configure the subscription support as detailed below.
@@ -123,7 +123,7 @@ If you set your topic space with a low fanout or high fanout subscription modes,
 	- Subscription support is immutable. To reconfigure the subscription support, delete the topic space and create a new topic space with the desired subscription support.
 	- Topic space updates may take up to 5 minutes to propagate.
 
-## Routing
+### Routing
 This functionality will enable you to route your messages from your clients to different Azure services like Event hubs, Service Bus, etc or your custom endpoint. This functionality is achieved through [Event Grid](https://docs.microsoft.com/en-us/azure/event-grid/), by sending all your messages from your clients to an [Event Grid topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-topics), and using [Event Grid subscriptions](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route the messages from that Event Grid topic to the [supported endpoints](https://docs.microsoft.com/en-us/azure/event-grid/event-handlers).
 
 Event Grid is a highly scalable, serverless event broker that you can use to integrate applications using events. Events are delivered by Event Grid to subscriber destinations such as applications, Azure services, or any endpoint to which Event Grid has network access. [Learn more](https://docs.microsoft.com/en-us/azure/event-grid/)
