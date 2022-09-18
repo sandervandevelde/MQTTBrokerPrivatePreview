@@ -48,13 +48,32 @@ This private preview provides the following capabilities
 - Pay As You Go Billing
 
 
+## Terminology
+Some of the key terms relevant for private preview are explained below.
+
+| Term| Definition |
+| ------------ | ------------ |
+| MQTT Broker| An MQTT broker is an intermediary entity that enables MQTT clients to communicate. Specifically, an MQTT broker receives messages published by clients, filters the messages by topic, and distributes them to subscribers. |
+| Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topicspaces, permissionbindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
+| Client| Client can be a client or a service that will connect to the MQTT broker and publish and/or subscribe to MQTT messages |
+| Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be “self-signed”. Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
+| Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  For example, Floor 3 is an attribute that provides the client's location. |
+| Client group| Client group is a collection of clients that are segregated by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific TopicSpace |
+| Topic space | Topic space is a new concept introduced to simplify management of topics used for pub/sub.  A topic space is a set of topics within the broker.  Topic space is defined using MQTT topic templates and filters with support for MQTT wildcards and variable substitutions. It can be used to limit the set of topics based on the properties of the MQTT client. |
+| Topic filter| An MQTT topic filter is an MQTT topic, possibly with wildcards for one or more segments allowing it to match multiple MQTT topics.  Supported wildcards are +, which matches a single segment and #, which matches zero or more segments at the end of the topic.  See Topic Wildcards from the MQTT spec for more details. – need link? |
+| Topic template| Topic templates are an extension of the topic filter that includes support for variables. This simplifies management for high scale applications.  A topic space can consist of multiple topic templates.  For example, vehicles/\${principal.clientid}/GPS/#.  Here, ${principal.clientid} part is the variable that substitutes into the client Id during an MQTT session. |
+| Variable| A value in a topic template that will be filled in based on the properties of the authenticated client.  A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment.  For example, if we want the client to publish on its own topic, you can use the topic vehicles/${principal.clientId}/GPS/location.  For this topic template, vehicle1 can only publish to vehicles/vehicle1/GPS/location.  If vehicle1 attempts to publish on topic vehicles/vehicle2/GPS/location, it will fail. | 
+| Topic space type| The type of the topic space.  Must be one of HighFanout, LowFanout or PublishOnly . The high fanout and low fanout types are needed to adjust for the expected number of clients receiving each message, while the publish only option makes a topic space useable only for publishing. |
+| Fanout| The number of clients that will receive a given message. A low fanout message would be received by only a small number of clients. See throttle limit |
+| PermissionBinding| Associates a client group with a specific TopicSpace as a publisher and/or subscriber  |
+
 ## Concepts
 ||
 | ------------ |
 | [MQTT standard protocol](https://mqtt.org/) |
-| Client Authentication(#Client Authentication) |
-| Client Groups |
-| Topic Space |
+| [Client Authentication](#client-authentication) |
+| [Client Groups](#topic-space-considerations) |
+| [Topic Space](#topic-spaces)|
 
 ### Client Authentication
 In the context of an identity-based access control system, authentication is the process of verifying an identity. Authentication occurs by the client proving to the server that it possesses the secret data/credential, which links to it’s identity via a trusted channel.  To authenticate the identity, the client proves possession of the credential, and through the transitive property, its identity.
@@ -169,4 +188,59 @@ Each message being routed is enveloped in a Cloud Event according to the followi
 ## Limits
 For this release, the following limits are supported, however, not all limits are enforced, please do not stress test beyond the limits mentioned above.  The limits might be revised for future releases.
 
+| Limit Description  | Azure MQTT Broker Private Preview  |
+| ------------ | ------------ |
+|Max Message size |256KB |
+|New connect requests per second |500/s (per Azure subscription per region) *soft limit |
+|Inbound Publish requests per second |5000/s (per Azure sub per region) |
+|Subscribe requests per second (Connect, subscribe) |500/s |
+|Number of subscriptions per connections |50 |
+|Number of topic subscriptions per Azure Subscription per region |TBD, per Azure Subscription per region |
+|Maximum outbound unacknowledged messages (queue size) |TBD |
+|Maximum number of concurrent connections allowed |10K |
+|Outbound publish requests per second per account |5000/s 
+(per Azure subscription per region) |
+|Inbound Publish requests per second per connection |100 |
+|Outbound Publish requests per second per connection |100 |
+|Inbound Throughput per second |5MB 
+at Azure sub level |
+|Outbound Throughput per second |5MB 
+at Azure sub level |
 
+### Topic Spaces Limits
+| Category| Description| Limit| 
+| ------------ | ------------ | ------------ |
+| Topic and topic filter levels| Maximum number of levels per topic or topic filter| 7|
+| Topic size| Topic size| 256 bytes|
+| Topic space| LowFanout: Total subscriptions per substituted topic template (e.g. for clients/${principal.clientid}/# you can have 10 subscriptions for topics for client d1, and independently 10 subscriptions for topics for client d2| 10|
+| Topic Templates| Maximum number of topic templates within a topic space| 10|
+| Topic space| Maximum number of topic spaces per IoT Hub| 10|
+| Topic space management APIs| Maximum requests per second| 1/s; with burst 10/s|
+
+## Naming considerations
+All the names are of String type
+
+| Category| Name length| Allowed characters| Other considerations|
+| ------------ | ------------ | ------------ | ------------ |
+| Namespace| 6-50 characters| Alphanumeric, and hyphens(-); no spaces|  Starts with letter and ends with alphanumeric; Unique per region | 
+| Client| 1-128 characters| Alphanumeric, hyphen(-), colon(:), dot(.), and underscore(_), no spaces| Case sensitive| 
+| Client Group| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Only a maximum of 10 client groups can be created;  $all is the default client group that includes all the clients.  This group cannot be edited or deleted.| 
+| Certificate| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| CA signed certificates| 
+| Client attributes| Total size of the attributes is <=4KB| Alphanumeric and underscores(_)| Case sensitive; Attribute values can be strings, string arrays, integers| 
+| TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| 
+MQTT Topics and Topic Filters| 256 bytes| | Max number of topic levels: 8| 
+| Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| No collisions with other Permission Binding names| 
+
+## Frequently asked questions 
+- Is monitoring metrics and logging available? 
+	- Not in this release.  We will add monitoring metrics and diagnostic logs in the next release.
+- What happens if client attempts to pub/sub on a topic when a matching topic space is not found? 
+	- Client connection will be closed. We will add monitoring metrics and diagnostic logs in the next release. 
+- How long does it take for topic space updates to propagate? 
+	- It takes up-to 5 minutes to propagate a topic space update. 
+- Can I use my existing SDK? 
+	- You can use any standard MQTT client SDK.  See SDK samples here. 
+- How can I fix Subscription was rejected error when running the samples? 
+	- Topic space updates take up-to 5 minutes to propagate, please retry the samples post that. 
+- How do I connect to the MQTT broker with a third party tool that requires username and password as string? 
+	- Username and password based authentication is currently not supported.  It will be supported in future release.
