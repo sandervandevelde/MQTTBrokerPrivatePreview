@@ -45,7 +45,7 @@ This private preview provides the following capabilities
 - Ability for registered clients to publish or subscribe to any topic through client groups
 - Topic Spaces is a new concept introduced to simplify management of topics used for pub/sub  
 - Support for TLS 1.2   endpoints for data plane operations to keep the data transmission secure
-- See throttle limits table below
+- Also, see [throttle limit tables](#limits) below
 
 ## Capabilities coming up in future releases
 - Last Will and Testament (LWT)
