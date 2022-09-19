@@ -64,24 +64,34 @@ This private preview provides the following capabilities
 
 ## Prerequisites
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this form
+- Install AzureCLI from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+- Register Private Preview (Canary) cloud as below:
+`az cloud register --name Dogfood --endpoint-active-directory-resource-id  https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/`
+- set Private Preview cloud
+`az cloud set --name Private_Preview`
+- Login to Private Preview
+`az login`
+
 - To create an MQTT broker, use the ARM template/ use these APIs
 	- Canary is the only region where MQTT Broker is currently supported
 	- You can use one of the two ARM templates available. 
 		- ARM template without routing
 		- ARM template with routing
-- 3.	Clone the repo
+- Clone the repo
 	- For all the scenarios below we have provided sample code in Python using the Paho MQTT client.
-	- Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.  To connect to the new MQTT broker, the clients must use authentication based on X.509 certificates.  Once the client is connected regular pub/sub operations will work.
-- Use portal or ARM client or CLI to create resourcing using ARM templates, GitHub deploy to Azure – click here to get to the ARM template
-- CLI – generic ARM template commands;
-- Install Azure ARM client to perform HTTP requests against broker management service to create/read/update/delete child resources.  Or, use a different tool that allows you to perform HTTP requests and use client certificates.
+	- Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.  To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates.  Once the client is connected regular pub/sub operations will work.
+-     
+- Use portal or CLI to create resources using ARM templates, GitHub deploy to Azure – click here to get to the ARM template
+- Support MQTTX Explorer? – add tutorial to use for a simple scenario? P1
+- Use your favorite mqtt tool to test
+- 
 - To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
 	- Use the X ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
 	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
+- 
 - If client uses X509, self-signed do this
 - Should we provide a way to create X.509 certificates? – customers will bring their own certs
-- Support MQTTX Explorer? – add tutorial to use for a simple scenario? P1
-- Use your favorite mqtt tool to test
+
 
 ### Warning
 - MQTT broker is in early development and this tech preview is available in the spirit of transparency. Bugs are expected, and we look forward to feedback via email to mqttbroker@microsoft.com.
