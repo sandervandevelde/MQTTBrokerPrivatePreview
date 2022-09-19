@@ -66,12 +66,17 @@ This private preview provides the following capabilities
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this form
 - Install AzureCLI from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
 - Register Private Preview (Canary) cloud as below:
-`az cloud register --name Dogfood --endpoint-active-directory-resource-id  https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/`
+```bash
+az cloud register --name Dogfood --endpoint-active-directory-resource-id  https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
+```
 - set Private Preview cloud
-`az cloud set --name Private_Preview`
+```bash
+az cloud set --name Private_Preview
+```
 - Login to Private Preview
-`az login`
-
+```bash
+az login
+```
 - To create an MQTT broker, use the ARM template/ use these APIs
 	- Canary is the only region where MQTT Broker is currently supported
 	- You can use one of the two ARM templates available. 
