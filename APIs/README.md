@@ -272,12 +272,12 @@ Each message being routed is enveloped in a Cloud Event according to the followi
 ```
 
 ## Limits
-For this release, the following limits are supported, however, not all limits are enforced, please do not stress test beyond the limits mentioned below.  The limits might be revised for future releases.
+For this release, the following limits are supported, however, not all limits are enforced, please do not stress test beyond the limits mentioned above.  The limits might be revised for future releases.
 
 | Limit Description  | Azure MQTT Broker Private Preview  |
 | ------------ | ------------ |
 |Max Message size |256KB |
-|New connect requests per second |500/s *soft limit |
+|New connect requests per second |500/s (per Azure subscription per region) *soft limit |
 |Inbound Publish requests per second |5000/s (per Azure sub per region) |
 |Subscribe requests per second (Connect, subscribe) |500/s |
 |Number of subscriptions per connections |50 |
@@ -298,8 +298,9 @@ at Azure sub level |
 | ------------ | ------------ | ------------ |
 | Topic and topic filter levels| Maximum number of levels per topic or topic filter| 7|
 | Topic size| Topic size| 256 bytes|
+| Topic space| LowFanout: Total subscriptions per substituted topic template (e.g. for clients/${principal.clientid}/# you can have 10 subscriptions for topics for client d1, and independently 10 subscriptions for topics for client d2| 10|
 | Topic Templates| Maximum number of topic templates within a topic space| 10|
-| Topic space| Maximum number of topic spaces| 10|
+| Topic space| Maximum number of topic spaces per IoT Hub| 10|
 | Topic space management APIs| Maximum requests per second| 1/s; with burst 10/s|
 
 ## Naming considerations
@@ -313,25 +314,21 @@ All the names are of String type
 | Certificate| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| CA signed certificates| 
 | Client attributes| Total size of the attributes is <=4KB| Alphanumeric and underscores(_)| Case sensitive; Attribute values can be strings, string arrays, integers| 
 | TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| 
+MQTT Topics and Topic Filters| 256 bytes| | Max number of topic levels: 8| 
 | Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| No collisions with other Permission Binding names| 
 
 ## Frequently asked questions 
 - Is monitoring metrics and logging available? 
 	- Not in this release.  We will add monitoring metrics and diagnostic logs in the next release.
 - What happens if client attempts to pub/sub on a topic when a matching topic space is not found? 
-	- Client connection will be closed. 
+	- Client connection will be closed. We will add monitoring metrics and diagnostic logs in the next release. 
 - How long does it take for topic space updates to propagate? 
 	- It takes up-to 5 minutes to propagate a topic space update. 
-- How can my clients send MQTT messages to the service? 
+- Can I use my existing SDK? 
 	- You can use any standard MQTT client SDK.  See SDK samples here. 
 - How can I fix Subscription was rejected error when running the samples? 
 	- Topic space updates take up-to 5 minutes to propagate, please retry the samples post that. 
 - How do I connect to the MQTT broker with a third party tool that requires username and password as string? 
 	- Username and password based authentication is currently not supported.  It will be supported in future release.
-- What happens if I have more than 10 subscribers per topic for a low fanout topic space?
-    - The 11th subscription request for the same topic will be rejected.
-- Is MQTT 3.1 supported?
-    - No
-
 
 

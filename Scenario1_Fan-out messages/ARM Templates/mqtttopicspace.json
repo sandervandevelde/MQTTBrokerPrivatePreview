@@ -1,0 +1,10 @@
+{ 
+    
+    "name":"sampleTs2",
+    "properties":
+    {
+        "topicTemplates":["filter3","filter4"],
+        "subscriptionSupport":"LowFanout"
+    }
+
+}
