@@ -63,11 +63,11 @@ This private preview provides the following capabilities
 
 
 ## Prerequisites
-- We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this form
+- We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this form --- To be added ---
 - Install AzureCLI from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
 - Register Private Preview (Canary) cloud as below:
 ```bash
-az cloud register --name Dogfood --endpoint-active-directory-resource-id  https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
+az cloud register --name Private_Preview --endpoint-active-directory-resource-id  https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
 ```
 - set Private Preview cloud
 ```bash
@@ -77,7 +77,8 @@ az cloud set --name Private_Preview
 ```bash
 az login
 ```
-- To create an MQTT broker, use the ARM template/ use these APIs
+- Use portal to create a resource group called "MQTT_Pri_Prev_rg_1"
+- Use portal or CLI to create resources using ARM templates.  (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
 	- Canary is the only region where MQTT Broker is currently supported
 	- You can use one of the two ARM templates available. 
 		- ARM template without routing
@@ -86,7 +87,9 @@ az login
 	- For all the scenarios below we have provided sample code in Python using the Paho MQTT client.
 	- Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.  To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates.  Once the client is connected regular pub/sub operations will work.
 -     
-- Use portal or CLI to create resources using ARM templates, GitHub deploy to Azure – click here to get to the ARM template
+- Use portal or CLI to create resources using ARM templates
+
+– click here to get to the ARM template
 - Support MQTTX Explorer? – add tutorial to use for a simple scenario? P1
 - Use your favorite mqtt tool to test
 - 
@@ -139,7 +142,7 @@ Some of the key terms relevant for private preview are explained below.
 | ------------ | ------------ |
 | MQTT Broker| An MQTT broker is an intermediary entity that enables MQTT clients to communicate. Specifically, an MQTT broker receives messages published by clients, filters the messages by topic, and distributes them to subscribers. |
 | Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topicspaces, permissionbindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
-| Client| Client can be a client or a service that will connect to the MQTT broker and publish and/or subscribe to MQTT messages |
+| Client| Client can be a device or a service that will connect to the MQTT broker and publish and/or subscribe to MQTT messages |
 | Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be “self-signed”. Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
 | Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  For example, Floor 3 is an attribute that provides the client's location. |
 | Client group| Client group is a collection of clients that are segregated by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific TopicSpace |

@@ -1,0 +1,21 @@
+{
+    "name": "client0902-3",
+    "properties": {
+        "isEnabled": true,
+        "authentication": {
+            "certificateSubject": {
+                "subjectName": "testSubjectName"
+            }
+        },
+        "attributes": {
+            "room": "345",
+            "num": 123,
+            "fewTypes": [
+                "123",
+                "Light",
+                "AC"
+            ]
+        },
+        "description": "This is a test client"
+    }
+}
