@@ -147,32 +147,25 @@ Some of the key terms relevant for private preview are explained below.
 | Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topicspaces, permissionbindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
 | Client| Client can be a device or a service that will connect to the MQTT broker and publish and/or subscribe to MQTT messages |
 | Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be “self-signed”. Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
-| Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  For example, Floor 3 is an attribute that provides the client's location. |
-| Client group| Client group is a collection of clients that are segregated by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific TopicSpace |
-| Topic space | Topic space is a new concept introduced to simplify management of topics used for pub/sub.  A topic space is a set of topics within the broker.  Topic space is defined using MQTT topic templates and filters with support for MQTT wildcards and variable substitutions. It can be used to limit the set of topics based on the properties of the MQTT client. |
-| Topic filter| An MQTT topic filter is an MQTT topic, possibly with wildcards for one or more segments allowing it to match multiple MQTT topics.  Supported wildcards are +, which matches a single segment and #, which matches zero or more segments at the end of the topic.  See Topic Wildcards from the MQTT specification for more details. |
-| Topic template| Topic templates are an extension of the topic filter that includes support for variables. This simplifies management for high scale applications.  A topic space can consist of multiple topic templates.  For example, vehicles/\${principal.clientid}/GPS/#.  Here, ${principal.clientid} part is the variable that substitutes into the client Id during an MQTT session. |
-| Variable| A value in a topic template that will be filled in based on the properties of the authenticated client.  A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment.  For example, if we want the client to publish on its own topic, you can use the topic vehicles/${principal.clientId}/GPS/location.  For this topic template, vehicle1 can only publish to vehicles/vehicle1/GPS/location.  If vehicle1 attempts to publish on topic vehicles/vehicle2/GPS/location, it will fail. | 
-| Topic space type| The type of the topic space.  Must be one of HighFanout, LowFanout or PublishOnly . The high fanout and low fanout types are needed to adjust for the expected number of clients receiving each message, while the publish only option makes a topic space useable only for publishing. |
-| Fanout| The number of clients that will receive a given message. A low fanout message would be received by only a small number of clients. See throttle limits |
-| PermissionBinding| Associates a client group with a specific TopicSpace as a publisher and/or subscriber  |
+| Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, Floor 3 is an attribute that provides the client's location. |
+| Client group| Client group is a collection of clients that are grouped by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific Topic Space |
+| Topic space | Topic space is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics. |
+| Topic filter| An MQTT topic filter is an MQTT topic that can include wildcards for one or more of its segments, allowing it to match multiple MQTT topics. It is used to simplify subscriptions declarations as one topic filter can match multiple topics. |
+| Topic template| Topic templates are an extension of the topic filter that supports variables. It is used for fine-grained access control within a client group. |
+| PermissionBinding| A Permission Binding grants access to a specific client group to either publish or subscribe on a specific topic space.  |
 
 ## Concepts
 
 ### Client Authentication
-In the context of an identity-based access control system, authentication is the process of verifying an identity. Authentication occurs by the client proving to the server that it possesses the secret data/credential, which links to it’s identity via a trusted channel.  To authenticate the identity, the client proves possession of the credential, and through the transitive property, its identity.
-In MQTT systems using an identity-based access control model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity.
-The following credential types are currently supported:
-- Certificates issued by a Certificate Authority (CA) – asymmetric
-- Self-signed certificates - asymmetric
+For private preview, we will be supporting authentication of clients using X.509 certificates.  X.509 certificate will provide the credentials to associate a particular client with the tenant, and at the same time, ensure the communication is encrypted.  In this model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity. 
+The following credential types are supported:
+- Certificates issued by a Certificate Authority (CA) 
+- Self-signed certificates
 
-**Certificates:** Certificates, are a form of asymmetric credential.  They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair. 
-For asymmetric keypair based authentication, the identity registry must store the identity’s public key alongside the identity record so that it can verify tokens sent by the client and signed with the private key.
+**CA signed certificates:**  In this method, a root or intermediate X.509 certificate is registered with the service.  Later, clients can authenticate if they have a valid leaf certificate that's derived from the root or intermediate certificate.  While registering the clients, the subject common name of the leaf certificate needs to be supplied for authentication.  Service will validate the subject name with the CA certificate that was registered earlier to validate the identity of the client.  
 
-**CA signed certificates:**  For trusted issuer certificates (CA signed), the identity registry only needs to store the list of trusted issuers and the public keys that these issuers use to sign certificates.  The link between credential and identity is not stored in the identity registry but is embedded in the certificate itself.  Because the metadata can be trusted by verifying the certificate issuer, the identity registry can trust the identity listed in the subject field and does not need to store any additional information about the credentials.
-In this method, a root or intermediate X.509 certificate is registered with the service.  Later, clients can authenticate if they have a valid leaf certificate that's derived from the root or intermediate certificate.
+**Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the  certificate thumbprint alongside the identity record.  In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
 
-**Self-signed certificates:**  For self-signed certificates, the identity registry must store either the identity certificate’s public key or the identity’s certificate thumbprint alongside the identity record.  The certificate thumbprint is a cryptographic hash of the certificate data (public key and metadata).  The identity registry needs to store the exact ID of the certificate that the client is going to use to authenticate. 
 
 ### Topic Spaces
 Topic space is a new concept introduced to simplify management of topics used for publishing and subscribing by your clients.
