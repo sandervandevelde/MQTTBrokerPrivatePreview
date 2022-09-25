@@ -72,7 +72,7 @@ Create the Permission Bindings using below CLI commands
 az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario1-NS/permissionBindings/FleetMgmt-publisher --api-version 2022-10-15-preview --properties @C:\Scenario1_jsons\PB_FleetMgmt-publisher.json
 ```
 
-```bash
+```csharp
 az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario1-NS/permissionBindings/Vehicles-subscriber --api-version 2022-10-15-preview --properties @C:\Scenario1_jsons\PB_Vehicles-subscriber.json
 ```
 
