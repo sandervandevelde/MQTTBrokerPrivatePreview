@@ -15,7 +15,7 @@ MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages
 ## Private preview program information
 The private preview is only for testing.  Please do NOT use it for your production.
 
-**Engagement:**  We will actively engage with you during the preview. At any point, feel free to connect with us for questions/concerns by creating issues in the Samples repo, confidential questions can be asked to mqttbroker@microsoft.com.
+**Engagement:**  We will actively engage with you during the preview. At any point, feel free to connect with us for questions/concerns by emailing to mqttbroker@microsoft.com.
 
 **Feedback:**  At the end of the preview, we will capture additional feedback using this form.
 
@@ -79,11 +79,12 @@ az cloud set --name Private_Preview
 az login
 ```
 Resource Group:
-- Use portal to create a resource group called "MQTT_Pri_Prev_rg_1"
+- Use portal to create a resource group called "MQTT-Pri-Prev-rg1"
 CRUD for other resources:
 - To execute the scenarios, you can use either portal or CLI to create resources such as namespace, clients, topicspaces, etc. using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
 	- MQTT Broker is currently supported only in Central US EAUP and East US EAUP regions
-- To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work.  
+- To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
+    - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work.
 - To test the message pub/sub, you can use any of your favorite tools such as MQTTX explorer.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
     - Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.
 
