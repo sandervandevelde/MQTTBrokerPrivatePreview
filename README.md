@@ -1,6 +1,6 @@
 # Customer onboarding instructions - MQTT Broker Private Preview
 
-The Microsoft Azure messaging team invites you and your organization to preview the MQTT Broker feature.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group. We look forward to your feedback  as you leverage this capability for your pub/sub solutions. Please note that this preview is available by invitation only  and requires an NDA. By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).
+The Microsoft Azure messaging team invites you and your organization to preview the MQTT Broker feature.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
 ## Overview of MQTT Broker
 MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
@@ -9,7 +9,7 @@ MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages
 | ------------ |
 | [MQTT standard protocol](https://mqtt.org/) |
 | [Client Authentication](#client-authentication) |
-| [Client Groups](#topic-space-considerations) |
+| [Client Groups](#client-groups) |
 | [Topic Space](#topic-spaces)|
 
 ## Private preview program information
@@ -64,13 +64,13 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ## Prerequisites
-- We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this form --- To be added ---
+- We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
 - Install AzureCLI from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-- Register Private Preview (Canary) cloud as below:
+- Register Private Preview (Central US EAUP and East US EAUP) cloud by running below command in CLI:
 ```bash
-az cloud register --name Private_Preview --endpoint-active-directory-resource-id  https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
+az cloud register --name Private_Preview --endpoint-active-directory-resource-id https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
 ```
-- set Private Preview cloud
+- Set Private Preview cloud
 ```bash
 az cloud set --name Private_Preview
 ```
@@ -81,40 +81,31 @@ az login
 Resource Group:
 - Use portal to create a resource group called "MQTT_Pri_Prev_rg_1"
 CRUD for other resources:
-- Use portal or CLI to create resources using ARM templates.  (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
-	- Central US EAUP and East US EAUP are the only regions where MQTT Broker is currently supported
-	- You can use one of the two ARM templates available. 
-		- ARM template without routing
-		- ARM template with routing
-- Clone the repo
-	- For all the scenarios below we have provided sample code in Python using the Paho MQTT client.
-	- Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.  To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates.  Once the client is connected regular pub/sub operations will work.
--     
-- Use portal or CLI to create resources using ARM templates
+- To execute the scenarios, you can use either portal or CLI to create resources such as namespace, clients, topicspaces, etc. using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
+	- MQTT Broker is currently supported only in Central US EAUP and East US EAUP regions
+- To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work.  
+- To test the message pub/sub, you can use any of your favorite tools such as MQTTX explorer.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
+    - Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.
 
-– click here to get to the ARM template
-- Support MQTTX Explorer? – add tutorial to use for a simple scenario? P1
-- Use your favorite mqtt tool to test
-- 
+- Here's a quick guid to using MQTTX Explorer to test the scenarios.  --- to be added, P1 ---
+	  
 - To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
 	- Use the X ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
 	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
-- 
-- If client uses X509, self-signed do this
-- Should we provide a way to create X.509 certificates? – customers will bring their own certs
 
 
 ### Warning
 - MQTT broker is in early development and this tech preview is available in the spirit of transparency. Bugs are expected, and we look forward to feedback via email to mqttbroker@microsoft.com.
 - Before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
 
+
 ## QuickStart
 Let us get started with a \"hello world\" scenario, with a publisher and subscriber communicating on a topic. Below table enumerates all the resources used in this example.
 
-|Client name|Client Group|PermissionBinding|TopicSpace|Topic template|
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-|Pub_client|Pub_Client_Group|Publisher|sample/topic|sample/#|
-|Sub_client|Sub_Client_Group|Subscriber|sample/topic|sample/#|
+|Client name|Client Group|PermissionBinding|TopicSpace|
+| ------------ | ------------ | ------------ | ------------ |
+|Pub_client|Pub_Client_Group|Publisher|sample/topic (Topic template: sample/#)|
+|Sub_client|Sub_Client_Group|Subscriber|sample/topic (Topic template: sample/#)|
 
 - Ensure you have the MQTT broker is enabled for the subscription you provided. (--- how? ---)
 - For quick start, out of the box, client gets instantiated and runs.  Perform the control plane setup – subscription, namespace details, etc.
@@ -124,7 +115,7 @@ Let us get started with a \"hello world\" scenario, with a publisher and subscri
 
 
 ## Scenarios
-Here are a few scenarios you can try out.  Please refer the details below about the limitations.
+Here are a few scenarios you can try out.  Please refer the details below on the limitations.  Each scenario is segregated by it's own namespace to keep the testing clean and simple.  However, you can tweak the scenarios to configure all the resources under same namespace for testing further.
 
 | # | Scenario | Description |
 | ------------ | ------------ | ------------ |
@@ -165,6 +156,59 @@ The following credential types are supported:
 **CA signed certificates:**  In this method, a root or intermediate X.509 certificate is registered with the service.  Later, clients can authenticate if they have a valid leaf certificate that's derived from the root or intermediate certificate.  While registering the clients, the subject common name of the leaf certificate needs to be supplied for authentication.  Service will validate the subject name with the CA certificate that was registered earlier to validate the identity of the client.  
 
 **Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the  certificate thumbprint alongside the identity record.  In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
+
+
+### Client Groups
+Client group is a new concept introduced to make management of client access controls (publish/subscribe) easy – multiple clients can be grouped together based on certain commonalities to provide similar levels of authorization to publish and/or subscribe to Topic spaces.
+
+Clients can be devices or applications, such as IIoT devices or vehicles that send/receive MQTT messages.
+
+For example, a fleet management company with hundreds of trucks and other shipment delivery vehicles across the country, can improve their routing, tracking, driver safety and predictable maintenance capabilities by sending and receiving MQTT messages to/from the vehicles to monitoring applications on cloud.
+
+In this scenario, vehicles can be configured as clients that publish/subscribe to various topics such as weather information, road conditions, geo location, engine performance and other wear-and-tear aspects of the vehicle.  And, while configuring the vehicle as a client, a set of attributes such as vehicle type, year, make & model, max load capacity can also be included as part of the client metadata.
+
+These client attributes can be used to create the client groups.  For example, if the vehicles that can carry loads over 2 tons are prone to accidents if driven with low braking fluid especially in icy road conditions, then all such vehicles can be grouped together to continuously monitor and alert the drivers in case of potential hazardous conditions based on weather at their locations.
+
+### Client group considerations:
+The main purpose of client groups is to provide common authorization to a set of clients to either publish and/or subscribe on one or more Topic spaces.  Every client needs to be part of a client group to be able to pub/sub on a topic space.  The goal is to keep the quantity of client groups very small to make permissions manageable.
+For this preview, we will be supporting a maximum of 10 client groups per namespace.
+
+Clients need to be grouped in a way that it’s easier to reuse the group to pub/sub across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish/subscribe to.  Identify the commonalities across the scenarios to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
+
+**What are client attributes?**
+Client attributes are a set of user defined key-value pairs or tags that provide information about the client.  These attributes will be the main ingredient in the client group filtering expressions.  Attributes could be describing the physical or functional characteristics of the client.  Typical attributes could be type of the client, client location, or type of signal generated from the client.  
+Here are some examples of typical client attributes:
+- Type: Values could be “sensor” or “thermostat” or “vehicle”
+- Client location could be a plant, particular geo, or a state
+
+Here’s a sample schema for the attribute definition: 
+```json
+{  
+    "id": "device123",  
+    "attributes": {  
+        "floor": 7,  
+        "status": “active”,  
+        "sensors": ["motion", "noise", "light"]  
+     }  
+}
+```
+
+While configuring the client attributes, consider the topics that the clients will be publishing (subscribing) to.  Thinking backwards from topics to clients will help identifying the commonalities across client roles much easier and defining the client attributes to make the client grouping effortless.  
+
+**How to create client group queries?**
+To setup a client group, user needs to build a query that filters a set of clients based on their attribute values.
+
+Here are a few sample queries:
+- (Attributes.sensors = “motion” or Attributes.sensors = “humidity”) or Attributes.status <> “sleep mode”
+- Attributes.sensors IN [“motion”, “humidity”, “temperature”] and attributes.floor <= 5
+
+In group queries, following operands are allowed:
+- Equal operator “=”
+- Not equal operator in 2 forms “<>” and “!=” 
+- Less than “<”, greater than “>”, less than equal to “<=”, greater than equal to “>=” for long integer values
+- “IN” to compare with a set of values
+
+Please refer to the [naming considerations table](#naming-considerations) for details on allowed characters and patterns.
 
 
 ### Topic Spaces
@@ -265,48 +309,41 @@ Each message being routed is enveloped in a Cloud Event according to the followi
 ```
 
 ## Limits
-For this release, the following limits are supported, however, not all limits are enforced, please do not stress test beyond the limits mentioned below.  The limits might be revised for future releases.
+For this release, the following limits are supported.  Please do not stress test beyond the limits mentioned below and for other scenarios.  These limits will be revised for future releases.
 
-| Limit Description  | Azure MQTT Broker Private Preview  |
+|Limit Description | MQTT Broker Private Preview |
 | ------------ | ------------ |
-|Max Message size |256KB |
-|New connect requests per second |500/s *soft limit |
-|Inbound Publish requests per second |5000/s (per Azure sub per region) |
-|Subscribe requests per second (Connect, subscribe) |500/s |
-|Number of subscriptions per connections |50 |
-|Number of topic subscriptions per Azure Subscription per region |TBD, per Azure Subscription per region |
-|Maximum outbound unacknowledged messages (queue size) |TBD |
-|Maximum number of concurrent connections allowed |10K |
-|Outbound publish requests per second per account |5000/s 
-(per Azure subscription per region) |
-|Inbound Publish requests per second per connection |100 |
-|Outbound Publish requests per second per connection |100 |
-|Inbound Throughput per second |5MB 
-at Azure sub level |
-|Outbound Throughput per second |5MB 
-at Azure sub level |
+|Max Message size | 256KB |
+|Topic Size| 256KB - is this accurate? | 
+|New Connect requests | 500/second per namespace |
+|Subscribe requests | 5000 messages/second |
+|Total number of subscriptions per connection | 50 |
+|Total inbound publish requests | 5000 messages/second per namespace |
+|Total inbound Publish requests per connection | 100/second |
 
-### Topic Spaces Limits
-| Category| Description| Limit| 
+### Resources level limits
+| Resource Type | Description| Limit| 
 | ------------ | ------------ | ------------ |
-| Topic and topic filter levels| Maximum number of levels per topic or topic filter| 7|
-| Topic size| Topic size| 256 bytes|
-| Topic Templates| Maximum number of topic templates within a topic space| 10|
-| Topic space| Maximum number of topic spaces| 10|
-| Topic space management APIs| Maximum requests per second| 1/s; with burst 10/s|
+| Name spaces | Maximum number of name spaces per subscription | 10 |
+| Clients | Maximum number of clients | 10K |
+| CA Certificates | Maximum number of registered CA root certificates | 2 |
+| Client Groups | Number of client groups per namespace | 10 |
+| Topic spaces | Maximum number of topic spaces | 10 |
+| Topic templates | Maximum number of topic templates within a topic space | 10 |
+| Permission bindings | Maximum number of permission bindings | 100 |
 
 ## Naming considerations
 All the names are of String type
 
 | Category| Name length| Allowed characters| Other considerations|
 | ------------ | ------------ | ------------ | ------------ |
-| Namespace| 6-50 characters| Alphanumeric, and hyphens(-); no spaces|  Starts with letter and ends with alphanumeric; Unique per region | 
-| Client| 1-128 characters| Alphanumeric, hyphen(-), colon(:), dot(.), and underscore(_), no spaces| Case sensitive| 
-| Client Group| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Only a maximum of 10 client groups can be created;  $all is the default client group that includes all the clients.  This group cannot be edited or deleted.| 
-| Certificate| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| CA signed certificates| 
-| Client attributes| Total size of the attributes is <=4KB| Alphanumeric and underscores(_)| Case sensitive; Attribute values can be strings, string arrays, integers| 
-| TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| 
-| Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| No collisions with other Permission Binding names| 
+| Namespace| 6-50 characters| Alphanumeric, and hyphens(-); no spaces|  Starts with letter and ends with alphanumeric; Name needs to be unique per region | 
+|CA Certificate| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
+| Client| 1-128 characters| Alphanumeric, hyphen(-), colon(:), dot(.), and underscore(_), no spaces| Case sensitive; Name needs to be unique per namespace | 
+| Client attributes| Total size of the attributes is <=4KB| Alphanumeric and underscores(_)| Case sensitive; Attribute values can be strings, string arrays, integers; Name needs to be unique per namespace| 
+| Client Group| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| $all is the default client group that includes all the clients.  This group cannot be edited or deleted; Name needs to be unique per namespace| 
+| TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| |
+| Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
 
 ## Frequently asked questions 
 - Is monitoring metrics and logging available? 
