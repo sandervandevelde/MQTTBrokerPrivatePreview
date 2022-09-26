@@ -12,9 +12,9 @@ This scenario simulates cloud-to-device commands to several devices and can be l
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|fleet_mgt_client (Attributes: “Type”:”Fleet_Mgmt”)| FleetMgmt| FleetMgmt-publisher|  WeatherAlerts (Topic template: fleet/alerts/weather/alert1)|
-|vehicle1 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#)|
-|vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#)|
+|fleet_mgt_client (Attributes: “Type”:”Fleet_Mgmt”)| FleetMgmt| FleetMgmt-publisher|  WeatherAlerts (Topic template: fleet/alerts/weather/alert1) -Subscription Support: HighFanout|
+|vehicle1 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
+|vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
 
 
 **High-level steps:**
