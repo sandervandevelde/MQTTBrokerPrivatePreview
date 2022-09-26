@@ -259,6 +259,73 @@ If you set your topic space with a low fanout or high fanout subscription modes,
 	- Subscription support is immutable. To reconfigure the subscription support, delete the topic space and create a new topic space with the desired subscription support.
 	- Topic space updates may take up to 5 minutes to propagate.
 
+
+### Access Controls
+
+Grouping Clients into Client Groups and Topic Templates into Topic Spaces is designed to simplify access control. Consider the following as you design Client Groups and Topic Spaces: 
+- Group Clients within Client Groups such that each Client Group represents Clients that need the same access to publish and/or subscribe to the same set of topics.
+- Group Topic Templates within Topic Spaces such that each Topic Space represents messages meant for the same audience (group of clients).
+
+For example:
+- Scenario1
+A factory has multiple sections with each section including Clients that need to communicate with each other. However, Clients from other sections of the factory are not allowed to communicate with them.
+
+
+| Client  | Role  | Topic/Topic Filter  |
+| ------------ | ------------ | ------------ |
+|Section1_Client1| Publisher| sections/section1/clients/client1|
+|Section1_Client2| Subscriber| sections/section1/clients/#|
+|Section2_Client1| Publisher| sections/section2/clients/client1|
+|Section2_Client2| Subscriber| sections/section2/clients/#|
+
+- Configuration
+	- Create a Client Group for each factory section’s clients.
+	- Create a Topic Space for each section representing the topics that the section’s clients will communicate over.
+	- Create 2 Permission Bindings for each section’s Client Group to publish and subscribe to its corresponding section’s Topic Space.
+
+|Client| Client Group| Permission Binding| Topic Space|
+| ------------ | ------------ | ------------ | ------------ |
+|Section1_Client1| Section1Clients| Section1-Pub| Section1Messages -Topic Template: sections/section1/clients/#|
+|Section1_Client2| | Section1-Sub| |
+|Section2_Client1| Section2Clients| Section2-Pub| Section2Messages -Topic Template: sections/section2/clients/#|
+|Section2_Client2| | Section2-Sub|
+
+- Scenario 2:
+Let’s assume an extra requirement for the example above: each section has management clients and operator clients, and the operator clients must not have publish access in case any of them gets compromised. On the other hand, the management clients need publish access to send commands and subscribe access to receive telemetry.
+
+| Client | Role | Topic/Topic Filter | 
+| ------------ | ------------ | ------------ |
+| Section1_OperatorClient1 | Publisher | sections/section1/OpClients/client1
+|| Subscriber | sections/section1/MgmtClients/# | 
+| Section1_MgmtClient1 | Publisher | sections/section1/MgmtClients/client1
+|| Subscriber | sections/section1/OpClients/# | 
+ | Section2_OperatorClient1 | Publisher | sections/section2/OpClients/client1
+| |Subscriber | sections/section2/MgmtClients/# | 
+| Section2_ MgmtClient1 | Publisher | sections/section2/MgmtClients/client1 | 
+||Subscriber | sections/section2/OpClients/# |
+
+- Configuration:
+	- Create 2 Client Groups per section: one for the management clients and another for the operator clients.
+	- Create 2 Topic Spaces for each section: one representing telemetry topics and another representing commands topics.
+	- Create 2 Permission Bindings for each section’s management clients to publish to the commands Topic Space and subscribe to the telemetry Topic Space.
+	- Create 2 Permission Bindings for each section’s operator clients to subscribe to the commands Topic Space and publish to the telemetry Topic Space.
+
+
+|Client | Client Group | Permission Binding | Topic/Topic Filter|
+| ------------ | ------------ | ------------ | ------------ |
+|Section1_OperatorClient1 | Section1Operators | Section1Op-Pub | Section1Telemetry -Topic Template: sections/section1/OpClients/#|
+| |  | Section1Op-Sub | Section1Commands -Topic Template: sections/section1/MgmtClients/#|
+|Section1_MgmtClient1 | Section1Mgmt | Section1Mgmt-Pub | Section1Commands -Topic Template: sections/section1/MgmtClients/#|
+| |  | Section1Mgmt-Sub | Section1Telemetry -Topic Template: sections/section1/OpClients/#|
+|Section2_OperatorClient1 | Section2Operators | Section2Op-Pub | Section2Telemetry -Topic Template: sections/section2/OpClients/#|
+| |  | Section2Op-Sub | Section2Commands -Topic Template: sections/section2/MgmtClients/#|
+|Section2_ MgmtClient1 | Section2Mgmt | Section2Mgmt-Pub | Section2Commands -Topic Template: sections/section2/MgmtClients/#|
+| |  | Section2Mgmt-Sub | Section2Telemetry -Topic Template: sections/section2/OpClients/#|
+ 
+
+
+
+
 ### Routing
 This functionality will enable you to route your messages from your clients to different Azure services like Event hubs, Service Bus, etc or your custom endpoint. This functionality is achieved through [Event Grid](https://docs.microsoft.com/en-us/azure/event-grid/), by sending all your messages from your clients to an [Event Grid topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-topics), and using [Event Grid subscriptions](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route the messages from that Event Grid topic to the [supported endpoints](https://docs.microsoft.com/en-us/azure/event-grid/event-handlers).
 
