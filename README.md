@@ -58,10 +58,6 @@ The following features are not in scope for this release, but they will be suppo
 
 
 
-<img src="Example of flow.png"
-     alt="Example of flow"
-     style="float: left; margin-right: 10px;" />
-
 
 ## Prerequisites
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
