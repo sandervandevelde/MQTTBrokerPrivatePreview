@@ -1,0 +1,8 @@
+{
+    "name":"samplepb",
+    "properties":{
+        "principalId":"/subscriptions/02ca4877-875a-4131-9dd2-7f89ba1675a0/resourceGroups/regional-sanjib-02/providers/Microsoft.EventGrid/namespaces/Sanjib0805/clientGroups/cg0822-1",
+        "scope":"/subscriptions/02ca4877-875a-4131-9dd2-7f89ba1675a0/resourceGroups/regional-samplerg-02/providers/Microsoft.EventGrid/namespaces/samplens/topicSpaces/sampleTs2",
+        "roleDefinitionId":"testroleDefinitiofullarmidTest"
+    }
+}

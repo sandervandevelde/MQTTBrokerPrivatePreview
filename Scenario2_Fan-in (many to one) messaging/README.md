@@ -1,20 +1,20 @@
-# Scenario 1 – Fan-out (one-to-many) messages
-This scenario simulates cloud-to-device commands to several devices and can be leveraged for use cases such as sending alerts to devices. Consider the use case where a fleet management service needs to send a weather alerts to all the vehicles in the fleet.
+# Scenario 2 – Fan-in (many to one) messaging
+This scenario simulates device to cloud communication and can be leveraged for use cases such as sending telemetry to the backend service. Consider a use case where the backend service needs to identify the location of vehicles on a map. Vehicles should be prohibited from listening to other vehicles’ locations or publishing other vehicles’ location on their behalf.
 
 **Scenario:**
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|Fleet_mgmt_device | Publisher | fleets/alerts/weather/alert1|
-|Vehicle1 | Subscriber | fleets/alerts/#|
-|Vehicle2 | Subscriber | fleets/alerts/#|
+|Map_Client | Subscriber | vehicles/+/GPS |
+|Vehicle1 | Publisher | vehicles/vehicle1/GPS |
+|Vehicle2 | Publisher | vehicles/vehicle2/GPS |
 
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|fleet_mgt_client (Attributes: “Type”:”Fleet_Mgmt”)| FleetMgmt| FleetMgmt-publisher|  WeatherAlerts (Topic template: fleet/alerts/weather/alert1) -Subscription Support: HighFanout|
-|vehicle1 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
-|vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
+|Map_Client (Attributes: “Type”:”Mapping”)| MapClients | MapClients-Sub |  LocationDataRecieved: -Topic Templates: vehicles/+/GPS -Subscription Support: LowFanout |
+|vehicle1 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-Pub |  LocationDataPublished: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
+|vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-Pub |  LocationDataPublished: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
 
 
 **High-level steps:**

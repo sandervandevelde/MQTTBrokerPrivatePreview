@@ -60,33 +60,44 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ## Prerequisites
+
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
-- Install AzureCLI from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+
+- Azure CLI:
+
+    This quickstart requires Azure CLI version 2.17.1 or later. Run the below command to find the version.
+
+    ```bash 
+    az --version
+    ```
+
+    To install or upgrade, see [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 - Register Private Preview (Central US EAUP and East US EAUP) cloud by running below command in CLI:
-```bash
-az cloud register --name Private_Preview --endpoint-active-directory-resource-id https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
-```
+    ```bash
+    az cloud register --name Private_Preview --endpoint-active-directory-resource-id https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
+    ```
 - Set Private Preview cloud
-```bash
-az cloud set --name Private_Preview
-```
+    ```bash
+    az cloud set --name Private_Preview
+    ```
 - Login to Private Preview
-```bash
-az login
-```
-Resource Group:
-- Use portal to create a resource group called "MQTT-Pri-Prev-rg1"
-CRUD for other resources:
-- To execute the scenarios, you can use either portal or CLI to create resources such as namespace, clients, topicspaces, etc. using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
+    ```bash
+    az login
+    ```
+- Resource Group:
+
+    Use portal to create a resource group called "MQTT-Pri-Prev-rg1"
+
+**Executing scenarios:**
+
+ To execute the scenarios, you can use either portal or CLI to create resources such as namespace, clients, topicspaces, etc. using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
 	- MQTT Broker is currently supported only in Central US EAUP and East US EAUP regions
 - To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
     - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
     - One and only one authentication type properties (from CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
 - To test the message pub/sub, you can use any of your favorite tools such as MQTTX explorer.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
     - Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.
-
-- Here's a quick guid to using MQTTX Explorer to test the scenarios.  --- to be added, P1 ---
-	  
+  
 - To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
 	- Use the X ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
 	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
@@ -155,7 +166,7 @@ The following credential types are supported:
 ### Client Groups
 Client group is a new concept introduced to make management of client access controls (publish/subscribe) easy – multiple clients can be grouped together based on certain commonalities to provide similar levels of authorization to publish and/or subscribe to Topic spaces.
 
-Clients can be devices or applications, such as IIoT devices or vehicles that send/receive MQTT messages.
+Clients can be devices or applications, such as devices or vehicles that send/receive MQTT messages.
 
 For example, a fleet management company with hundreds of trucks and other shipment delivery vehicles across the country, can improve their routing, tracking, driver safety and predictable maintenance capabilities by sending and receiving MQTT messages to/from the vehicles to monitoring applications on cloud.
 
@@ -176,6 +187,7 @@ Here are some examples of typical client attributes:
 - Client location could be a plant, particular geo, or a state
 
 Here’s a sample schema for the attribute definition: 
+
 ```json
 {  
     "id": "device123",  
@@ -268,7 +280,8 @@ Grouping Clients into Client Groups and Topic Templates into Topic Spaces is des
 
 For example:
 - Scenario1
-A factory has multiple sections with each section including Clients that need to communicate with each other. However, Clients from other sections of the factory are not allowed to communicate with them.
+
+    A factory has multiple sections with each section including Clients that need to communicate with each other. However, Clients from other sections of the factory are not allowed to communicate with them.
 
 
 | Client  | Role  | Topic/Topic Filter  |
@@ -286,12 +299,13 @@ A factory has multiple sections with each section including Clients that need to
 |Client| Client Group| Permission Binding| Topic Space|
 | ------------ | ------------ | ------------ | ------------ |
 |Section1_Client1| Section1Clients| Section1-Pub| Section1Messages -Topic Template: sections/section1/clients/#|
-|Section1_Client2| | Section1-Sub| |
+|Section1_Client2|Section1Clients | Section1-Sub| Section1Messages -Topic Template: sections/section1/clients/#|
 |Section2_Client1| Section2Clients| Section2-Pub| Section2Messages -Topic Template: sections/section2/clients/#|
-|Section2_Client2| | Section2-Sub|
+|Section2_Client2|Section2Clients | Section2-Sub| Section2Messages -Topic Template: sections/section2/clients/#|
 
 - Scenario 2:
-Let’s assume an extra requirement for the example above: each section has management clients and operator clients, and the operator clients must not have publish access in case any of them gets compromised. On the other hand, the management clients need publish access to send commands and subscribe access to receive telemetry.
+
+    Let’s assume an extra requirement for the example above: each section has management clients and operator clients, and the operator clients must not have publish access in case any of them gets compromised. On the other hand, the management clients need publish access to send commands and subscribe access to receive telemetry.
 
 | Client | Role | Topic/Topic Filter | 
 | ------------ | ------------ | ------------ |

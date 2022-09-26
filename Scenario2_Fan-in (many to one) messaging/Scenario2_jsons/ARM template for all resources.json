@@ -1,0 +1,174 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "resources": [
+        {
+            "type": "Microsoft.EventGrid/namespaces",
+            "apiVersion": "2022-10-15-preview",
+            "name": "Scenario1-NS",
+            "location": "southcentralus",
+            "tags": {
+                "tag1": "value1",
+                "tag2": "value2",
+                "tag3": "value3"
+            },
+            "properties": {
+                "inputSchema": "CloudEventSchemaV1_0",
+                "mqttSpace": {
+                    "isEnabled": true,
+                    "routeTopic": null
+                }
+            },
+            "resources": [
+                {
+                    "type": "clients",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "fleet_mgt_client",
+                    "dependsOn": [
+                        "Scenario1-NS"
+                    ],
+                    "properties": {
+                        "isEnabled": true,
+                        "authentication": {
+                            "certificateSubject": {
+                                "commonName": "CertificateCommonName",
+                                "organization": "Microsoft",
+                                "organizationUnit": "Azure",
+                                "countryCode": "US"
+                            }
+                        },
+                        "attributes": {
+                            "room": "34d5",
+                            "floor": 3,
+                            "deviceTypes": [
+                                "Fan",                                
+                                "AC"
+                            ]
+                        },
+                        "description": "This is a test client"
+                    }
+                },
+                {
+                    "type": "clients",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "vehicle1",
+                    "dependsOn": [
+                        "Scenario1-NS"
+                    ],
+                    "properties": {
+                        "isEnabled": true,
+                        "authentication": {
+                            "certificateSubject": {
+                                "commonName": "CertificateCommonName",
+                                "organization": "Microsoft",
+                                "organizationUnit": "Azure",
+                                "countryCode": "US"
+                            }
+                        },
+                        "attributes": {
+                            "room": "345a",
+                            "floor": 3,
+                            "deviceTypes": [
+                                "Light"
+                            ]
+                        },
+                        "description": "This is a test client"
+                    }
+                },
+                {
+                    "type": "clients",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "vehicle2",
+                    "dependsOn": [
+                        "Scenario1-NS"
+                    ],
+                    "properties": {
+                        "isEnabled": true,
+                        "authentication": {
+                            "certificateSubject": {
+                                "commonName": "CertificateCommonName",
+                                "organization": "Microsoft",
+                                "organizationUnit": "Azure",
+                                "countryCode": "US"
+                            }
+                        },
+                        "attributes": {
+                            "room": "345a",
+                            "floor": 3,
+                            "deviceTypes": [
+                                "Light"
+                            ]
+                        },
+                        "description": "This is a test client"
+                    }
+                },
+                {
+                    "type": "clientGroups",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "FleetMgmt",
+                    "dependsOn": [
+                        "Scenario1-NS"
+                    ],
+                    "properties": {
+                        "description": "This is a test client group",
+                        "query": "attributes.b IN ['a', 'b', 'c']"
+                    }
+                },
+                {
+                    "type": "clientGroups",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "Vehicles",
+                    "dependsOn": [
+                        "Scenario1-NS"
+                    ],
+                    "properties": {
+                        "description": "This is a test client group",
+                        "query": "attributes.b IN ['a', 'b', 'c']"
+                    }
+                },                
+                {
+                    "type": "topicSpaces",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "WeatherAlerts",
+                    "dependsOn": [
+                        "Scenario1-NS"
+                    ],
+                    "properties": {
+                        "topicTemplates": [
+                            "fleet/alerts/weather/alert1",
+                            "fleet/alerts/#"
+                        ],
+                        "subscriptionSupport": "LowFanout"
+                    }
+                },
+                {
+                    "type": "permissionBindings",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "FleetMgmt-publisher",
+                    "dependsOn": [
+                        "Scenario1-NS"
+                    ],
+                    "properties": {
+                        "principalId":"/subscriptions/<subscription_id>/resourceGroups/<resource_group>/providers/Microsoft.EventGrid/namespaces/Scenario1-NS/clientGroups/FleetMgmt",
+                        "scope":"/subscriptions/<subscription_id>/resourceGroups/<resource_group>/providers/Microsoft.EventGrid/namespaces/Scenario1-NS/topicSpaces/WeatherAlerts",
+                        "roleDefinitionId": "LowFanout"
+                    }
+                },
+                {
+                    "type": "permissionBindings",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "Vehicles-subscriber",
+                    "dependsOn": [
+                        "Scenario1-NS"
+                    ],
+                    "properties": {
+                        "principalId":"Vehicles",
+                        "scope":"WeatherAlerts",
+                        "roleDefinitionId": "LowFanout"
+                    }
+                }
+            ]
+        }
+    ]
+}
