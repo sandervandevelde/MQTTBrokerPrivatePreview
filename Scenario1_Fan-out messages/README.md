@@ -8,7 +8,7 @@ This scenario simulates cloud-to-device commands to several devices and can be l
 |vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#)|
 
 
-**Instructions:**
+**CLI Instructions:**
 
 - Download the folder Scenario1_jsons with JSON files to C:
 - Create the namespace under the resource group that you already created as part of the prerequisites.
@@ -22,9 +22,9 @@ If you are using a CA certificate to authenticate the clients, the encoded certi
 ```json
 {
     "properties":{
-   	  "description": "This is a test certificate",
+   	    "description": "This is a CA certificate",
         "encodedCertificate": "-----BEGIN CERTIFICATE-----
-
+			---Base64 encoded Certificate---
  -----END CERTIFICATE-----"
     }
 }
@@ -72,7 +72,44 @@ Create the Permission Bindings using below CLI commands
 az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario1-NS/permissionBindings/FleetMgmt-publisher --api-version 2022-10-15-preview --properties @C:\Scenario1_jsons\PB_FleetMgmt-publisher.json
 ```
 
-```csharp
+```bash
 az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario1-NS/permissionBindings/Vehicles-subscriber --api-version 2022-10-15-preview --properties @C:\Scenario1_jsons\PB_Vehicles-subscriber.json
 ```
+
+
+
+
+
+Instructions to deploy using ARM template on portal
+
+1. Go to Azure portal, type "deploy a custom template" in the search.
+
+<img src="Deploy ARM template on portal 1.png"
+     alt="Deploy ARM template on portal 1"
+     style="float: left; margin-right: 10px;" />
+
+
+2. Select "Deploy a custom template" from the Services list.  Click on "Build your own template in the editor".
+
+<img src="Deploy ARM template on portal 2.png"
+     alt="Deploy ARM template on portal 2"
+     style="float: left; margin-right: 10px;" />
+
+3. Copy the json from the "ARM template for all resources.json" file in the scenario's json folder into the editor.  Click the save button.
+	 
+<img src="Deploy ARM template on portal 3.png"
+     alt="Deploy ARM template on portal 3"
+     style="float: left; margin-right: 10px;" />
+
+4. Check the subscription and select the resource group.  Click on the "Reveiw + Create" button to initiate the deployment.
+
+<img src="Deploy ARM template on portal 4.png"
+     alt="Deploy ARM template on portal 4"
+     style="float: left; margin-right: 10px;" />
+
+5. You will see the screen that deployment is in progress, wait till it's successful.  Once it shows the deployment is successful, you can see the list of all the resources created for the scenario.
+
+<img src="Deploy ARM template on portal 5.png"
+     alt="Deploy ARM template on portal 5"
+     style="float: left; margin-right: 10px;" />
 
