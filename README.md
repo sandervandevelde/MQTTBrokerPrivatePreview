@@ -1,9 +1,9 @@
-# Customer onboarding instructions - MQTT Broker Private Preview
+# Customer onboarding instructions - MQTT feature Private Preview
 
-The Microsoft Azure messaging team invites you and your organization to preview the MQTT Broker feature.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
+The Microsoft Azure messaging team invites you and your organization to preview the MQTT feature.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
-## Overview of MQTT Broker
-MQTT broker is a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
+## Overview of MQTT feature
+MQTT feature delivers a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
 
 |Concepts|
 | ------------ |
