@@ -2,8 +2,7 @@
     "properties": {
       "inputSchema": "CloudEventSchemaV1_0",
       "mqttBrokerProperties": {
-        "isEnabled": true,
-        "routeTopic" : "foo"
+        "isEnabled": true
       }
     },
     "location": "southcentralus",

@@ -17,6 +17,9 @@ This scenario simulates cloud-to-device commands to several devices and can be l
 |vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
 
 
+![Deploy to Azure](https://aka.ms/deploytoazurebutton)
+
+
 **High-level steps:**
 - Register the following clients:
 	- Fleet_mgmt_device
