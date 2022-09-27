@@ -279,7 +279,7 @@ Grouping Clients into Client Groups and Topic Templates into Topic Spaces is des
 - Group Topic Templates within Topic Spaces such that each Topic Space represents messages meant for the same audience (group of clients).
 
 For example:
-- Scenario1
+- Example 1:
 
     A factory has multiple sections with each section including Clients that need to communicate with each other. However, Clients from other sections of the factory are not allowed to communicate with them.
 
@@ -303,7 +303,7 @@ For example:
 |Section2_Client1| Section2Clients| Section2-Pub| Section2Messages -Topic Template: sections/section2/clients/#|
 |Section2_Client2|Section2Clients | Section2-Sub| Section2Messages -Topic Template: sections/section2/clients/#|
 
-- Scenario 2:
+- Example 2:
 
     Let’s assume an extra requirement for the example above: each section has management clients and operator clients, and the operator clients must not have publish access in case any of them gets compromised. On the other hand, the management clients need publish access to send commands and subscribe access to receive telemetry.
 
