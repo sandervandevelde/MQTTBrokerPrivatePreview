@@ -72,7 +72,7 @@ The following features are not in scope for this release, but they will be suppo
     ```
 
     To install or upgrade, see [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
-- Register Private Preview (Central US EAUP and East US EAUP) cloud by running below command in CLI:
+- Register Private Preview (East US 2 and Central EUAP) cloud by running below command in CLI:
     ```bash
     az cloud register --name Private_Preview --endpoint-active-directory-resource-id https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
     ```
@@ -91,7 +91,7 @@ The following features are not in scope for this release, but they will be suppo
 **Executing scenarios:**
 
  To execute the scenarios, you can use either portal or CLI to create resources such as namespace, clients, topicspaces, etc. using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
-	- MQTT Broker is currently supported only in Central US EAUP and East US EAUP regions
+	- MQTT Broker is currently supported only in Central EUAP and East US 2 regions
 - To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
     - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
     - One and only one authentication type properties (from CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
