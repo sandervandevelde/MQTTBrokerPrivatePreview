@@ -47,8 +47,11 @@ This scenario simulates device to cloud communication and can be leveraged for u
 
 **CLI Instructions:**
 
-- Download the folder Scenario1_jsons with JSON files to C:
-- Create the namespace under the resource group that you already created as part of the prerequisites.
+Download the folder Scenario1_jsons with JSON files to C:
+
+Replace the \<Subscription ID\> with your subscription ID in below commands.
+
+Create the namespace under the resource group that you already created as part of the prerequisites.
 
 ```bash
 az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2 --is-full-object --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\NS_Scenario2.json
@@ -67,7 +70,7 @@ If you are using a CA certificate to authenticate the clients, the encoded certi
 }
 ```
 
-Register the CA Certificate using the below command.  Replace the \<Subscription ID\> with your subscription ID.
+Register the CA Certificate using the below command.
 
 ```bash
 az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/caCertificates/CACert --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\MqttCACertificate.json
@@ -118,10 +121,7 @@ az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBind
 ```
 
 
-
-
-
-Instructions to deploy using ARM template on portal
+**Instructions to deploy using ARM template on portal:**
 
 1. Go to Azure portal, type "deploy a custom template" in the search.
 
