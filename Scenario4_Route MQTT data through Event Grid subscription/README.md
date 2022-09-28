@@ -10,7 +10,7 @@ This scenario showcases how to configure routing to send filtered messages from 
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|Vehicle1 (Attributes: “Type”:”Fleet_Mgmt”)| Vehicles | Vehicles-Pub|  VehiclesLocation: -Topic Templates: areas/+/vehicles/${principal.deviceid}/GPS/#  -Subscription Support: Not supported|
+|Vehicle1 (Attributes: “Type”:”vehicle”)| Vehicles | Vehicles-Pub|  VehiclesLocation: -Topic Templates: areas/+/vehicles/${principal.deviceid}/GPS/#  -Subscription Support: Not supported|
 
 
 **High-level steps:**

@@ -6,8 +6,8 @@
         {
             "type": "Microsoft.EventGrid/namespaces",
             "apiVersion": "2022-10-15-preview",
-            "name": "Scenario1-NS",
-            "location": "southcentralus",
+            "name": "Scenario3",
+            "location": "eastus2",
             "tags": {
                 "tag1": "value1",
                 "tag2": "value2",
@@ -24,9 +24,9 @@
                 {
                     "type": "clients",
                     "apiVersion": "2022-10-15-preview",
-                    "name": "fleet_mgt_client",
+                    "name": "Mobile1",
                     "dependsOn": [
-                        "Scenario1-NS"
+                        "Scenario3"
                     ],
                     "properties": {
                         "isEnabled": true,
@@ -39,22 +39,17 @@
                             }
                         },
                         "attributes": {
-                            "room": "34d5",
-                            "floor": 3,
-                            "deviceTypes": [
-                                "Fan",                                
-                                "AC"
-                            ]
+                            "type": "mobile"
                         },
-                        "description": "This is a test client"
+                        "description": "Mobile phone"
                     }
                 },
                 {
                     "type": "clients",
                     "apiVersion": "2022-10-15-preview",
-                    "name": "vehicle1",
+                    "name": "Vehicle1",
                     "dependsOn": [
-                        "Scenario1-NS"
+                        "Scenario3"
                     ],
                     "properties": {
                         "isEnabled": true,
@@ -67,52 +62,21 @@
                             }
                         },
                         "attributes": {
-                            "room": "345a",
-                            "floor": 3,
-                            "deviceTypes": [
-                                "Light"
-                            ]
+                            "type": "vehicle"
                         },
-                        "description": "This is a test client"
-                    }
-                },
-                {
-                    "type": "clients",
-                    "apiVersion": "2022-10-15-preview",
-                    "name": "vehicle2",
-                    "dependsOn": [
-                        "Scenario1-NS"
-                    ],
-                    "properties": {
-                        "isEnabled": true,
-                        "authentication": {
-                            "certificateSubject": {
-                                "commonName": "CertificateCommonName",
-                                "organization": "Microsoft",
-                                "organizationUnit": "Azure",
-                                "countryCode": "US"
-                            }
-                        },
-                        "attributes": {
-                            "room": "345a",
-                            "floor": 3,
-                            "deviceTypes": [
-                                "Light"
-                            ]
-                        },
-                        "description": "This is a test client"
+                        "description": "Vehicle client 1"
                     }
                 },
                 {
                     "type": "clientGroups",
                     "apiVersion": "2022-10-15-preview",
-                    "name": "FleetMgmt",
+                    "name": "Mobiles",
                     "dependsOn": [
-                        "Scenario1-NS"
+                        "Scenario3"
                     ],
                     "properties": {
-                        "description": "This is a test client group",
-                        "query": "attributes.b IN ['a', 'b', 'c']"
+                        "description": "Mobiles client group",
+                        "query": "attributes.type = 'mobile'"
                     }
                 },
                 {
@@ -120,24 +84,39 @@
                     "apiVersion": "2022-10-15-preview",
                     "name": "Vehicles",
                     "dependsOn": [
-                        "Scenario1-NS"
+                        "Scenario3"
                     ],
                     "properties": {
-                        "description": "This is a test client group",
-                        "query": "attributes.b IN ['a', 'b', 'c']"
+                        "description": "Vehicles client group",
+                        "query": "attributes.type = 'vehicle'"
                     }
                 },                
                 {
                     "type": "topicSpaces",
                     "apiVersion": "2022-10-15-preview",
-                    "name": "WeatherAlerts",
+                    "name": "UnlockPublish",
                     "dependsOn": [
-                        "Scenario1-NS"
+                        "Scenario3"
                     ],
                     "properties": {
                         "topicTemplates": [
-                            "fleet/alerts/weather/alert1",
-                            "fleet/alerts/#"
+                            "vehicles/unlock/req/+/${principal.deviceid}",
+                            "vehicles/unlock/res/+/${principal.deviceid}"
+                        ],
+                        "subscriptionSupport": "NotSupported"
+                    }
+                },
+                {
+                    "type": "topicSpaces",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "UnlockSubscribe",
+                    "dependsOn": [
+                        "Scenario3"
+                    ],
+                    "properties": {
+                        "topicTemplates": [
+                            "vehicles/unlock/req/${principal.deviceid}/#",
+                            "vehicles/unlock/res/${principal.deviceid}/#"
                         ],
                         "subscriptionSupport": "LowFanout"
                     }
@@ -145,27 +124,53 @@
                 {
                     "type": "permissionBindings",
                     "apiVersion": "2022-10-15-preview",
-                    "name": "FleetMgmt-publisher",
+                    "name": "MobileClients-Pub",
                     "dependsOn": [
-                        "Scenario1-NS"
+                        "Scenario3"
                     ],
                     "properties": {
-                        "principalId":"/subscriptions/<subscription_id>/resourceGroups/<resource_group>/providers/Microsoft.EventGrid/namespaces/Scenario1-NS/clientGroups/FleetMgmt",
-                        "scope":"/subscriptions/<subscription_id>/resourceGroups/<resource_group>/providers/Microsoft.EventGrid/namespaces/Scenario1-NS/topicSpaces/WeatherAlerts",
-                        "roleDefinitionId": "LowFanout"
+                        "principalId":"Mobiles",
+                        "scope":"UnlockPublish",
+                        "roleDefinitionId": "publisher"
                     }
                 },
                 {
                     "type": "permissionBindings",
                     "apiVersion": "2022-10-15-preview",
-                    "name": "Vehicles-subscriber",
+                    "name": "MobileClients-Sub",
                     "dependsOn": [
-                        "Scenario1-NS"
+                        "Scenario3"
+                    ],
+                    "properties": {
+                        "principalId":"Mobiles",
+                        "scope":"UnlockSubscribe",
+                        "roleDefinitionId": "subscriber"
+                    }
+                },
+                {
+                    "type": "permissionBindings",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "Vehicles-Pub",
+                    "dependsOn": [
+                        "Scenario3"
                     ],
                     "properties": {
                         "principalId":"Vehicles",
-                        "scope":"WeatherAlerts",
-                        "roleDefinitionId": "LowFanout"
+                        "scope":"UnlockPublish",
+                        "roleDefinitionId": "publisher"
+                    }
+                },
+                {
+                    "type": "permissionBindings",
+                    "apiVersion": "2022-10-15-preview",
+                    "name": "Vehicles-Sub",
+                    "dependsOn": [
+                        "Scenario3"
+                    ],
+                    "properties": {
+                        "principalId":"Vehicles",
+                        "scope":"UnlockSubscribe",
+                        "roleDefinitionId": "subscriber"
                     }
                 }
             ]

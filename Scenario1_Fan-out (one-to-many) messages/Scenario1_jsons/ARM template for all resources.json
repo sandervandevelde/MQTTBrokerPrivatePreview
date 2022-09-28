@@ -39,7 +39,7 @@
                             }
                         },
                         "attributes": {
-                            "Type": "management"
+                            "type": "management"
                         },
                         "description": "Fleet management client"
                     }
@@ -62,7 +62,7 @@
                             }
                         },
                         "attributes": {
-                            "Type": "vehicle"
+                            "type": "vehicle"
                         },
                         "description": "Vehicle client 1"
                     }
@@ -85,7 +85,7 @@
                             }
                         },
                         "attributes": {
-                            "Type": "vehicle"
+                            "type": "vehicle"
                         },
                         "description": "Vehicle client 2"
                     }
@@ -99,7 +99,7 @@
                     ],
                     "properties": {
                         "description": "Fleet management client group",
-                        "query": "attributes.Type = 'management'"
+                        "query": "attributes.type = 'management'"
                     }
                 },
                 {
@@ -111,7 +111,7 @@
                     ],
                     "properties": {
                         "description": "Vehicles client group",
-                        "query": "attributes.Type = 'vehicle'"
+                        "query": "attributes.type = 'vehicle'"
                     }
                 },                
                 {
@@ -137,8 +137,8 @@
                         "Scenario1"
                     ],
                     "properties": {
-                        "principalId":"/subscriptions/<subscription_id>/resourceGroups/<resource_group>/providers/Microsoft.EventGrid/namespaces/Scenario1/clientGroups/FleetMgmt",
-                        "scope":"/subscriptions/<subscription_id>/resourceGroups/<resource_group>/providers/Microsoft.EventGrid/namespaces/Scenario1/topicSpaces/WeatherAlerts",
+                        "principalId":"FleetMgmt",
+                        "scope":"WeatherAlerts",
                         "roleDefinitionId": "LowFanout"
                     }
                 },
