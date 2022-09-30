@@ -189,13 +189,13 @@ Here are some examples of typical client attributes:
 Here’s a sample schema for the attribute definition: 
 
 ```json
-{  
-    "id": "device123",  
-    "attributes": {  
-        "floor": 7,  
-        "status": “active”,  
-        "sensors": ["motion", "noise", "light"]  
-     }  
+{
+    "name": "device123",
+    "attributes": {
+        "floor": 7,
+        "status": "active",
+        "sensors": ["motion", "noise", "light"]
+     }
 }
 ```
 
@@ -205,13 +205,13 @@ While configuring the client attributes, consider the topics that the clients wi
 To setup a client group, user needs to build a query that filters a set of clients based on their attribute values.
 
 Here are a few sample queries:
-- (Attributes.sensors = “motion” or Attributes.sensors = “humidity”) or Attributes.status <> “sleep mode”
-- Attributes.sensors IN [“motion”, “humidity”, “temperature”] and attributes.floor <= 5
+- (attributes.sensors = “motion” or attributes.sensors = “humidity”) or attributes.status <> “sleep mode”
+- attributes.sensors IN [“motion”, “humidity”, “temperature”] and attributes.floor <= 5
 
 In group queries, following operands are allowed:
 - Equal operator “=”
 - Not equal operator in 2 forms “<>” and “!=” 
-- Less than “<”, greater than “>”, less than equal to “<=”, greater than equal to “>=” for long integer values
+- Less than “<”, greater than “>”, less than equal to “<=”, greater than equal to “>=” for long integer values, or lexicographical comparisons of string values
 - “IN” to compare with a set of values
 
 Please refer to the [naming considerations table](#naming-considerations) for details on allowed characters and patterns.
@@ -244,7 +244,7 @@ See [Topic Wilcards](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1
 For example, you can provide access to client group “machines” to the topic space “machinesTelemetry” that includes the topic template “machines/${client.name}/temp”. Only the machine with client name = machine1 will be able to publish on topic “machines/machine1/temp”, and only the machine with client name = machine2 will be able to publish on topic “machines/machine2/temp”, and so on. This prevents machine2 from publishing false information on behalf of machine1, even though it has access to the same topic space, and vice versa. 
 
 **Supported variables:**
-- ${client_name}: this variable represents the name of the client assigned during client creation.
+- ${client.name}: this variable represents the name of the client assigned during client creation.
 - ${client.attributes.x}: this variable represents any of the assigned attributes to a client during client creation/update, so as “x” would be equal to the exact string of the attribute key. Read more about client attributes in the Terminology section.
 
 **Note:** A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment. E.g. a topic template could include “machines/${client.name|.factory1}/temp” will match topics “machines/machine1.factory1/temp”, “machines/machine2.factory1/temp”, etc
