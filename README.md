@@ -1,9 +1,9 @@
-# Customer onboarding instructions - MQTT feature Private Preview
+# MQTT Broker Private Preview
 
-The Microsoft Azure messaging team invites you and your organization to preview the MQTT feature.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
+The Microsoft Azure messaging team invites you and your organization to preview this MQTT Broker functionality.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
-## Overview of MQTT feature
-MQTT feature delivers a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
+## Overview
+MQTT Broker delivers a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
 
 |Concepts|
 | ------------ |
@@ -22,11 +22,8 @@ The private preview is only for testing.  Please do NOT use it for your producti
 **Cost to use:**  For this release, MQTT Broker is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
 ## Post private preview program
-When the private preview program ends, or when your tests are complete, we will provision to migrate all the MQTT brokers and corresponding data to public preview.
+When the private preview program ends, or when your tests are complete, configuration will be saved but
 
-However, if you prefer to cleanup the private preview configuration, you can follow these below steps.
-
---- To be added ---
 
 ## Capabilities available in this preview
 This private preview provides the following capabilities
@@ -45,7 +42,7 @@ This private preview provides the following capabilities
 ## Capabilities coming up in future releases
 The following features are not in scope for this release, but they will be supported in future -
 - Azure Portal UX, CLI, custom Azure SDK libraries along with APIs
-- MQTT v5 (partial)
+- MQTT v5 support
 - Ability to publish messages to topics using HTTP
 - Edge MQTT Broker bridging
 - Last Will and Testament (LWT) support
@@ -61,7 +58,7 @@ The following features are not in scope for this release, but they will be suppo
 
 ## Prerequisites
 
-- We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
+- We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&FormId=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
 
 - Azure CLI:
 
@@ -72,7 +69,7 @@ The following features are not in scope for this release, but they will be suppo
     ```
 
     To install or upgrade, see [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
-- Register Private Preview (East US 2 and Central EUAP) cloud by running below command in CLI:
+- Register Private Preview (in Central US EUAP region) by running below command in CLI:
     ```bash
     az cloud register --name Private_Preview --endpoint-active-directory-resource-id https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
     ```
@@ -91,15 +88,15 @@ The following features are not in scope for this release, but they will be suppo
 **Executing scenarios:**
 
  To execute the scenarios, you can use either portal or CLI to create resources such as namespace, clients, topicspaces, etc. using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
-	- MQTT Broker is currently supported only in Central EUAP and East US 2 regions
+	- MQTT Broker is currently supported only in Central US EUAP region
 - To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
     - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
     - One and only one authentication type properties (from CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
-- To test the message pub/sub, you can use any of your favorite tools such as MQTTX explorer.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
+- To test the message pub/sub, you can use any of your favorite tool.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
     - Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.
   
 - To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
-	- Use the X ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
+	- Use the Namespace-Creation-with-Routing ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
 	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
 
 
@@ -189,13 +186,13 @@ Here are some examples of typical client attributes:
 Here’s a sample schema for the attribute definition: 
 
 ```json
-{
-    "name": "device123",
-    "attributes": {
-        "floor": 7,
-        "status": "active",
-        "sensors": ["motion", "noise", "light"]
-     }
+{  
+    "id": "device123",  
+    "attributes": {  
+        "floor": 7,  
+        "status": “active”,  
+        "sensors": ["motion", "noise", "light"]  
+     }  
 }
 ```
 
@@ -205,13 +202,13 @@ While configuring the client attributes, consider the topics that the clients wi
 To setup a client group, user needs to build a query that filters a set of clients based on their attribute values.
 
 Here are a few sample queries:
-- (attributes.sensors = “motion” or attributes.sensors = “humidity”) or attributes.status <> “sleep mode”
-- attributes.sensors IN [“motion”, “humidity”, “temperature”] and attributes.floor <= 5
+- (Attributes.sensors = “motion” or Attributes.sensors = “humidity”) or Attributes.status <> “sleep mode”
+- Attributes.sensors IN [“motion”, “humidity”, “temperature”] and attributes.floor <= 5
 
 In group queries, following operands are allowed:
 - Equal operator “=”
 - Not equal operator in 2 forms “<>” and “!=” 
-- Less than “<”, greater than “>”, less than equal to “<=”, greater than equal to “>=” for long integer values, or lexicographical comparisons of string values
+- Less than “<”, greater than “>”, less than equal to “<=”, greater than equal to “>=” for long integer values
 - “IN” to compare with a set of values
 
 Please refer to the [naming considerations table](#naming-considerations) for details on allowed characters and patterns.
@@ -244,7 +241,7 @@ See [Topic Wilcards](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1
 For example, you can provide access to client group “machines” to the topic space “machinesTelemetry” that includes the topic template “machines/${client.name}/temp”. Only the machine with client name = machine1 will be able to publish on topic “machines/machine1/temp”, and only the machine with client name = machine2 will be able to publish on topic “machines/machine2/temp”, and so on. This prevents machine2 from publishing false information on behalf of machine1, even though it has access to the same topic space, and vice versa. 
 
 **Supported variables:**
-- ${client.name}: this variable represents the name of the client assigned during client creation.
+- ${client_name}: this variable represents the name of the client assigned during client creation.
 - ${client.attributes.x}: this variable represents any of the assigned attributes to a client during client creation/update, so as “x” would be equal to the exact string of the attribute key. Read more about client attributes in the Terminology section.
 
 **Note:** A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment. E.g. a topic template could include “machines/${client.name|.factory1}/temp” will match topics “machines/machine1.factory1/temp”, “machines/machine2.factory1/temp”, etc
