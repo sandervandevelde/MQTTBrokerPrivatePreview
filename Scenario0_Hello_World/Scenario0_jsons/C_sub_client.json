@@ -1,0 +1,15 @@
+{
+    "properties": {
+        "isEnabled": true,
+        "authentication": {
+            "certificateSubject": {
+                "commonName": "sub_client.mqtt.contoso.com",
+                "organization": "Contoso",
+                "organizationUnit": "IoT",
+                "countryCode": "US"
+            }
+        },
+        "attributes": {},
+        "description": "This is a test subscriber client"
+    }
+}

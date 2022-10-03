@@ -1,0 +1,7 @@
+{
+    "properties":
+    {
+        "topicTemplates": ["samples/#"],
+        "subscriptionSupport": "LowFanout"
+    }
+}
