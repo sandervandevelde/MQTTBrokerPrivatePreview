@@ -1,4 +1,4 @@
-# MQTT Broker Private Preview
+# MQTT Private Preview
 
 The Microsoft Azure messaging team invites you and your organization to preview the MQTT functionality.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
@@ -22,7 +22,7 @@ The private preview is only for testing.  Please do NOT use it for your producti
 **Cost to use:**  For this release, MQTT is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
 ## Post private preview program
-When the private preview program ends, or when your tests are complete, configuration will be saved but
+When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or we can help you migrate the configuration to the public preview space, once it is available. 
 
 
 ## Capabilities available in this preview
