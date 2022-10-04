@@ -1,9 +1,9 @@
 # MQTT Broker Private Preview
 
-The Microsoft Azure messaging team invites you and your organization to preview the MQTT Broker functionality.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
+The Microsoft Azure messaging team invites you and your organization to preview the MQTT functionality.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
 ## Overview
-MQTT Broker delivers a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
+MQTT feature delivers a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
 
 |Concepts|
 | ------------ |
@@ -19,7 +19,7 @@ The private preview is only for testing.  Please do NOT use it for your producti
 
 **Feedback:**  At the end of the preview, we will capture additional feedback using this form.
 
-**Cost to use:**  For this release, MQTT Broker is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
+**Cost to use:**  For this release, MQTT is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
 ## Post private preview program
 When the private preview program ends, or when your tests are complete, configuration will be saved but
@@ -27,7 +27,7 @@ When the private preview program ends, or when your tests are complete, configur
 
 ## Capabilities available in this preview
 This private preview provides the following capabilities
-- Cloud MQTT Broker enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
+- Cloud MQTT enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
 - QoS 0, 1: MQTT manages the re-transmission of messages and guarantees delivery making communication in unreliable networks a lot reliable.
 - Flexible access control model:  Grouping clients into “client groups” and topic references into topic spaces to ease access control management.
@@ -88,8 +88,8 @@ The following features are not in scope for this release, but they will be suppo
 **Executing scenarios:**
 
  To execute the scenarios, you can use either portal or CLI to create resources such as namespace, clients, topicspaces, etc. using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
-	- MQTT Broker is currently supported only in Central US EUAP region
-- To connect to the new MQTT broker, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
+	- MQTT capability is currently supported only in Central US EUAP region
+- To connect to the new MQTT feature, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
     - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
     - One and only one authentication type properties (from CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
 - To test the message pub/sub, you can use any of your favorite tool.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
@@ -101,7 +101,7 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ### Warning
-- MQTT broker is in early development and this tech preview is available in the spirit of transparency. Bugs are expected, and we look forward to feedback via email to mqttbroker@microsoft.com.
+- MQTT capability is in early development and this tech preview is available in the spirit of transparency. Bugs are expected, and we look forward to feedback via email to mqttbroker@microsoft.com.
 - Before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
 
 
@@ -113,7 +113,7 @@ Let us get started with a \"hello world\" scenario, with a publisher and subscri
 |Pub_client|Pub_Client_Group|Publisher|sample/topic (Topic template: sample/#)|
 |Sub_client|Sub_Client_Group|Subscriber|sample/topic (Topic template: sample/#)|
 
-- Ensure you have the MQTT broker is enabled for the subscription you provided. (--- how? ---)
+- Ensure you have the MQTT broker enabled for the subscription you provided. (--- how? ---)
 - For quick start, out of the box, client gets instantiated and runs.  Perform the control plane setup – subscription, namespace details, etc.
 - Download all the files in this folder (--- to be added ---).
     - This folder contains all the necessary artifacts required to run the quick start including a sample CA certificate and a .exe file that you can run (--- how/where? ---) to create all the necessary resources.
@@ -126,9 +126,9 @@ Here are a few scenarios you can try out.  Please refer the details below on the
 | # | Scenario | Description |
 | ------------ | ------------ | ------------ |
 | 1 | Fan-out (one-to-many) messages  | This scenario simulates cloud-to-client commands to several clients and can be leveraged for use cases such as sending alerts to clients. Consider the use case where a fleet management service needs to send a weather alert to all the vehicles in the fleet. For instructions see [README](/Scenario1_Fan-out%20messages/README.md).  |
-| 2 | Fan-in (many to one) messaging  | This scenario simulates publishing messages from multiple clients to a single client.  Consider a use case where one needs to identify location of vehicles on a map.  For instructions see README. |
-| 3 | One to one messaging  | This scenario simulates publishing messages from one client to another.  Consider a use case where a user can unlock their car from a mobile app.  For instructions see README.  |
-| 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from broker to the endpoint: Kafka on Event Hub through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see README.  |
+| 2 | Fan-in (many to one) messaging  | This scenario simulates publishing messages from multiple clients to a single client.  Consider a use case where one needs to identify location of vehicles on a map.  For instructions see [README](/Scenario2_Fan-in%20(many%20to%20one)%20messaging/README). |
+| 3 | One to one messaging  | This scenario simulates publishing messages from one client to another.  Consider a use case where a user can unlock their car from a mobile app.  For instructions see [README](/Scenario3_One%20to%20one%20messaging/README.md).  |
+| 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from broker to the endpoint: Kafka on Event Hub through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see [README](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/README.md).  |
 
 
 ## Terminology
@@ -138,7 +138,7 @@ Some of the key terms relevant for private preview are explained below.
 | ------------ | ------------ |
 | MQTT Broker| An MQTT broker is an intermediary entity that enables MQTT clients to communicate. Specifically, an MQTT broker receives messages published by clients, filters the messages by topic, and distributes them to subscribers. |
 | Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topicspaces, permissionbindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
-| Client| Client can be a device or a service that will connect to the MQTT broker and publish and/or subscribe to MQTT messages |
+| Client| Client can be a device or a service that will publish and/or subscribe MQTT messages |
 | Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be “self-signed”. Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
 | Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, Floor 3 is an attribute that provides the client's location. |
 | Client group| Client group is a collection of clients that are grouped by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific Topic Space |
@@ -348,11 +348,11 @@ Event Grid is a highly scalable, serverless event broker that you can use to int
 You can either use the X ARM template to create the Event Grid custom topic as well as the namespace or create your Event Grid custom topic as the first step to route your messages.
 
 **Using the ARM template:**
-1. Use the ARM template to create the [Event Grid topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-topics) as well as the namespace. The created custom topic is where all MQTT Broker messages will be forwarded.
+1. Use the ARM template to create the [Event Grid topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-topics) as well as the namespace. The created custom topic is where all MQTT messages will be forwarded.
 2. Create an [Event Grid subscription](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route these messages to one of the supported Azure services or a custom endpoint.
 
 **Create your Event Grid custom topic:**
-1. [Create an Event Grid custom topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-event-quickstart-portal) where all MQTT Broker messages will be forwarded. This topic needs to fulfill the requirements detailed below in the routing considerations.
+1. [Create an Event Grid custom topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-event-quickstart-portal) where all MQTT messages will be forwarded. This topic needs to fulfill the requirements detailed below in the routing considerations.
 2. Create an [Event Grid subscription](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route these messages to one of the supported Azure services or a custom endpoint.
 3. Create the namespace with MQTT Enabled and pass on the ARM ID for the custom topic that you created in step 1.
 
@@ -383,7 +383,7 @@ Each message being routed is enveloped in a Cloud Event according to the followi
 ## Limits
 For this release, the following limits are supported.  Please do not stress test beyond the limits mentioned below and for other scenarios.  These limits will be revised for future releases.
 
-|Limit Description | MQTT Broker Private Preview |
+|Limit Description | MQTT Private Preview |
 | ------------ | ------------ |
 |Max Message size | 256KB |
 |Topic Size| 256KB - is this accurate? | 
@@ -428,7 +428,7 @@ All the names are of String type
 	- You can use any standard MQTT client SDK.  See SDK samples here. 
 - How can I fix Subscription was rejected error when running the samples? 
 	- Topic space updates take up-to 5 minutes to propagate, please retry the samples post that. 
-- How do I connect to the MQTT broker with a third party tool that requires username and password as string? 
+- How do I connect to the MQTT feature with a third party tool that requires username and password as string? 
 	- Username and password based authentication is currently not supported.  It will be supported in future release.
 - What happens if I have more than 10 subscribers per topic for a low fanout topic space?
     - The 11th subscription request for the same topic will be rejected.
