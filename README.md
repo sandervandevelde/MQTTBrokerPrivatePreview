@@ -1,9 +1,9 @@
-# MQTT Private Preview
+# MQTT Broker Private Preview
 
 The Microsoft Azure messaging team invites you and your organization to preview the MQTT functionality.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
 ## Overview
-MQTT feature delivers a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
+MQTT Broker delivers a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
 
 |Concepts|
 | ------------ |
@@ -19,7 +19,7 @@ The private preview is only for testing.  Please do NOT use it for your producti
 
 **Feedback:**  At the end of the preview, we will capture additional feedback using this form.
 
-**Cost to use:**  For this release, MQTT is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
+**Cost to use:**  For this release, MQTT Broker is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
 ## Post private preview program
 When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or we can help you migrate the configuration to the public preview space, once it is available. 
@@ -27,7 +27,7 @@ When the private preview program ends, or when your tests are completed, you can
 
 ## Capabilities available in this preview
 This private preview provides the following capabilities
-- Cloud MQTT enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
+- Cloud MQTT Broker enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
 - QoS 0, 1: MQTT manages the re-transmission of messages and guarantees delivery making communication in unreliable networks a lot reliable.
 - Flexible access control model:  Grouping clients into “client groups” and topic references into topic spaces to ease access control management.
@@ -113,7 +113,7 @@ Let us get started with a \"hello world\" scenario, with a publisher and subscri
 |Pub_client|Pub_Client_Group|Publisher|sample/topic (Topic template: sample/#)|
 |Sub_client|Sub_Client_Group|Subscriber|sample/topic (Topic template: sample/#)|
 
-- Ensure you have the MQTT broker enabled for the subscription you provided. (--- how? ---)
+- Ensure you have the MQTT Broker enabled for the subscription you provided. (--- how? ---)
 - For quick start, out of the box, client gets instantiated and runs.  Perform the control plane setup – subscription, namespace details, etc.
 - Download all the files in this folder (--- to be added ---).
     - This folder contains all the necessary artifacts required to run the quick start including a sample CA certificate and a .exe file that you can run (--- how/where? ---) to create all the necessary resources.
