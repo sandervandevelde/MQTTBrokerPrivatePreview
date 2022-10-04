@@ -3,42 +3,30 @@
 ## Copyright (c) Microsoft. All rights reserved.
 ## Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+ns_name="Scenario0"
+sub_id="bdf55cdd-8dab-4cf4-9b2f-c21e8a780472"
+rg_name="slbojanic-rg"
 base_type="Microsoft.EventGrid/namespaces"
-resource_prefix="/subscriptions/bdf55cdd-8dab-4cf4-9b2f-c21e8a780472/resourceGroups/slbojanic-rg/providers/Microsoft.EventGrid/namespaces"
+resource_prefix="/subscriptions/${sub_id}/resourceGroups/${rg_name}/providers/Microsoft.EventGrid/namespaces/${ns_name}"
 
-az resource create --resource-type ${base_type} --id ${resource_prefix}/Scenario0 --is-full-object --api-version 2022-10-15-preview --properties @./Scenario0_jsons/NS_Scenario0.json
+pushd ../cert-gen
+./certGen.sh create_root_and_intermediate
+./certGen.sh create_leaf_certificate_from_intermediate pub_client
+./certGen.sh create_leaf_certificate_from_intermediate sub_client
 
-az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/Scenario0/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./Scenario0_jsons/CACertificate.json
+#openssl x509 -noout -text -in "certs/pub_client.cert.pem"
+popd
 
-az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/Scenario0/topicSpaces/hello --api-version 2022-10-15-preview --properties @./Scenario0_jsons/TS_hello.json
+az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario0.json
 
-az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/Scenario0/clients/pub_client --api-version 2022-10-15-preview --properties @./Scenario0_jsons/C_pub_client.json
+az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CACertificate.json
 
-az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/Scenario0/clients/sub_client --api-version 2022-10-15-preview --properties @./Scenario0_jsons/C_sub_client.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/hello --api-version 2022-10-15-preview --properties @./resources/TS_hello.json
 
-az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/Scenario0/permissionBindings/sub_hello --api-version 2022-10-15-preview --properties @./Scenario0_jsons/PB_subscriber.json
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/pub_client --api-version 2022-10-15-preview --properties @./resources/C_pub_client.json
 
-az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/Scenario0/permissionBindings/pub_hello --api-version 2022-10-15-preview --properties @./Scenario0_jsons/PB_publisher.json
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/sub_client --api-version 2022-10-15-preview --properties @./resources/C_sub_client.json
 
-# armclient (PowerShell)
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/sub_hello --api-version 2022-10-15-preview --properties @./resources/PB_subscriber.json
 
-$BasePath = "/subscriptions/68032991-d62b-4402-98dc-c4fa84054a6c/resourceGroups/test-eg/providers/Microsoft.EventGrid"
-
-armclient PUT $BasePath/namespaces/Scenario0/caCertificates/test-ca-cert?api-version=2022-10-15-preview .\Scenario0_jsons\CACertificate.json
-
-armclient PUT $BasePath/namespaces/Scenario0/topicSpaces/hello?api-version=2022-10-15-preview .\Scenario0_jsons\TS_hello.json
-
-armclient PUT $BasePath/namespaces/Scenario0/clients/pub_client?api-version=2022-10-15-preview .\Scenario0_jsons\C_pub_client.json
-
-armclient PUT $BasePath/namespaces/Scenario0/clients/sub_client?api-version=2022-10-15-preview .\Scenario0_jsons\C_sub_client.json
-
-armclient PUT $BasePath/namespaces/Scenario0/permissionBindings/sub-hello?api-version=2022-10-15-preview .\Scenario0_jsons\PB_subscriber.json
-
-armclient PUT $BasePath/namespaces/Scenario0/permissionBindings/pub-hello?api-version=2022-10-15-preview .\Scenario0_jsons\PB_publisher.json
-
-armclient PUT $BasePath/namespaces/Scenario0/clientGroups/foo?api-version=2022-10-15-preview .\Scenario1_jsons\CG_Vehicles.json
-
-
-
-
-az resource show --resource-type ${base_type}/clientGroups --id ${resource_prefix}/Scenario0/clientGroups/$all --api-version 2022-10-15-preview
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/pub_hello --api-version 2022-10-15-preview --properties @./resources/PB_publisher.json

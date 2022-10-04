@@ -1,4 +1,4 @@
-# Azure IoT Hub Broker Sample Python Instructions
+# Azure Mqtt Broker Sample Python Instructions
 
 ## Make sure you have python 3.6+ installed
 
@@ -39,10 +39,10 @@ Next, we set up a virtual environment.  This gives us a safe space to install Py
   python3 -m pip install virtualenv
   ```
 
-2. Create your virtual environment in some directory.  This can go anywhere. The last directory segment defines the name of the environment. Let's use `env/iothub-broker`:
+2. Create your virtual environment in some directory.  This can go anywhere. The last directory segment defines the name of the environment. Let's use `env/mqtt-broker`:
 
   ```
-  python3 -m venv env/iothub-broker
+  python3 -m venv env/mqtt-broker
   ```
 
   In case of `The virtual environment was not created successfully because ensurepip is not available. On Debian/Ubuntu systems, you need to install the python3-venv package using the following command.` error, install virtual environment as follows.
@@ -55,27 +55,27 @@ Next, we set up a virtual environment.  This gives us a safe space to install Py
 
   In Linux:
   ```
-  source env/iothub-broker/bin/activate
+  source env/mqtt-broker/bin/activate
   ```
 
   In Windows command prompt:
   ```
-  env\iothub-broker\Scripts\activate.bat
+  env\mqtt-broker\Scripts\activate.bat
   ```
 
   In powershell:
   ```
-  .\env\iothub-broker\Scripts\Activate.ps1
+  .\env\mqtt-broker\Scripts\Activate.ps1
   ```
 
-  After you do this, your prompt will change to include the `iothub-broker` name.
+  After you do this, your prompt will change to include the `mqtt-broker` name.
 
   ```
-  bertk@bertk-hp:~$ source ~/env/iothub-broker/bin/activate
-  (iothub-broker) bertk@bertk-hp:~$
+  bertk@bertk-hp:~$ source ~/env/mqtt-broker/bin/activate
+  (mqtt-broker) bertk@bertk-hp:~$
   ```
 
-4. Now you are using the python and pip executables from inside the `env/iothub-broker` directory, and all libraries that you install will also be stored in this directory.
+4. Now you are using the python and pip executables from inside the `env/mqtt-broker` directory, and all libraries that you install will also be stored in this directory.
 
   Also, now that we're in the virtual environment, you can use `python3` or `python` commands since they both point to the same thing.
 

@@ -13,15 +13,20 @@ Uncomment the following lines to enable debug logging
 # logging.basicConfig(level=logging.INFO)
 # logging.getLogger("paho").setLevel(level=logging.DEBUG)
 
-# az iot hub topic-space create --topic-name "SampleZero" --topic-template "sample/#" --type "LowFanout"
-topic = "sample/topic"
+client_id = "pub_client"
+gw_url = "scenario0.southcentralus-1.mqtt.eventgrid-int.azure.net"
+
+topic = "samples/topic"
 payload = {"latitude": 47.63962283908785, "longitude": -122.12718926895407}
+
+cert_path = "../cert-gen/certs/pub_client.cert.pem"
+cert_key_path = "../cert-gen/private/pub_client.key.pem"
 
 ##################################
 # CREATE CLIENT
 ##################################
 
-client = PahoClient.create_from_connection_string(os.environ["CS_PUB"])
+client = PahoClient.create_from_x509_certificate(client_id, cert_path, cert_key_path, "1234", gw_url)
 
 ##################################
 # CONNECT
