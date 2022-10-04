@@ -12,6 +12,8 @@ armclient PUT $BasePath/clients/pub_client?api-version=2022-10-15-preview resour
 
 armclient PUT $BasePath/clients/sub_client?api-version=2022-10-15-preview resources\C_sub_client.json
 
+armclient PUT $BasePath/clientGroups/all0?api-version=2022-10-15-preview resources\CG_all0.json
+
 armclient PUT $BasePath/permissionBindings/sub-hello?api-version=2022-10-15-preview resources\PB_subscriber.json
 
 armclient PUT $BasePath/permissionBindings/pub-hello?api-version=2022-10-15-preview resources\PB_publisher.json

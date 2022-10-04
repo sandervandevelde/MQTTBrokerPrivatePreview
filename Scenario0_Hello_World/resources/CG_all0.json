@@ -1,0 +1,6 @@
+{
+    "properties": {
+        "description": "This is a test client group",
+        "query": "name IN ['pub_client', 'sub_client']"
+    }
+}

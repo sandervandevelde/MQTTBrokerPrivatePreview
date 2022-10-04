@@ -1,6 +1,6 @@
 {
     "properties":{
-        "principalId":"/subscriptions/bdf55cdd-8dab-4cf4-9b2f-c21e8a780472/resourceGroups/SLBOJANIC-RG/providers/Microsoft.EventGrid/namespaces/Scenario0/clientGroups/$all",
+        "principalId":"/subscriptions/bdf55cdd-8dab-4cf4-9b2f-c21e8a780472/resourceGroups/SLBOJANIC-RG/providers/Microsoft.EventGrid/namespaces/Scenario0/clientGroups/all0",
         "scope":"/subscriptions/bdf55cdd-8dab-4cf4-9b2f-c21e8a780472/resourceGroups/slbojanic-rg/providers/Microsoft.EventGrid/namespaces/Scenario0/topicSpaces/hello",
         "roleDefinitionId":"Publisher"
     }

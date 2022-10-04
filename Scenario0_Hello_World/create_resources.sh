@@ -33,6 +33,8 @@ az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/
 
 az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/sub_client --api-version 2022-10-15-preview --properties @./resources/C_sub_client.json
 
+az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/all0 --api-version 2022-10-15-preview --properties @./resources/CG_all0.json
+
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/sub_hello --api-version 2022-10-15-preview --properties @./resources/PB_subscriber.json
 
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/pub_hello --api-version 2022-10-15-preview --properties @./resources/PB_publisher.json
