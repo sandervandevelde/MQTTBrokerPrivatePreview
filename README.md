@@ -1,4 +1,4 @@
-# MQTT Broker Private Preview
+# MQTT Private Preview
 
 The Microsoft Azure messaging team invites you and your organization to preview the MQTT functionality.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
@@ -60,18 +60,18 @@ The following features are not in scope for this release, but they will be suppo
 
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
 
+- To deploy the resources such as clients, topicspaces, you can use "Deploy to Azure" or Azure CLI commands using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
 
 
 **Executing scenarios:**
 
- To execute the scenarios, you can use either portal or CLI to create resources such as namespace, clients, topicspaces, etc. using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
-	- MQTT capability is currently supported only in Central US EUAP region
-- To connect to the new MQTT feature, the clients must use authenticated based on X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
+- MQTT capability is currently supported only in Central US EUAP region
+- To connect to the new MQTT feature, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
     - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
     - One and only one authentication type properties (from CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
 - To test the message pub/sub, you can use any of your favorite tool.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
     - Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.
-  
+
 - To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
 	- Use the Namespace-Creation-with-Routing ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
 	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
@@ -91,7 +91,8 @@ Let us get started with a \"hello world\" scenario, with a publisher and subscri
 |Sub_client|Sub_Client_Group|Subscriber|sample/topic (Topic template: sample/#)|
 
 - Ensure you have the MQTT Broker enabled for the subscription you provided. (--- how? ---)
-- For quick start, out of the box, client gets instantiated and runs.  Perform the control plane setup – subscription, namespace details, etc.
+- For quick start, out of the box, clients get instantiated and run.  
+- Perform the control plane setup – subscription, namespace details, etc.
 - Download all the files in this folder (--- to be added ---).
     - This folder contains all the necessary artifacts required to run the quick start including a sample CA certificate and a .exe file that you can run (--- how/where? ---) to create all the necessary resources.
     - Also, code is made available to customize as per your testing needs. However, before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
@@ -136,6 +137,7 @@ The following credential types are supported:
 
 **Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the  certificate thumbprint alongside the identity record.  In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
 
+One and only one authentication type properties (CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
 
 ### Client Groups
 Client group is a new concept introduced to make management of client access controls (publish/subscribe) easy – multiple clients can be grouped together based on certain commonalities to provide similar levels of authorization to publish and/or subscribe to Topic spaces.
