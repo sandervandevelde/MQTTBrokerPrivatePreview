@@ -9,6 +9,12 @@ rg_name="slbojanic-rg"
 base_type="Microsoft.EventGrid/namespaces"
 resource_prefix="/subscriptions/${sub_id}/resourceGroups/${rg_name}/providers/Microsoft.EventGrid/namespaces/${ns_name}"
 
+# WARNING: do this only once
+az cloud register --name Dogfood --endpoint-active-directory-resource-id  https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
+
+az cloud set --name Dogfood
+az login
+
 pushd ../cert-gen
 ./certGen.sh create_root_and_intermediate
 ./certGen.sh create_leaf_certificate_from_intermediate pub_client
