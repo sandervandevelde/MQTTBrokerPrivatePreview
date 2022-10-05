@@ -249,9 +249,9 @@ If you set your topic space with a low fanout or high fanout subscription modes,
 
 ### Access Controls
 
-Grouping clients into Client Groups and Topic Templates into Topic Spaces is designed to simplify access control. Consider the following as you design Client Groups and Topic Spaces: 
-- Group Clients within Client Groups such that each Client Group represents Clients that need the same access to publish and/or subscribe to the same set of topics.
-- Group Topic Templates within Topic Spaces such that each Topic Space represents messages meant for the same audience (group of clients).
+Client Groups and Topic Spaces are designed to simplify access control. Consider the following as you design Client Groups and Topic Spaces: 
+- Group a set of clients into 'Client Groups' such that each Client Group represents the clients that need the same access to publish and/or subscribe to the same set of topics.
+- Group a set of Topic Templates into 'Topic Spaces' such that each Topic Space represents messages meant for the same audience (a specific Client Group).
 
 For example:
 - Example 1:
