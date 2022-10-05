@@ -10,7 +10,7 @@ MQTT functionality delivers a pub/sub messaging functionality, to enable secure 
 | [MQTT standard protocol](https://mqtt.org/) |
 | [Client Authentication](#client-authentication) |
 | [Client Groups](#client-groups) |
-| [Topic Space](#topic-spaces)|
+| [Topic Spaces](#topic-spaces)|
 
 ## Private preview program information
 The private preview is only for testing.  Please do NOT use it for your production.
@@ -19,7 +19,7 @@ The private preview is only for testing.  Please do NOT use it for your producti
 
 **Feedback:**  At the end of the preview, we will capture additional feedback using this form.
 
-**Cost to use:**  For this release, MQTT functionality is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
+**Cost to use:**  For this release, MQTT functionality is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions.  Please check the Event Grid pricing [here](https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
 ## Post private preview program
 When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or we can help you migrate the configuration to the public preview space, once it is available. 
@@ -48,7 +48,7 @@ The following features are not in scope for this release, but they will be suppo
 - Last Will and Testament (LWT) support
 - Retain flag support
 - Metrics and diagnostic logs 
-- Large message of 512KB supported 
+- Large message of 512KB 
 - TLS 1.3 support
 - Enhanced performance and scale limits 
 - Pay As You Go Billing
@@ -60,16 +60,17 @@ The following features are not in scope for this release, but they will be suppo
 
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
 
-- To deploy the resources such as clients, topicspaces, you can use "Deploy to Azure" or Azure CLI commands using the provided ARM templates / JSONs. (You can use other methods such as GitHub deploy to Azure or ARM client to perform these steps)
-
-
-**Executing scenarios:**
-
 - MQTT capability is currently supported only in Central US EUAP region
-- To connect to the new MQTT feature, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate. 
+
+- Resource Group:  
+    Use portal to create a resource group called "MQTT-Pri-Prev-rg1"
+	
+- To deploy the resources such as clients, topicspaces, etc. you can use Azure CLI, ARM client, etc. as per your preference.  We have proivded a set of Azure CLI commands for your reference [here](/Azure%20CLI/README.md).
+
+- To connect to the new MQTT feature, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate.  Please see the [client authentication section](#client-authentication).
     - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
-    - One and only one authentication type properties (from CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
-- To test the message pub/sub, you can use any of your favorite tool.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
+
+- To test the message pub/sub, you can use any of your favorite tools.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
     - Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.
 
 - To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
@@ -78,12 +79,12 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ### Warning
-- MQTT capability is in early development and this tech preview is available in the spirit of transparency. Bugs are expected, and we look forward to feedback via email to askmqtt@microsoft.com.
+- MQTT capability is in early development and this tech preview is available under NDA. Bugs are expected, and we look forward to feedback via email to askmqtt@microsoft.com.
 - Before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
 
 
 ## QuickStart
-Let us get started with a \"hello world\" scenario, with a publisher and subscriber communicating on a topic. Below table enumerates all the resources used in this example.
+Let us get started with a simple pub/sub scenario, with a publisher and subscriber communicating on a topic. Below table enumerates all the resources used in this example.
 
 |Client name|Client Group|PermissionBinding|TopicSpace|
 | ------------ | ------------ | ------------ | ------------ |
@@ -106,7 +107,7 @@ Here are a few scenarios you can try out.  Please refer the details below on the
 | 1 | Fan-out (one-to-many) messages  | This scenario simulates cloud-to-client commands to several clients and can be leveraged for use cases such as sending alerts to clients. Consider the use case where a fleet management service needs to send a weather alert to all the vehicles in the fleet. For instructions see [README](/Scenario1_Fan-out%20(one-to-many)%20messages/README).  |
 | 2 | Fan-in (many to one) messaging  | This scenario simulates publishing messages from multiple clients to a single client.  Consider a use case where one needs to identify location of vehicles on a map.  For instructions see [README](/Scenario2_Fan-in%20(many%20to%20one)%20messaging/README). |
 | 3 | One to one messaging  | This scenario simulates publishing messages from one client to another.  Consider a use case where a user can unlock their car from a mobile app.  For instructions see [README](/Scenario3_One%20to%20one%20messaging/README.md).  |
-| 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from MQTT to the endpoint: Kafka on Event Hub through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see [README](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/README.md).  |
+| 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from MQTT to the endpoint: Event Hubs through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see [README](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/README.md).  |
 
 
 ## Terminology
@@ -119,11 +120,11 @@ Some of the key terms relevant for private preview are explained below.
 | Client| Client can be a device or a service that will publish and/or subscribe MQTT messages |
 | Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be “self-signed”. Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
 | Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, Floor 3 is an attribute that provides the client's location. |
-| Client group| Client group is a collection of clients that are grouped by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific Topic Space |
-| Topic space | Topic space is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics. |
+| Client group| Client group is a collection of clients that are grouped by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific Topic Spaces |
+| Topic spaces | Topic spaces is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics. |
 | Topic filter| An MQTT topic filter is an MQTT topic that can include wildcards for one or more of its segments, allowing it to match multiple MQTT topics. It is used to simplify subscriptions declarations as one topic filter can match multiple topics. |
 | Topic template| Topic templates are an extension of the topic filter that supports variables. It is used for fine-grained access control within a client group. |
-| PermissionBinding| A Permission Binding grants access to a specific client group to either publish or subscribe on a specific topic space.  |
+| PermissionBinding| A Permission Binding grants access to a specific client group to either publish or subscribe on a specific topic spaces.  |
 
 ## Concepts
 
@@ -133,7 +134,7 @@ The following credential types are supported:
 - Certificates issued by a Certificate Authority (CA) 
 - Self-signed certificates
 
-**CA signed certificates:**  In this method, a root or intermediate X.509 certificate is registered with the service.  Later, clients can authenticate if they have a valid leaf certificate that's derived from the root or intermediate certificate.  While registering the clients, the subject common name of the leaf certificate needs to be supplied for authentication.  Service will validate the subject name with the CA certificate that was registered earlier to validate the identity of the client.  
+**CA signed certificates:**  In this method, a root or intermediate X.509 certificate is registered with the service.  Essentially, the root or intermediary certificate that is used to sign the client certificate, must be registered with the service first.  Later, clients are authenticated if they have a valid leaf certificate that's signed by the root or intermediate certificate that was supplied to the service.  While registering the clients, the subject common name of the leaf certificate needs to be supplied for authentication.  Service will validate the subject name with the CA certificate (or the intermediary certificate) that was registered earlier to validate the identity of the client.  
 
 **Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the  certificate thumbprint alongside the identity record.  In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
 
@@ -151,24 +152,22 @@ In this scenario, vehicles can be configured as clients that publish/subscribe t
 These client attributes can be used to create the client groups.  For example, if the vehicles that can carry loads over 2 tons are prone to accidents if driven with low braking fluid especially in icy road conditions, then all such vehicles can be grouped together to continuously monitor and alert the drivers in case of potential hazardous conditions based on weather at their locations.
 
 ### Client group considerations:
-The main purpose of client groups is to provide common authorization to a set of clients to either publish and/or subscribe on one or more Topic spaces.  Every client needs to be part of a client group to be able to pub/sub on a topic space.  The goal is to keep the quantity of client groups very small to make permissions manageable.
+The main purpose of client groups is to provide common authorization to a set of clients to either publish and/or subscribe on one or more Topic spaces.  Every client needs to be part of a client group to be able to pub/sub on topic spaces.  The goal is to keep the quantity of client groups very small to make permissions manageable.
 For this preview, we will be supporting a maximum of 10 client groups per namespace.
 
 Clients need to be grouped in a way that it’s easier to reuse the group to pub/sub across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish/subscribe to.  Identify the commonalities across the scenarios to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
 
 **What are client attributes?**
-Client attributes are a set of user defined key-value pairs or tags that provide information about the client.  These attributes will be the main ingredient in the client group filtering expressions.  Attributes could be describing the physical or functional characteristics of the client.  Typical attributes could be type of the client, client location, or type of signal generated from the client.  
-Here are some examples of typical client attributes:
+Client attributes are a set of user defined key-value pairs or tags that provide information about the client.  These attributes will be the main ingredient in the client group filtering expressions.  Attributes could be describing the physical or functional characteristics of the client.  Typical attribute could be type of the client (client type).  
+Here is an example:
 - Type: Values could be “sensor” or “thermostat” or “vehicle”
-- Client location could be a plant, particular geo, or a state
 
 Here’s a sample schema for the attribute definition: 
 
-```json
+```bash
 {  
     "id": "device123",  
     "attributes": {  
-        "floor": 7,  
         "status": “active”,  
         "sensors": ["motion", "noise", "light"]  
      }  
@@ -250,69 +249,68 @@ If you set your topic space with a low fanout or high fanout subscription modes,
 
 ### Access Controls
 
-Grouping Clients into Client Groups and Topic Templates into Topic Spaces is designed to simplify access control. Consider the following as you design Client Groups and Topic Spaces: 
+Grouping clients into Client Groups and Topic Templates into Topic Spaces is designed to simplify access control. Consider the following as you design Client Groups and Topic Spaces: 
 - Group Clients within Client Groups such that each Client Group represents Clients that need the same access to publish and/or subscribe to the same set of topics.
 - Group Topic Templates within Topic Spaces such that each Topic Space represents messages meant for the same audience (group of clients).
 
 For example:
 - Example 1:
 
-    A factory has multiple sections with each section including Clients that need to communicate with each other. However, Clients from other sections of the factory are not allowed to communicate with them.
+    A factory has multiple plants with each plant including Clients that need to communicate with each other. However, Clients from other plants of the factory are not allowed to communicate with them.
 
-
-| Client  | Role  | Topic/Topic Filter  |
-| ------------ | ------------ | ------------ |
-|Section1_Client1| Publisher| sections/section1/clients/client1|
-|Section1_Client2| Subscriber| sections/section1/clients/#|
-|Section2_Client1| Publisher| sections/section2/clients/client1|
-|Section2_Client2| Subscriber| sections/section2/clients/#|
+	| Client  | Role  | Topic/Topic Filter  |
+	| ------------ | ------------ | ------------ |
+	|Plant1_Client1| Publisher| plants/plant1/clients/client1|
+	|Plant1_Client2| Subscriber| plants/plant1/clients/#|
+	|Plant2_Client1| Publisher| plants/plant2/clients/client1|
+	|Plant2_Client2| Subscriber| plants/plant2/clients/#|
 
 - Configuration
-	- Create a Client Group for each factory section’s clients.
-	- Create a Topic Space for each section representing the topics that the section’s clients will communicate over.
-	- Create 2 Permission Bindings for each section’s Client Group to publish and subscribe to its corresponding section’s Topic Space.
+	- Create a Client Group for each factory plant’s clients.
+	- Create a Topic Space for each plant representing the topics that the plant’s clients will communicate over.
+	- Create 2 Permission Bindings for each plant’s Client Group to publish and subscribe to its corresponding plant’s Topic Space.
 
-|Client| Client Group| Permission Binding| Topic Space|
-| ------------ | ------------ | ------------ | ------------ |
-|Section1_Client1| Section1Clients| Section1-Pub| Section1Messages -Topic Template: sections/section1/clients/#|
-|Section1_Client2|Section1Clients | Section1-Sub| Section1Messages -Topic Template: sections/section1/clients/#|
-|Section2_Client1| Section2Clients| Section2-Pub| Section2Messages -Topic Template: sections/section2/clients/#|
-|Section2_Client2|Section2Clients | Section2-Sub| Section2Messages -Topic Template: sections/section2/clients/#|
+
+	|Client| Client Group| Permission Binding| Topic Space|
+	| ------------ | ------------ | ------------ | ------------ |
+	|Plant1_Client1| Plant1Clients| Plant1-Pub| Plant1Messages -Topic Template: plants/plant1/clients/#|
+	|Plant1_Client2|Plant1Clients | Plant1-Sub| Plant1Messages -Topic Template: plants/plant1/clients/#|
+	|Plant2_Client1| Plant2Clients| Plant2-Pub| Plant2Messages -Topic Template: plants/plant2/clients/#|
+	|Plant2_Client2|Plant2Clients | Plant2-Sub| Plant2Messages -Topic Template: plants/plant2/clients/#|
 
 - Example 2:
 
-    Let’s assume an extra requirement for the example above: each section has management clients and operator clients, and the operator clients must not have publish access in case any of them gets compromised. On the other hand, the management clients need publish access to send commands and subscribe access to receive telemetry.
+    Let’s assume an extra requirement for the example above: each plant has management clients and operator clients, and the operator clients must not have publish access in case any of them gets compromised. On the other hand, the management clients need publish access to send commands and subscribe access to receive telemetry.
 
-| Client | Role | Topic/Topic Filter | 
-| ------------ | ------------ | ------------ |
-| Section1_OperatorClient1 | Publisher | sections/section1/OpClients/client1
-|| Subscriber | sections/section1/MgmtClients/# | 
-| Section1_MgmtClient1 | Publisher | sections/section1/MgmtClients/client1
-|| Subscriber | sections/section1/OpClients/# | 
- | Section2_OperatorClient1 | Publisher | sections/section2/OpClients/client1
-| |Subscriber | sections/section2/MgmtClients/# | 
-| Section2_ MgmtClient1 | Publisher | sections/section2/MgmtClients/client1 | 
-||Subscriber | sections/section2/OpClients/# |
+	| Client | Role | Topic/Topic Filter | 
+	| ------------ | ------------ | ------------ |
+	| Plant1_OperatorClient1 | Publisher | plants/plant1/OpClients/client1
+	|| Subscriber | plants/plant1/MgmtClients/# | 
+	| Plant1_MgmtClient1 | Publisher | plants/plant1/MgmtClients/client1
+	|| Subscriber | plants/plant1/OpClients/# | 
+	| Plant2_OperatorClient1 | Publisher | plants/plant2/OpClients/client1
+	| |Subscriber | plants/plant2/MgmtClients/# | 
+	| Plant2_ MgmtClient1 | Publisher | plants/plant2/MgmtClients/client1 | 
+	||Subscriber | plants/plant2/OpClients/# |
 
 - Configuration:
-	- Create 2 Client Groups per section: one for the management clients and another for the operator clients.
-	- Create 2 Topic Spaces for each section: one representing telemetry topics and another representing commands topics.
-	- Create 2 Permission Bindings for each section’s management clients to publish to the commands Topic Space and subscribe to the telemetry Topic Space.
-	- Create 2 Permission Bindings for each section’s operator clients to subscribe to the commands Topic Space and publish to the telemetry Topic Space.
+	- Create 2 Client Groups per plant: one for the management clients and another for the operator clients.
+	- Create 2 Topic Spaces for each plant: one representing telemetry topics and another representing commands topics.
+	- Create 2 Permission Bindings for each plant’s management clients to publish to the commands Topic Space and subscribe to the telemetry Topic Space.
+	- Create 2 Permission Bindings for each plant’s operator clients to subscribe to the commands Topic Space and publish to the telemetry Topic Space.
 
 
-|Client | Client Group | Permission Binding | Topic/Topic Filter|
-| ------------ | ------------ | ------------ | ------------ |
-|Section1_OperatorClient1 | Section1Operators | Section1Op-Pub | Section1Telemetry -Topic Template: sections/section1/OpClients/#|
-| |  | Section1Op-Sub | Section1Commands -Topic Template: sections/section1/MgmtClients/#|
-|Section1_MgmtClient1 | Section1Mgmt | Section1Mgmt-Pub | Section1Commands -Topic Template: sections/section1/MgmtClients/#|
-| |  | Section1Mgmt-Sub | Section1Telemetry -Topic Template: sections/section1/OpClients/#|
-|Section2_OperatorClient1 | Section2Operators | Section2Op-Pub | Section2Telemetry -Topic Template: sections/section2/OpClients/#|
-| |  | Section2Op-Sub | Section2Commands -Topic Template: sections/section2/MgmtClients/#|
-|Section2_ MgmtClient1 | Section2Mgmt | Section2Mgmt-Pub | Section2Commands -Topic Template: sections/section2/MgmtClients/#|
-| |  | Section2Mgmt-Sub | Section2Telemetry -Topic Template: sections/section2/OpClients/#|
+	|Client | Client Group | Permission Binding | Topic/Topic Filter|
+	| ------------ | ------------ | ------------ | ------------ |
+	|Plant1_OperatorClient1 | Plant1Operators | Plant1Op-Pub | Plant1Telemetry -Topic Template: plants/plant1/OpClients/#|
+	| |  | Plant1Op-Sub | Plant1Commands -Topic Template: plants/plant1/MgmtClients/#|
+	|Plant1_MgmtClient1 | Plant1Mgmt | Plant1Mgmt-Pub | Plant1Commands -Topic Template: plants/plant1/MgmtClients/#|
+	| |  | Plant1Mgmt-Sub | Plant1Telemetry -Topic Template: plants/plant1/OpClients/#|
+	|Plant2_OperatorClient1 | Plant2Operators | Plant2Op-Pub | Plant2Telemetry -Topic Template: plants/plant2/OpClients/#|
+	| |  | Plant2Op-Sub | Plant2Commands -Topic Template: plants/plant2/MgmtClients/#|
+	|Plant2_ MgmtClient1 | Plant2Mgmt | Plant2Mgmt-Pub | Plant2Commands -Topic Template: plants/plant2/MgmtClients/#|
+	| |  | Plant2Mgmt-Sub | Plant2Telemetry -Topic Template: plants/plant2/OpClients/#|
  
-
 
 
 
@@ -365,7 +363,7 @@ For this release, the following limits are supported.  Please do not stress test
 |Limit Description | MQTT Private Preview |
 | ------------ | ------------ |
 |Max Message size | 256KB |
-|Topic Size| 256KB - is this accurate? | 
+|Topic Size| 256KB | 
 |New Connect requests | 500/second per namespace |
 |Subscribe requests | 5000 messages/second |
 |Total number of subscriptions per connection | 50 |
