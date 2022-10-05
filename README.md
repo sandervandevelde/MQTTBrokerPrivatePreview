@@ -3,7 +3,7 @@
 The Microsoft Azure messaging team invites you and your organization to preview the MQTT functionality.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
 ## Overview
-MQTT Broker delivers a pub/sub messaging broker, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
+MQTT functionality delivers a pub/sub messaging functionality, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
 
 |Concepts|
 | ------------ |
@@ -15,11 +15,11 @@ MQTT Broker delivers a pub/sub messaging broker, to enable secure transfer of me
 ## Private preview program information
 The private preview is only for testing.  Please do NOT use it for your production.
 
-**Engagement:**  We will actively engage with you during the preview. At any point, feel free to connect with us for questions/concerns by emailing to mqttbroker@microsoft.com.
+**Engagement:**  We will actively engage with you during the preview. At any point, feel free to connect with us for questions/concerns by emailing to askmqtt@microsoft.com.
 
 **Feedback:**  At the end of the preview, we will capture additional feedback using this form.
 
-**Cost to use:**  For this release, MQTT Broker is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
+**Cost to use:**  For this release, MQTT functionality is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions (https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
 ## Post private preview program
 When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or we can help you migrate the configuration to the public preview space, once it is available. 
@@ -27,7 +27,7 @@ When the private preview program ends, or when your tests are completed, you can
 
 ## Capabilities available in this preview
 This private preview provides the following capabilities
-- Cloud MQTT Broker enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
+- Cloud MQTT functionality enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
 - QoS 0, 1: MQTT manages the re-transmission of messages and guarantees delivery making communication in unreliable networks a lot reliable.
 - Flexible access control model:  Grouping clients into “client groups” and topic references into topic spaces to ease access control management.
@@ -78,7 +78,7 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ### Warning
-- MQTT capability is in early development and this tech preview is available in the spirit of transparency. Bugs are expected, and we look forward to feedback via email to mqttbroker@microsoft.com.
+- MQTT capability is in early development and this tech preview is available in the spirit of transparency. Bugs are expected, and we look forward to feedback via email to askmqtt@microsoft.com.
 - Before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
 
 
@@ -90,7 +90,7 @@ Let us get started with a \"hello world\" scenario, with a publisher and subscri
 |Pub_client|Pub_Client_Group|Publisher|sample/topic (Topic template: sample/#)|
 |Sub_client|Sub_Client_Group|Subscriber|sample/topic (Topic template: sample/#)|
 
-- Ensure you have the MQTT Broker enabled for the subscription you provided. (--- how? ---)
+- Ensure you have the MQTT functionality enabled for the subscription you provided. (--- how? ---)
 - For quick start, out of the box, clients get instantiated and run.  
 - Perform the control plane setup – subscription, namespace details, etc.
 - Download all the files in this folder (--- to be added ---).
@@ -103,10 +103,10 @@ Here are a few scenarios you can try out.  Please refer the details below on the
 
 | # | Scenario | Description |
 | ------------ | ------------ | ------------ |
-| 1 | Fan-out (one-to-many) messages  | This scenario simulates cloud-to-client commands to several clients and can be leveraged for use cases such as sending alerts to clients. Consider the use case where a fleet management service needs to send a weather alert to all the vehicles in the fleet. For instructions see [README](/Scenario1_Fan-out%20messages/README.md).  |
+| 1 | Fan-out (one-to-many) messages  | This scenario simulates cloud-to-client commands to several clients and can be leveraged for use cases such as sending alerts to clients. Consider the use case where a fleet management service needs to send a weather alert to all the vehicles in the fleet. For instructions see [README](/Scenario1_Fan-out%20(one-to-many)%20messages/README).  |
 | 2 | Fan-in (many to one) messaging  | This scenario simulates publishing messages from multiple clients to a single client.  Consider a use case where one needs to identify location of vehicles on a map.  For instructions see [README](/Scenario2_Fan-in%20(many%20to%20one)%20messaging/README). |
 | 3 | One to one messaging  | This scenario simulates publishing messages from one client to another.  Consider a use case where a user can unlock their car from a mobile app.  For instructions see [README](/Scenario3_One%20to%20one%20messaging/README.md).  |
-| 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from broker to the endpoint: Kafka on Event Hub through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see [README](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/README.md).  |
+| 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from MQTT to the endpoint: Kafka on Event Hub through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see [README](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/README.md).  |
 
 
 ## Terminology
