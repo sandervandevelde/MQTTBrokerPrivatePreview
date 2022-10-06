@@ -3,7 +3,7 @@
     "inputSchema": "CloudEventSchemaV1_0",
     "mqttSpace": {
       "isEnabled": true,
-      "routeTopic": <Event Grid topic name>,
+      "routeTopic": <Event Grid topic name>
     }
   },
   "location": "southcentralus",
