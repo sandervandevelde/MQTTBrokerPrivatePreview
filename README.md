@@ -1,9 +1,9 @@
-# MQTT Private Preview
+# MQTT broker functionality in Event Grid Private Preview
 
-The Microsoft Azure messaging team invites you and your organization to preview the MQTT functionality.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
+The Microsoft Azure messaging team invites you and your organization to preview the MQTT broker functionality in Event Grid.  During this preview, we will provide full support with a high level of engagement from the Azure messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
 ## Overview
-MQTT functionality delivers a pub/sub messaging functionality, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
+MQTT broker functionality in Event Grid delivers a pub/sub messaging functionality, to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
 
 |Concepts|
 | ------------ |
@@ -19,7 +19,7 @@ The private preview is only for testing.  Please do NOT use it for your producti
 
 **Feedback:**  At the end of the preview, we will capture additional feedback using this form.
 
-**Cost to use:**  For this release, MQTT functionality is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions.  Please check the Event Grid pricing [here](https://azure.microsoft.com/en-us/pricing/details/event-grid/).
+**Cost to use:**  For this release, MQTT broker functionality in Event Grid is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions.  Please check the Event Grid pricing [here](https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
 **Post private preview program**
 When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Canary region.
@@ -27,7 +27,7 @@ When the private preview program ends, or when your tests are completed, you can
 
 ## Capabilities available in this preview
 This private preview provides the following capabilities
-- Cloud MQTT functionality enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
+- Cloud MQTT broker functionality in Event Grid enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
 - QoS 0, 1: MQTT manages the re-transmission of messages and guarantees delivery making communication in unreliable networks a lot reliable.
 - Flexible access control model:  Grouping clients into “client groups” and topic references into topic spaces to ease access control management.
@@ -60,14 +60,14 @@ The following features are not in scope for this release, but they will be suppo
 
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
 
-- MQTT capability is currently supported only in Central US EUAP region
+- MQTT broker functionality in Event Grid is currently supported only in Central US EUAP region
 
 - Resource Group:  
     Use portal to create a resource group called "MQTT-Pri-Prev-rg1"
 	
 - To deploy the resources such as clients, topicspaces, etc. you can use Azure CLI, ARM client, etc. as per your preference.  We have proivded a set of Azure CLI commands for your reference [here](/Azure%20CLI/README.md).
 
-- To connect to the new MQTT feature, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate.  Please see the [client authentication section](#client-authentication).
+- To connect to the new MQTT broker functionality in Event Grid, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate.  Please see the [client authentication section](#client-authentication).
     - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
 
 - To test the message pub/sub, you can use any of your favorite tools.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
@@ -79,7 +79,7 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ### Warning
-- MQTT capability is in early development and this tech preview is available under NDA. Bugs are expected, and we look forward to feedback via email to askmqtt@microsoft.com.
+- MQTT broker functionality in Event Grid is in early development and this tech preview is available under NDA. Bugs are expected, and we look forward to feedback via email to askmqtt@microsoft.com.
 - Before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
 
 
@@ -91,11 +91,11 @@ Let us get started with a simple pub/sub scenario, with a publisher and subscrib
 |Pub_client|Pub_Client_Group|Publisher|sample/topic (Topic template: sample/#)|
 |Sub_client|Sub_Client_Group|Subscriber|sample/topic (Topic template: sample/#)|
 
-- Ensure you have the MQTT functionality enabled for the subscription you provided. (--- how? ---)
+- Ensure you have the MQTT broker functionality in Event Grid enabled for the subscription you provided. (--- To Do ---)
 - For quick start, out of the box, clients get instantiated and run.  
 - Perform the control plane setup – subscription, namespace details, etc.
-- Download all the files in this folder (--- to be added ---).
-    - This folder contains all the necessary artifacts required to run the quick start including a sample CA certificate and a .exe file that you can run (--- how/where? ---) to create all the necessary resources.
+- Download all the files in this folder (--- To Do ---).
+    - This folder contains all the necessary artifacts required to run the quick start including a sample CA certificate and a .exe file that you can run (--- To Do ---) to create all the necessary resources.
     - Also, code is made available to customize as per your testing needs. However, before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
 
 
@@ -108,6 +108,9 @@ Here are a few scenarios you can try out.  Please refer the details below on the
 | 2 | Fan-in (many to one) messaging  | This scenario simulates publishing messages from multiple clients to a single client.  Consider a use case where one needs to identify location of vehicles on a map.  For instructions see [README](/Scenario2_Fan-in%20(many%20to%20one)%20messaging/README). |
 | 3 | One to one messaging  | This scenario simulates publishing messages from one client to another.  Consider a use case where a user can unlock their car from a mobile app.  For instructions see [README](/Scenario3_One%20to%20one%20messaging/README.md).  |
 | 4 | Route MQTT data through Event Grid subscription  | This scenario showcases how to configure route to send filtered messages from MQTT to the endpoint: Event Hubs through EG subscription.  Consider a use case where one needs to identify location of vehicles.  For instructions see [README](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/README.md).  |
+
+
+Please share your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u) or email us at askmqtt@microsoft.com with any questions you may have.
 
 
 ## Terminology
@@ -331,7 +334,7 @@ You can either use the X ARM template to create the Event Grid custom topic as w
 **Create your Event Grid custom topic:**
 1. [Create an Event Grid custom topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-event-quickstart-portal) where all MQTT messages will be forwarded. This topic needs to fulfill the requirements detailed below in the routing considerations.
 2. Create an [Event Grid subscription](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route these messages to one of the supported Azure services or a custom endpoint.
-3. Create the namespace with MQTT Enabled and pass on the ARM ID for the custom topic that you created in step 1.
+3. Create the namespace with MQTT broker functionality in Event Grid enabled and pass on the ARM ID for the custom topic that you created in step 1.
 
 ### Routing Considerations:
 - The Event grid topic that will be used for routing need to fulfil the following requirements:
@@ -360,7 +363,7 @@ Each message being routed is enveloped in a Cloud Event according to the followi
 ## Limits
 For this release, the following limits are supported.  Please do not stress test beyond the limits mentioned below and for other scenarios.  These limits will be revised for future releases.
 
-|Limit Description | MQTT Private Preview |
+|Limit Description | MQTT broker functionality in Event Grid Private Preview |
 | ------------ | ------------ |
 |Max Message size | 256KB |
 |Topic Size| 256KB | 
@@ -405,7 +408,7 @@ All the names are of String type
 	- You can use any standard MQTT client SDK.  See SDK samples here. 
 - How can I fix Subscription was rejected error when running the samples? 
 	- Topic space updates take up-to 5 minutes to propagate, please retry the samples post that. 
-- How do I connect to the MQTT feature with a third party tool that requires username and password as string? 
+- How do I connect to the MQTT broker functionality in Event Grid with a third party tool that requires username and password as string? 
 	- Username and password based authentication is currently not supported.  It will be supported in future release.
 - What happens if I have more than 10 subscribers per topic for a low fanout topic space?
     - The 11th subscription request for the same topic will be rejected.
