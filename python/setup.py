@@ -12,5 +12,5 @@ setup(
     author="Microsoft Corporation",
     author_email="opensource@microsoft.com",
     install_requires=["paho-mqtt>=1.5.1", "six"],
-    py_modules= ['publish', 'paho_client', 'mqtt_helpers', 'subscribe', 'auth']
+    py_modules= ['paho_client', 'mqtt_helpers', 'auth']
 )
