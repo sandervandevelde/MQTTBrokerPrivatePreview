@@ -21,8 +21,8 @@ The private preview is only for testing.  Please do NOT use it for your producti
 
 **Cost to use:**  For this release, MQTT functionality is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions.  Please check the Event Grid pricing [here](https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
-## Post private preview program
-When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or we can help you migrate the configuration to the public preview space, once it is available. 
+**Post private preview program**
+When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Canary region.
 
 
 ## Capabilities available in this preview
