@@ -62,10 +62,10 @@ function generate_root_ca()
 
     openssl "${algorithm}" \
             ${password_cmd} \
-            -out "${root_ca_dir}/private/${root_ca_prefix}.key.pem" \
+            -out "${root_ca_dir}/certs/${root_ca_prefix}.key.pem" \
             ${key_bits_length}
     [ $? -eq 0 ] || exit $?
-    chmod 400 "${root_ca_dir}/private/${root_ca_prefix}.key.pem"
+    chmod 400 "${root_ca_dir}/certs/${root_ca_prefix}.key.pem"
     [ $? -eq 0 ] || exit $?
 
     echo "Creating the Root CA Certificate"
@@ -76,7 +76,7 @@ function generate_root_ca()
             -x509 \
             -config "${openssl_root_config_file}" \
             ${password_cmd} \
-            -key "${root_ca_dir}/private/${root_ca_prefix}.key.pem" \
+            -key "${root_ca_dir}/certs/${root_ca_prefix}.key.pem" \
             -subj "$(makeCNsubject "${common_name}")" \
             -days ${days_till_expire} \
             -sha256 \
@@ -114,10 +114,10 @@ function generate_intermediate_ca()
 
     openssl "${algorithm}" \
             ${password_cmd} \
-            -out "${intermediate_ca_dir}/private/${intermediate_ca_prefix}.key.pem" \
+            -out "${intermediate_ca_dir}/certs/${intermediate_ca_prefix}.key.pem" \
             ${key_bits_length}
     [ $? -eq 0 ] || exit $?
-    chmod 400 "${intermediate_ca_dir}/private/${intermediate_ca_prefix}.key.pem"
+    chmod 400 "${intermediate_ca_dir}/certs/${intermediate_ca_prefix}.key.pem"
     [ $? -eq 0 ] || exit $?
 
 
@@ -129,7 +129,7 @@ function generate_intermediate_ca()
         ${password_cmd} \
         -config "${openssl_intermediate_config_file}" \
         -subj "$(makeCNsubject "${common_name}")" \
-        -key "${intermediate_ca_dir}/private/${intermediate_ca_prefix}.key.pem" \
+        -key "${intermediate_ca_dir}/certs/${intermediate_ca_prefix}.key.pem" \
         -out "${intermediate_ca_dir}/csr/${intermediate_ca_prefix}.csr.pem"
     [ $? -eq 0 ] || exit $?
 
@@ -200,16 +200,16 @@ function generate_device_certificate_common()
     cd "${home_dir}"
 
     openssl "${algorithm}" \
-            -out "${certificate_dir}/private/${device_prefix}.key.pem" \
+            -out "${certificate_dir}/certs/${device_prefix}.key.pem" \
             ${key_bits_length}
     [ $? -eq 0 ] || exit $?
-    chmod 444 "${certificate_dir}/private/${device_prefix}.key.pem"
+    chmod 444 "${certificate_dir}/certs/${device_prefix}.key.pem"
     [ $? -eq 0 ] || exit $?
 
     echo "Create the ${cert_type_diagnostic} Certificate Request"
     echo "----------------------------------------"
     openssl req -config "${openssl_config_file}" \
-        -key "${certificate_dir}/private/${device_prefix}.key.pem" \
+        -key "${certificate_dir}/certs/${device_prefix}.key.pem" \
         -subj "$(makeCNsubject "${common_name}")" \
         -new -sha256 -out "${certificate_dir}/csr/${device_prefix}.csr.pem"
     [ $? -eq 0 ] || exit $?
@@ -242,7 +242,7 @@ function generate_device_certificate_common()
     echo "Create the ${cert_type_diagnostic} PFX Certificate"
     echo "----------------------------------------"
     openssl pkcs12 -in "${certificate_dir}/certs/${device_prefix}.cert.pem" \
-            -inkey "${certificate_dir}/private/${device_prefix}.key.pem" \
+            -inkey "${certificate_dir}/certs/${device_prefix}.key.pem" \
             -password pass:${server_pfx_password} \
             -export -out "${certificate_dir}/certs/${device_prefix}.cert.pfx"
     [ $? -eq 0 ] || exit $?
@@ -286,15 +286,11 @@ function prepare_filesystem()
     fi
 
     rm -rf csr
-    rm -rf private
     rm -rf certs
-    rm -rf intermediateCerts
     rm -rf newcerts
 
     mkdir -p csr
-    mkdir -p private
     mkdir -p certs
-    mkdir -p intermediateCerts
     mkdir -p newcerts
 
     rm -f ./index.txt
@@ -324,9 +320,8 @@ function generate_leaf_certificate_from_intermediate()
         exit 1
     fi
 
-    rm -f ./private/new-device.key.pem
-    rm -f ./certs/new-device.key.pem
-    rm -f ./certs/new-device-full-chain.cert.pem
+    rm -f ./certs/${1}.key.pem
+    rm -f ./certs/${1}.cert.pem
     generate_leaf_certificate "${1}" \
                               "${intermediate_ca_dir}" "${intermediate_ca_password}" \
                               "${openssl_intermediate_config_file}"

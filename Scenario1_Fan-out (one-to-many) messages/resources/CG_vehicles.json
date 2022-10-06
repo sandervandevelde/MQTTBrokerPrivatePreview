@@ -1,4 +1,4 @@
 {
     "description": "This is a test client group",
-    "query": "name IN ['pub-client', 'sub-client']"
+    "query": "name IN ['s1-vehicle1', 's1-vehicle2']"
 }

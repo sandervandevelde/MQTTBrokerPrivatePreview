@@ -1,2 +1,5 @@
 *.pem
 *.pfx
+
+index.txt*
+serial*

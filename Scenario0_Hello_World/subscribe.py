@@ -15,13 +15,13 @@ Uncomment the following lines to enable debug logging
 # logging.basicConfig(level=logging.INFO)
 # logging.getLogger("paho").setLevel(level=logging.DEBUG)
 
-client_id = "sub_client"
-gw_url = "scenario0.southcentralus-1.mqtt.eventgrid-int.azure.net"
+client_id = "sub-client"
+gw_url = os.environ["gw_url"]
 
 topic_filter = "samples/#"
 
-cert_path = "../cert-gen/certs/sub_client.cert.pem"
-cert_key_path = "../cert-gen/private/sub_client.key.pem"
+cert_path = "../cert-gen/certs/sub-client.cert.pem"
+cert_key_path = "../cert-gen/certs/sub-client.key.pem"
 
 ##################################
 # CREATE CLIENT
