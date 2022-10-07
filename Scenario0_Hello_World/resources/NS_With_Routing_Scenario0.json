@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "inputSchema": "CloudEventSchemaV1_0",
+    "mqttSpace": {
+      "isEnabled": true,
+      "routeTopic": "/subscriptions/<subscription id>/resourcegroups/<resource group>/providers/Microsoft.EventGrid/topics/<topic name>"
+    }
+  },
+  "location": "southcentralus",
+  "tags": {
+    "tag1": "value1",
+    "tag2": "value2",
+    "tag3": "value3"
+  }
+}
