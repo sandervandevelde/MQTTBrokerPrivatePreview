@@ -1,0 +1,4 @@
+{
+    "topicTemplates": ["fleet/alerts/#"],
+    "subscriptionSupport": "LowFanout"
+}

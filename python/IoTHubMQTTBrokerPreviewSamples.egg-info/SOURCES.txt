@@ -1,8 +1,0 @@
-README.md
-pyproject.toml
-setup.py
-IoTHubMQTTBrokerPreviewSamples.egg-info/PKG-INFO
-IoTHubMQTTBrokerPreviewSamples.egg-info/SOURCES.txt
-IoTHubMQTTBrokerPreviewSamples.egg-info/dependency_links.txt
-IoTHubMQTTBrokerPreviewSamples.egg-info/requires.txt
-IoTHubMQTTBrokerPreviewSamples.egg-info/top_level.txt

@@ -11,10 +11,10 @@ crl_dir           = $dir/crl
 new_certs_dir     = $dir/newcerts
 database          = $dir/index.txt
 serial            = $dir/serial
-RANDFILE          = $dir/private/.rand
+RANDFILE          = $dir/certs/.rand
 
 # The root key and root certificate.
-private_key       = $dir/private/azure-mqtt-test-only.root.ca.key.pem
+private_key       = $dir/certs/azure-mqtt-test-only.root.ca.key.pem
 certificate       = $dir/certs/azure-mqtt-test-only.root.ca.cert.pem
 
 # For certificate revocation lists.

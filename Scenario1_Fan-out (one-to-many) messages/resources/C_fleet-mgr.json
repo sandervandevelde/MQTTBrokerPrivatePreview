@@ -1,0 +1,13 @@
+{
+    "isEnabled": true,
+    "authentication": {
+        "certificateSubject": {
+            "commonName": "s1-fleet-mgr.mqtt.contoso.com",
+            "organization": "Contoso",
+            "organizationUnit": "IoT",
+            "countryCode": "US"
+        }
+    },
+    "attributes": {},
+    "description": "This is a test client"
+}

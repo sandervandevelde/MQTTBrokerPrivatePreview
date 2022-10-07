@@ -1,0 +1,15 @@
+{
+    "isEnabled": true,
+    "authentication": {
+        "certificateSubject": {
+            "commonName": "s2-map-client.mqtt.contoso.com",
+            "organization": "Contoso",
+            "organizationUnit": "IoT",
+            "countryCode": "US"
+        }
+    },
+    "attributes": {
+        "type": "map"
+    },
+    "description": "This is a test client"
+}

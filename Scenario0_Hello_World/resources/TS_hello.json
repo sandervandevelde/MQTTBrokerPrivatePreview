@@ -1,0 +1,4 @@
+{
+    "topicTemplates": ["samples/#"],
+    "subscriptionSupport": "LowFanout"
+}

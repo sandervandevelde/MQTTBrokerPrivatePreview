@@ -1,0 +1,4 @@
+{
+    "topicTemplates": ["vehicles/+/GPS/#"],
+    "subscriptionSupport": "LowFanout"
+}
