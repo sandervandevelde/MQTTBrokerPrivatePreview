@@ -15,6 +15,8 @@ pushd ../cert-gen
 ./certGen.sh create_leaf_certificate_from_intermediate s1-fleet-mgr
 popd
 
+echo "Uploading Scenario1 resources..."
+
 az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario1.json
 
 az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
@@ -35,4 +37,7 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicles-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_vehicles-subscriber.json
 
+echo "Resources uploaded."
+
 export gw_url="mqtt-sample-scenario1.southcentralus-1.mqtt.eventgrid-int.azure.net"
+echo "gw_url set to ${gw_url}"

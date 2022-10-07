@@ -1,0 +1,4 @@
+{
+    "topicTemplates": ["vehicles/${client.name}/GPS/#"],
+    "subscriptionSupport": "NotSupported"
+}

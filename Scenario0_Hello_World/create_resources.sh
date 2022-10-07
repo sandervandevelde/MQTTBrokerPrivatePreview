@@ -48,4 +48,4 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 echo "Resources uploaded."
 
 export gw_url="mqtt-sample-scenario0.southcentralus-1.mqtt.eventgrid-int.azure.net"
-
+echo "gw_url set to ${gw_url}"

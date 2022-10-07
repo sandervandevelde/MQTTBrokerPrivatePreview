@@ -1,7 +1,0 @@
-{
-    "name": "FleetMgmt",
-    "properties": {
-        "description": "This is a test client group",
-        "query": "attributes.b IN ['a', 'b', 'c']"
-    }
-}
