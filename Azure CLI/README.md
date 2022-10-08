@@ -61,11 +61,11 @@
 
 
 #### Commands
-| Action           |  | Azure CLI |
-| ---------------- | ---------- | --------- |
-| Create namespace |   |  az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> --api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\mqttns.json       | 
-Get namespace | | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> |
-Delete Namespace | | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> |
+| Action           | Azure CLI |
+| ---------------- | --------- |
+| Create namespace |  az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> --api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\mqttns.json       | 
+Get namespace | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> |
+Delete Namespace | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> |
 
 
 ### Clients
