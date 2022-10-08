@@ -127,7 +127,7 @@ Delete Namespace | az resource delete --ids /subscriptions/\<Subscription ID>/re
 ~~~
 
 #### Commands
-| Action            Azure CLI |
+| Action           | Azure CLI |
 | ---------------- | --------- |
 | Create Client | az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clients/\<ClientName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\client.json | 
 Get Client | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clients/\<Client-name> |
