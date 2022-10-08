@@ -1,0 +1,15 @@
+{
+    "isEnabled": true,
+    "authentication": {
+        "certificateSubject": {
+            "commonName": "s3-mobile1.mqtt.contoso.com",
+            "organization": "Contoso",
+            "organizationUnit": "IoT",
+            "countryCode": "US"
+        }
+    },
+    "attributes": {
+        "type": "mobile"
+    },
+    "description": "This is a test client"
+}
