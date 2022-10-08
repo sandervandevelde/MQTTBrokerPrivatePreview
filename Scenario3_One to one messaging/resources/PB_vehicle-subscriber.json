@@ -1,0 +1,5 @@
+{
+    "clientGroupName":"vehicle",
+    "topicSpaceName":"vehicle-subscribe",
+    "permission":"Subscriber"
+}
