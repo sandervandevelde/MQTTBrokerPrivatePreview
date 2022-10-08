@@ -42,17 +42,17 @@ This scenario showcases how to configure routing to send filtered messages from 
 
 **CLI Instructions:**
 
-Download the folder Scenario1_jsons with JSON files to C:
+Download the folder Scenario4_jsons with JSON files to C:
 
 Replace the \<Subscription ID\> with your subscription ID in below commands.
 
 Create the namespace under the resource group that you already created as part of the prerequisites.
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4 --is-full-object --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\NS_Scenario4.json
+az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4 --is-full-object --api-version 2022-10-15-preview --properties @C:\Scenario4_jsons\NS_Scenario4.json
 ```
 
-If you are using a CA certificate to authenticate the clients, the encoded certificate string must be in valid PEM (Privacy Enhanced Mail) format with header (-----BEGIN CERTIFICATE-----) and footer (-----END CERTIFICATE-----). This string must not include a private key. Save the certificate as a json file named MqttCACertificate.json in C:\Scenario1_jsons\ folder.  You can include a description in the properties as below.
+If you are using a CA certificate to authenticate the clients, the encoded certificate string must be in valid PEM (Privacy Enhanced Mail) format with header (-----BEGIN CERTIFICATE-----) and footer (-----END CERTIFICATE-----). This string must not include a private key. Save the certificate as a json file named MqttCACertificate.json in C:\Scenario4_jsons\ folder.  You can include a description in the properties as below.
 
 ```json
 {
@@ -68,33 +68,33 @@ If you are using a CA certificate to authenticate the clients, the encoded certi
 Register the CA Certificate using the below command.
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/caCertificates/CACert --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\MqttCACertificate.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/caCertificates/CACert --api-version 2022-10-15-preview --properties @C:\Scenario4_jsons\MqttCACertificate.json
 ```
 
 Onboard the Clients using below CLI commands.
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/clients/Vehicle1 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\C_Vehicle1.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/clients/Vehicle1 --api-version 2022-10-15-preview --properties @C:\Scenario4_jsons\C_Vehicle1.json
 ```
 
 
 Create the Client Groups using below CLI commands
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/clientGroups/Vehicles --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\CG_Vehicles.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/clientGroups/Vehicles --api-version 2022-10-15-preview --properties @C:\Scenario4_jsons\CG_Vehicles.json
 ```
 
 
 Create the Topic Spaces using below CLI commands
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/topicSpaces/VehiclesLocation --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\TS_VehiclesLocation.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/topicSpaces/VehiclesLocation --api-version 2022-10-15-preview --properties @C:\Scenario4_jsons\TS_VehiclesLocation.json
 ```
 
 Create the Permission Bindings using below CLI commands
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/permissionBindings/Vehicles-Pub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\PB_Vehicles-Pub.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/permissionBindings/Vehicles-Pub --api-version 2022-10-15-preview --properties @C:\Scenario4_jsons\PB_Vehicles-Pub.json
 ```
 
 

@@ -7,7 +7,7 @@
             "type": "Microsoft.EventGrid/namespaces",
             "apiVersion": "2022-10-15-preview",
             "name": "Scenario2",
-            "location": "eastus2",
+            "location": "southcentralus",
             "tags": {
                 "tag1": "value1",
                 "tag2": "value2",
