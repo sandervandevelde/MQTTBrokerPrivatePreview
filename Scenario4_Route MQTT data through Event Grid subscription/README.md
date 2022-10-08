@@ -46,57 +46,45 @@ Download the folder Scenario1_jsons with JSON files to C:
 
 Replace the \<Subscription ID\> with your subscription ID in below commands.
 
-Create the namespace under the resource group that you already created as part of the prerequisites.
 
 ```bash
+
+#Configure the Event Grid Topic where your messages will be routed.
+az eventgrid topic create -g ${rg_name} --name ${eg_topic_name} -l southcentralus --input-schema cloudeventschemav1_0
+az provider register --namespace Microsoft.EventGrid![image](https://user-images.githubusercontent.com/59579210/194677828-421ebe20-8b20-42be-b52b-eeb7b04aca9c.png)
+az role assignment create --assignee "<alias>@microsoft.com" --role "EventGrid Data Sender" --resource-group "/subscriptions/${sub_id}/resourcegroups/${rg_name}/providers/Microsoft.EventGrid/topics/${eg_topic_name}"
+
+
+#Create the namespace under the resource group that you already created as part of the prerequisites.
+
 az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4 --is-full-object --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\NS_Scenario4.json
-```
 
-If you are using a CA certificate to authenticate the clients, the encoded certificate string must be in valid PEM (Privacy Enhanced Mail) format with header (-----BEGIN CERTIFICATE-----) and footer (-----END CERTIFICATE-----). This string must not include a private key. Save the certificate as a json file named MqttCACertificate.json in C:\Scenario1_jsons\ folder.  You can include a description in the properties as below.
 
-```json
-{
-    "properties":{
-   	    "description": "This is a CA certificate",
-        "encodedCertificate": "-----BEGIN CERTIFICATE-----
-			---Base64 encoded Certificate---
- -----END CERTIFICATE-----"
-    }
-}
-```
+# Register the CA Certificate using the below command.
+# If you are using a CA certificate to authenticate the clients, the encoded certificate string must be in valid PEM (Privacy Enhanced Mail) format with header (-----BEGIN CERTIFICATE-----) and footer (-----END CERTIFICATE-----). This string must not include a private key. Save the certificate as a json file named MqttCACertificate.json in C:\Scenario1_jsons\ folder.
 
-Register the CA Certificate using the below command.
-
-```bash
 az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/caCertificates/CACert --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\MqttCACertificate.json
-```
 
-Onboard the Clients using below CLI commands.
 
-```bash
+# Onboard the Clients using below CLI commands.
+
 az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/clients/Vehicle1 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\C_Vehicle1.json
-```
 
 
-Create the Client Groups using below CLI commands
+# Create the Client Groups using below CLI commands
 
-```bash
 az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/clientGroups/Vehicles --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\CG_Vehicles.json
-```
 
 
-Create the Topic Spaces using below CLI commands
+# Create the Topic Spaces using below CLI commands
 
-```bash
 az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/topicSpaces/VehiclesLocation --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\TS_VehiclesLocation.json
-```
 
-Create the Permission Bindings using below CLI commands
 
-```bash
+# Create the Permission Bindings using below CLI commands
+
 az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/permissionBindings/Vehicles-Pub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\PB_Vehicles-Pub.json
 ```
-
 
 
 **Instructions to deploy using ARM template on portal:**
