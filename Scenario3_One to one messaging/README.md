@@ -52,17 +52,17 @@ Consider a use case where a user can unlock their car from a mobile app. The req
 
 **CLI Instructions:**
 
-Download the folder Scenario3_jsons with JSON files to C:
+Download the folder Scenario1_jsons with JSON files to C:
 
 Replace the \<Subscription ID\> with your subscription ID in below commands.
 
 Create the namespace under the resource group that you already created as part of the prerequisites.
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3 --is-full-object --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\NS_Scenario3.json
+az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3 --is-full-object --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\NS_Scenario3.json
 ```
 
-If you are using a CA certificate to authenticate the clients, the encoded certificate string must be in valid PEM (Privacy Enhanced Mail) format with header (-----BEGIN CERTIFICATE-----) and footer (-----END CERTIFICATE-----). This string must not include a private key. Save the certificate as a json file named MqttCACertificate.json in C:\Scenario3_jsons\ folder.  You can include a description in the properties as below.
+If you are using a CA certificate to authenticate the clients, the encoded certificate string must be in valid PEM (Privacy Enhanced Mail) format with header (-----BEGIN CERTIFICATE-----) and footer (-----END CERTIFICATE-----). This string must not include a private key. Save the certificate as a json file named MqttCACertificate.json in C:\Scenario1_jsons\ folder.  You can include a description in the properties as below.
 
 ```json
 {
@@ -78,55 +78,55 @@ If you are using a CA certificate to authenticate the clients, the encoded certi
 Register the CA Certificate using the below command.
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/caCertificates/CACert --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\MqttCACertificate.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/caCertificates/CACert --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\MqttCACertificate.json
 ```
 
 Onboard the Clients using below CLI commands.
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clients/Mobile1 --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\C_Mobile1.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clients/Mobile1 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\C_Mobile1.json
 ```
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clients/Vehicle1 --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\C_Vehicle1.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clients/Vehicle1 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\C_Vehicle1.json
 ```
 
 Create the Client Groups using below CLI commands
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clientGroups/Mobiles --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\CG_Mobiles.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clientGroups/Mobiles --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\CG_Mobiles.json
 ```
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clientGroups/Vehicles --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\CG_Vehicles.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clientGroups/Vehicles --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\CG_Vehicles.json
 ```
 
 Create the Topic Spaces using below CLI commands
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/topicSpaces/UnlockPublish --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\TS_UnlockPublish.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/topicSpaces/UnlockPublish --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\TS_UnlockPublish.json
 ```
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/topicSpaces/UnlockSubscribe --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\TS_UnlockSubscribe.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/topicSpaces/UnlockSubscribe --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\TS_UnlockSubscribe.json
 ```
 
 Create the Permission Bindings using below CLI commands
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/MobileClients-Pub --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\PB_MobileClients-Pub.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/MobileClients-Pub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\PB_MobileClients-Pub.json
 ```
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/MobileClients-Sub --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\PB_MobileClients-Sub.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/MobileClients-Sub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\PB_MobileClients-Sub.json
 ```
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/Vehicles-Pub --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\PB_Vehicles-Pub.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/Vehicles-Pub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\PB_Vehicles-Pub.json
 ```
 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/Vehicles-Sub --api-version 2022-10-15-preview --properties @C:\Scenario3_jsons\PB_Vehicles-Sub.json
+az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/Vehicles-Sub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\PB_Vehicles-Sub.json
 ```
 
 
