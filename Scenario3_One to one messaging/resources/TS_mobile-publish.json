@@ -1,0 +1,4 @@
+{
+    "topicTemplates": ["vehicles/unlock/req/+/${client.name}"],
+    "subscriptionSupport": "NotSupported"
+}

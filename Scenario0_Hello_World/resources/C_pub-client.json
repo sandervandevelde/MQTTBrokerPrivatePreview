@@ -1,0 +1,13 @@
+{
+    "isEnabled": true,
+    "authentication": {
+        "certificateSubject": {
+            "commonName": "pub-client.mqtt.contoso.com",
+            "organization": "Contoso",
+            "organizationUnit": "IoT",
+            "countryCode": "US"
+        }
+    },
+    "attributes": {},
+    "description": "This is a test publisher client"
+}

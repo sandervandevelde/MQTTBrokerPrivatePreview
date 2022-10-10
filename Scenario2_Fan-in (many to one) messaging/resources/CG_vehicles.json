@@ -1,0 +1,4 @@
+{
+    "description": "This is a test client group",
+    "query": "attributes.type = 'vehicle'"
+}

@@ -3,7 +3,7 @@
 # license information.
 import logging
 from paho.mqtt import client as mqtt
-from auth import SymmetricKeyAuth, X509Auth
+from auth import BaseAuth, X509Auth
 from mqtt_helpers import IncomingMessageList, IncomingAckList, ConnectionStatus
 from typing import Any, Tuple, List
 
@@ -11,9 +11,9 @@ logger = logging.getLogger(__name__)
 
 
 class PahoClient(object):
-    def __init__(self, auth: SymmetricKeyAuth) -> None:
+    def __init__(self, auth: BaseAuth) -> None:
         self.mqtt_client: mqtt.Client = None
-        self.auth: SymmetricKeyAuth = auth
+        self.auth = auth
         self.connection_status = ConnectionStatus()
         # A list of the results for each subscription in the request - either the granted qos, or -1 on failure
         self.incoming_subacks = IncomingAckList[List[int]]()
@@ -27,42 +27,25 @@ class PahoClient(object):
         return mqtt.error_string(mqtt_errno)  # type: ignore
 
     @classmethod
-    def create_from_auth(
-        cls, auth: SymmetricKeyAuth, clean_session: bool = False
-    ) -> Any:
-        obj = cls(auth)
-        obj.create_mqtt_client(clean_session)
-        return obj
-
-    @classmethod
-    def create_from_connection_string(
-        cls, connection_string: str, clean_session: bool = False
-    ) -> Any:
-        auth = SymmetricKeyAuth.create_from_connection_string(connection_string)
-        return cls.create_from_auth(auth, clean_session)
-
-    @classmethod
     def create_from_x509_certificate(
         cls,
-        host_name: str,
         device_id: str,
         certificate_filename: str,
-        module_id: str = None,
         key_filename: str = None,
         pass_phrase: str = None,
         gateway_host_name: str = None,
         clean_session: bool = False,
     ) -> Any:
         auth = X509Auth.create_from_x509_certificate(
-            host_name=host_name,
             device_id=device_id,
             certificate_filename=certificate_filename,
-            module_id=module_id,
             key_filename=key_filename,
             pass_phrase=pass_phrase,
             gateway_host_name=gateway_host_name,
         )
-        return cls.create_from_auth(auth, clean_session)
+        obj = cls(auth)
+        obj.create_mqtt_client(clean_session)
+        return obj
 
     def _handle_on_connect(
         self, mqtt_client: mqtt.Client, userdata: Any, flags: Any, rc: int
@@ -159,7 +142,6 @@ class PahoClient(object):
         """
         self.mqtt_client = mqtt.Client(self.auth.client_id, clean_session=clean_session)
         self.mqtt_client.enable_logger()
-        self.mqtt_client.username_pw_set(self.auth.username, self.auth.password)
         self.mqtt_client.tls_set_context(self.auth.create_tls_context())
 
         self.mqtt_client.on_connect = self._handle_on_connect

@@ -1,0 +1,5 @@
+{
+    "clientGroupName":"vehicles",
+    "topicSpaceName":"weather-alerts",
+    "permission":"Subscriber"
+}

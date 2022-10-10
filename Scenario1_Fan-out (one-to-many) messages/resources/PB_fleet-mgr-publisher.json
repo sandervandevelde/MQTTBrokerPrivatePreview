@@ -1,0 +1,5 @@
+{
+    "clientGroupName":"fleet-mgr",
+    "topicSpaceName":"weather-alerts",
+    "permission":"Publisher"
+}

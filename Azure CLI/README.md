@@ -61,11 +61,11 @@
 
 
 #### Commands
-| Action           |  | Azure CLI |
-| ---------------- | ---------- | --------- |
-| Create namespace |   |  az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> --api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\mqttns.json       | 
-Get namespace | | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> |
-Delete Namespace | | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> |
+| Action           | Azure CLI |
+| ---------------- | --------- |
+| Create namespace |  az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> --api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\mqttns.json       | 
+Get namespace | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> |
+Delete Namespace | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name> |
 
 
 ### Clients
@@ -127,11 +127,11 @@ Delete Namespace | | az resource delete --ids /subscriptions/\<Subscription ID>/
 ~~~
 
 #### Commands
-| Action           |  | Azure CLI |
-| ---------------- | ---------- | --------- |
-| Create Client | |  az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clients/\<ClientName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\client.json | 
-Get Client | | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clients/\<Client-name> |
-Delete Client |  | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clients/\<name>|
+| Action           | Azure CLI |
+| ---------------- | --------- |
+| Create Client | az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clients/\<ClientName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\client.json | 
+Get Client | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clients/\<Client-name> |
+Delete Client | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clients/\<name>|
 
 
 ### Client Groups
@@ -147,11 +147,11 @@ Delete Client |  | az resource delete --ids /subscriptions/\<Subscription ID>/re
 ~~~
 
 #### Commands
-| Action           |  | Azure CLI |
-| ---------------- | ---------- | --------- |
-| Create clientGroup | |  az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clientGroups/\<clientGroupName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\clientGroup.json | 
-Get clientGroup |  | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clientGroups/\<clientGroup-name> |
-Delete clientGroup | | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clientGroups/\<name>|
+| Action           |Azure CLI |
+| ---------------- | --------- |
+| Create clientGroup |  az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clientGroups/\<clientGroupName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\clientGroup.json | 
+Get clientGroup | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clientGroups/\<clientGroup-name> |
+Delete clientGroup | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/clientGroups/\<name>|
 
 
 ### CA Certificate
@@ -168,11 +168,11 @@ Delete clientGroup | | az resource delete --ids /subscriptions/\<Subscription ID
 }
 ~~~
 #### Commands
-| Action           |  | Azure CLI |
-| ---------------- | ---------- | --------- |
-| Create caCertificate | |  az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/caCertificates/\<caCertificateName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\caCertificate.json | 
-Get caCertificate | | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/caCertificates/\<caCertificate-name> |
-Delete caCertificate |  | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/caCertificates/\<name> |
+| Action           | Azure CLI |
+| ---------------- | --------- |
+| Create caCertificate |  az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/caCertificates/\<caCertificateName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\caCertificate.json | 
+Get caCertificate | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/caCertificates/\<caCertificate-name> |
+Delete caCertificate | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/caCertificates/\<name> |
 
 
 ### Topic Spaces
@@ -189,11 +189,11 @@ Delete caCertificate |  | az resource delete --ids /subscriptions/\<Subscription
 }
 ~~~
 #### Commands
-| Action           |  | Azure CLI |
-| ---------------- | ---------- | --------- |
-| Create topicSpace | |  az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/topicSpaces/\<topicSpaceName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\topicSpace.json | 
-Get topicSpace |  | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/topicSpaces/\<topicSpace-name> |
-Delete topicSpace | | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/topicSpaces/\<name> |
+| Action           | Azure CLI |
+| ---------------- | --------- |
+| Create topicSpace |  az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/topicSpaces/\<topicSpaceName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\topicSpace.json | 
+Get topicSpace | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/topicSpaces/\<topicSpace-name> |
+Delete topicSpace | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/topicSpaces/\<name> |
 
 
 
@@ -210,11 +210,11 @@ Delete topicSpace | | az resource delete --ids /subscriptions/\<Subscription ID>
 }
 ~~~
 #### Commands
-| Action           |  | Azure CLI |
-| ---------------- | ---------- | --------- |
-| Create permissionBinding |  |  az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/permissionBindings/\<permissionBindingName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\permissionBinding.json | 
-Get permissionBinding |  | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/permissionBindings/\<permissionBinding-name> |
-Delete permissionBinding |  | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/permissionBindings/\<name> |
+| Action           | Azure CLI |
+| ---------------- | --------- |
+| Create permissionBinding |  az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/permissionBindings/\<permissionBindingName>--api-version 2022-10-15-preview --properties @D:\Work\Pub-sub\permissionBinding.json | 
+Get permissionBinding | az resource show --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/permissionBindings/\<permissionBinding-name> |
+Delete permissionBinding | az resource delete --ids /subscriptions/\<Subscription ID>/resourceGroups/\<resource group name>/providers/Microsoft.EventGrid/namespaces/\<namespace-name>/permissionBindings/\<name> |
 
 
 
