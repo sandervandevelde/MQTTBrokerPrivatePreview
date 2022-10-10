@@ -1,5 +1,5 @@
 {
-    "isEnabled": true,
+    "state": "Enabled",
     "authentication": {
         "certificateSubject": {
             "commonName": "s3-vehicle1.mqtt.contoso.com",
