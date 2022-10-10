@@ -2,7 +2,7 @@
     "state": "Enabled",
     "authentication": {
         "certificateSubject": {
-            "commonName": "s2-vehicle2.mqtt.contoso.com",
+            "commonName": "s4-vehicle1.mqtt.contoso.com",
             "organization": "Contoso",
             "organizationUnit": "IoT",
             "countryCode": "US"

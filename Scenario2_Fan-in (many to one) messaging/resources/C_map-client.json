@@ -1,5 +1,5 @@
 {
-    "isEnabled": true,
+    "state": "Enabled",
     "authentication": {
         "certificateSubject": {
             "commonName": "s2-map-client.mqtt.contoso.com",

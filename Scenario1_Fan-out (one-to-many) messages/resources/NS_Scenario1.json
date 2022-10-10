@@ -1,8 +1,8 @@
 {
   "properties": {
     "inputSchema": "CloudEventSchemaV1_0",
-    "mqttSpace": {
-      "isEnabled": true
+    "topicSpacesConfiguration": {
+      "state": "Enabled"
     }
   },
   "location": "southcentralus",

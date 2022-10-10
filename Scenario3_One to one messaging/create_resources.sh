@@ -32,7 +32,7 @@ az resource create --resource-type ${base_type}/clientGroups --id ${resource_pre
 az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/vehicle --api-version 2022-10-15-preview --properties @./resources/CG_vehicle.json
 
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-publisher.json
-az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-subscriber.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-subscriber.json
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/mobile-publisher --api-version 2022-10-15-preview --properties @./resources/PB_mobile-publisher.json
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/mobile-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_mobile-subscriber.json
 
