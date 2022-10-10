@@ -1,8 +1,0 @@
-{
-    "name":"WeatherAlerts",
-    "properties":
-    {
-	"topicTemplates": [ "fleet/alerts/weather/alert1", "fleet/alerts/#"],
-	"subscriptionSupport": "LowFanout"
-    }
-}
