@@ -24,7 +24,7 @@ You can either configure these resources through the script or manually. Afterwa
 **Configure the resources through the script:**
 - Run this command to configure the script `chmod 700 create_resources.sh`
 
-- Edit the script "create_resources.sh" to change the subscription id and resource group:
+- Edit the script "create_resources.sh" to change the subscription id and resource group variables to include the values of your own Subscription ID and Resource Group name:
 ```bash
 sub_id="<your Subscription ID>"
 rg_name="<your Resource Group name>"
