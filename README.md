@@ -91,7 +91,8 @@ Let us get started with a simple pub/sub scenario, with a publisher and subscrib
 |Pub_client | Publisher | sample/topic |
 |Sub_client | Subscriber | sample/topic |
 
-Run the following script to create the resources: ./create_resources.sh
+Run the following script to create the resources: `./create_resources.sh`
+
 To test the scenario:
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
