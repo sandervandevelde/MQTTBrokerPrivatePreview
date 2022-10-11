@@ -372,7 +372,9 @@ For this release, the following limits are supported.  Please do not stress test
 |Subscribe requests | 5000 messages/second |
 |Total number of subscriptions per connection | 50 |
 |Total inbound publish requests | 5000 messages/second per namespace |
+|Total outbound publish requests | 5000 messages/second per namespace |
 |Total inbound Publish requests per connection | 100/second |
+|Total outbound Publish requests per connection | 100/second |
 
 ### Resources level limits
 | Resource Type | Description| Limit| 
@@ -390,7 +392,7 @@ All the names are of String type
 
 | Category| Name length| Allowed characters| Other considerations|
 | ------------ | ------------ | ------------ | ------------ |
-| Namespace| 6-50 characters| Alphanumeric, and hyphens(-); no spaces|  Starts with letter and ends with alphanumeric; Name needs to be unique per region | 
+| Namespace| 3-50 characters| Alphanumeric, and hyphens(-); no spaces|  Name needs to be unique per region | 
 |CA Certificate| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
 | Client| 1-128 characters| Alphanumeric, hyphen(-), colon(:), dot(.), and underscore(_), no spaces| Case sensitive; Name needs to be unique per namespace | 
 | Client attributes| Total size of the attributes is <=4KB| Alphanumeric and underscores(_)| Case sensitive; Attribute values can be strings, string arrays, integers; Name needs to be unique per namespace| 
