@@ -66,9 +66,9 @@ az resource create --resource-type ${base_type}/caCertificates --id ${resource_p
 	- s2-vehicle2
 		- Attribute: Type=vehicle
 ```bash
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s2-map-client --api-version 2022-10-15-preview --properties @./resources/C_map-client.json
 az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s2-vehicle1 --api-version 2022-10-15-preview --properties @./resources/C_vehicle1.json
 az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s2-vehicle2 --api-version 2022-10-15-preview --properties @./resources/C_vehicle2.json
-az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s2-map-client --api-version 2022-10-15-preview --properties @./resources/C_map-client.json
 ```
 - Create the following client groups:
 	- map to include the Map_Client
