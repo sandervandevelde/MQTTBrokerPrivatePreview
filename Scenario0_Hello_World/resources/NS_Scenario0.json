@@ -1,6 +1,8 @@
 {
   "properties": {
-    "inputSchema": "CloudEventSchemaV1_0",
+    "topicsConfiguration": {
+      "inputSchema": "CloudEventSchemaV1_0"
+    },
     "topicSpacesConfiguration": {
       "state": "Enabled"
     }

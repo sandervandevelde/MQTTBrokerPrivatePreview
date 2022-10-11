@@ -5,7 +5,7 @@
     },
     "topicSpacesConfiguration": {
       "state": "Enabled",
-      "routeTopicResourceId": "/subscriptions/d48566a8-2428-4a6c-8347-9675d09fb851/resourcegroups/slb-rg/providers/Microsoft.EventGrid/topics/mqtt-sample-topic"
+      "routeTopicResourceId": "<<eg-topic-id>>"
     }
   },
   "location": "southcentralus",
