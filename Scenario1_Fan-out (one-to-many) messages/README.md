@@ -47,8 +47,9 @@ az resource create --resource-type ${base_type} --id ${resource_prefix} --is-ful
 - Generate certificates using the cert-gen scripts. You can skip this step if you're using your own certificate.
 ```bash
 pushd ../cert-gen
-./certGen.sh create_leaf_certificate_from_intermediate pub-client
-./certGen.sh create_leaf_certificate_from_intermediate sub-client
+./certGen.sh create_leaf_certificate_from_intermediate s1-vehicle1
+./certGen.sh create_leaf_certificate_from_intermediate s1-vehicle2
+./certGen.sh create_leaf_certificate_from_intermediate s1-fleet-mgr
 popd
 ```
 - Edit the CAC_test-ca-cert.json to input the certificate string:
@@ -56,7 +57,6 @@ popd
 	- Copy string between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----
 	- Paste the string in ./MQTTBrokerPrivatePreview/Scenario0_Hello_World/resources/CAC_test-ca-cert.json. 
 		- To put the cert string as a one line in the json, use ("End" button>"Delete" button) until all the string is in one line in the json
-
 - Create the CA Certificate:
 ```bash
 az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
@@ -68,7 +68,6 @@ az resource create --resource-type ${base_type}/caCertificates --id ${resource_p
 		- Attribute: Type=vehicle
 	- Vehicle2
 		- Attribute: Type=vehicle
-
 ```bash
 
 az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s1-fleet-mgr --api-version 2022-10-15-preview --properties @./resources/C_fleet-mgr.json
