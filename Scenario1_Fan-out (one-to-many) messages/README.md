@@ -5,16 +5,16 @@ This scenario simulates cloud-to-device commands to several devices and can be l
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|Fleet-mgmt-device | Publisher | fleets/alerts/weather/alert1|
-|Vehicle1 | Subscriber | fleets/alerts/#|
-|Vehicle2 | Subscriber | fleets/alerts/#|
+|s1-fleet-mgr | Publisher | fleets/alerts/weather/alert1|
+|s1-vehicle1 | Subscriber | fleets/alerts/#|
+|s1-vehicle2 | Subscriber | fleets/alerts/#|
 
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|fleet-mgt-client (Attributes: “Type”:”Fleet-Mgmt”)| FleetMgmt| FleetMgmt-publisher|  WeatherAlerts (Topic template: fleet/alerts/weather/alert1) -Subscription Support: HighFanout|
-|vehicle1 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
-|vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-subscriber|  WeatherAlerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
+|fleet-mgt-client (Attributes: “Type”:”Fleet-Mgmt”)| fleet-mgr| PB_fleet-mgr-publisher|  weather-alerts (Topic template: fleet/alerts/weather/alert1) -Subscription Support: HighFanout|
+|s1-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-subscriber|  weather-alerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
+|vehicle2 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-subscriber|  weather-alerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
 
 
 ![Deploy to Azure](https://aka.ms/deploytoazurebutton)
@@ -62,11 +62,11 @@ popd
 az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
 ```
 - Register the following clients:
-	- Fleet_mgmt_device
+	- s1-fleet-mgr
 		- Attribute: Type=management
-	- Vehicle1
+	- s1-vehicle1
 		- Attribute: Type=vehicle
-	- Vehicle2
+	- s1-vehicle2
 		- Attribute: Type=vehicle
 ```bash
 
@@ -75,24 +75,24 @@ az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/
 az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s1-vehicle2 --api-version 2022-10-15-preview --properties @./resources/C_vehicle2.json
 ```
 - Create the following client groups:
-	- Fleet-mgmt to include the Fleet_mgmt_device client
+	- fleet-mgr to include the s1-fleet-mgr client
 		- Query: ${client.attribute.Type}= “management”
-	- Vehicles to include vehicle1 and vehicle2 clients
+	- vehicles to include s1-vehicle1 and s1-vehicle2 clients
 		- Query: ${client.attribute.Type}= “vehicle”
 ```bash
 az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/fleet-mgr --api-version 2022-10-15-preview --properties @./resources/CG_fleet-mgr.json
 az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/vehicles --api-version 2022-10-15-preview --properties @./resources/CG_vehicles.json
 ```
 - Create the following topic space:
-	- WeatherAlerts
+	- weather-alerts
 		- Topic Template: fleets/alerts/#
 		- Subscription Support: HighFanout
 ```bash
 az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/weather-alerts --api-version 2022-10-15-preview --properties @./resources/TS_weather-alerts.json
 ```
 - Create the following permission bindings:
-	- FleetMgmt-Pub: to grant access for the client group Flee-mgmt to publish to the topic space WeatherAlerts
-	- Vehicles-Sub: to grant access for the client group Vehicles to subscribe to the topic space WeatherAlerts
+	- PB_fleet-mgr-publisher: to grant access for the client group fleet-mgr to publish to the topic space weather-alerts
+	- vehicles-subscriber: to grant access for the client group vehicles to subscribe to the topic space weather-alerts
 ```bash
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/fleet-mgr-publisher --api-version 2022-10-15-preview --properties @./resources/PB_fleet-mgr-publisher.json
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicles-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_vehicles-subscriber.json
