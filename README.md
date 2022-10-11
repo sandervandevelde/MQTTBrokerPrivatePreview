@@ -91,6 +91,7 @@ Let us get started with a simple pub/sub scenario, with a publisher and subscrib
 |Pub_client | Publisher | sample/topic |
 |Sub_client | Subscriber | sample/topic |
 
+Navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./Scenario0_Hello_World/`
 Run the following script to create the resources: `./create_resources.sh`
 
 To test the scenario:
