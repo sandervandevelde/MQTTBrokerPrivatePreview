@@ -1,8 +1,11 @@
 {
   "properties": {
-    "inputSchema": "CloudEventSchemaV1_0",
+    "topicsConfiguration": {
+      "inputSchema": "CloudEventSchemaV1_0"
+    },
     "topicSpacesConfiguration": {
-      "state": "Enabled"
+      "state": "Enabled",
+      "routeTopicResourceId": "/subscriptions/d48566a8-2428-4a6c-8347-9675d09fb851/resourcegroups/slb-rg/providers/Microsoft.EventGrid/topics/mqtt-sample-topic"
     }
   },
   "location": "southcentralus",
