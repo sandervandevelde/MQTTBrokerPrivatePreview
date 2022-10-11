@@ -70,4 +70,4 @@ az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBind
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
 3. Set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"`
-4. Run the sample script through `python python/publish_1.py`
+4. Run the sample script through the following command: `python python/publish_1.py`
