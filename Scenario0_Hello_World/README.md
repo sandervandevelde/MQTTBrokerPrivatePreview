@@ -55,7 +55,7 @@ popd
 - Create the CA Certificate:
 ```bash
 az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
-```-
+```
 - Create the following clients:
 	- pub-client
 	- sub-client
