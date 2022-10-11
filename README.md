@@ -84,19 +84,20 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ## QuickStart
-Let us get started with a simple pub/sub scenario, with a publisher and subscriber communicating on a topic. Below table enumerates all the resources used in this example.
+Let us get started with a simple pub/sub scenario, with a publisher and subscriber communicating on a topic. 
 
-|Client name|Client Group|PermissionBinding|TopicSpace|
-| ------------ | ------------ | ------------ | ------------ |
-|Pub_client|Pub_Client_Group|Publisher|sample/topic (Topic template: sample/#)|
-|Sub_client|Sub_Client_Group|Subscriber|sample/topic (Topic template: sample/#)|
+|Client | Role | Topic/Topic Filter|
+| ------------ | ------------ | ------------ |
+|Pub_client | Publisher | sample/topic |
+|Sub_client | Subscriber | sample/topic |
 
-- Ensure you have the MQTT broker functionality in Event Grid enabled for the subscription you provided. (--- To Do ---)
-- For quick start, out of the box, clients get instantiated and run.  
-- Perform the control plane setup – subscription, namespace details, etc.
-- Download all the files in this folder (--- To Do ---).
-    - This folder contains all the necessary artifacts required to run the quick start including a sample CA certificate and a .exe file that you can run (--- To Do ---) to create all the necessary resources.
-    - Also, code is made available to customize as per your testing needs. However, before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
+Run the following script to create the resources: `./create_resources.sh`
+
+To test the scenario:
+1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
+2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
+3. In a terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/publish.py`
+4. In a different terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/subscribe.py`
 
 
 ## Scenarios
