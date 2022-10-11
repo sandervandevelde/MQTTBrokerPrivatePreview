@@ -16,8 +16,7 @@ This scenario simulates device to cloud communication and can be leveraged for u
 |vehicle1 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-Pub |  LocationDataPublished: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
 |vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-Pub |  LocationDataPublished: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
 
-
-**High-level steps:**
+**Configure the resources:**
 - Create a namespace
 ```bash
 az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2 --is-full-object --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\NS_Scenario2.json
