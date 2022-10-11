@@ -84,19 +84,21 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ## QuickStart
-Let us get started with a simple pub/sub scenario, with a publisher and subscriber communicating on a topic. Below table enumerates all the resources used in this example.
+Let us get started with a simple pub/sub scenario, with a publisher and subscriber communicating on a topic. 
 
-|Client name|Client Group|PermissionBinding|TopicSpace|
-| ------------ | ------------ | ------------ | ------------ |
-|Pub_client|Pub_Client_Group|Publisher|sample/topic (Topic template: sample/#)|
-|Sub_client|Sub_Client_Group|Subscriber|sample/topic (Topic template: sample/#)|
+|Client | Role | Topic/Topic Filter|
+| ------------ | ------------ | ------------ |
+|Pub_client | Publisher | sample/topic |
+|Sub_client | Subscriber | sample/topic |
 
-- Ensure you have the MQTT broker functionality in Event Grid enabled for the subscription you provided. (--- To Do ---)
-- For quick start, out of the box, clients get instantiated and run.  
-- Perform the control plane setup – subscription, namespace details, etc.
-- Download all the files in this folder (--- To Do ---).
-    - This folder contains all the necessary artifacts required to run the quick start including a sample CA certificate and a .exe file that you can run (--- To Do ---) to create all the necessary resources.
-    - Also, code is made available to customize as per your testing needs. However, before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
+Navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./Scenario0_Hello_World/`
+Run the following script to create the resources: `./create_resources.sh`
+
+To test the scenario:
+1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
+2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
+3. In a terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/publish.py`
+4. In a different terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/subscribe.py`
 
 
 ## Scenarios
@@ -371,7 +373,9 @@ For this release, the following limits are supported.  Please do not stress test
 |Subscribe requests | 5000 messages/second |
 |Total number of subscriptions per connection | 50 |
 |Total inbound publish requests | 5000 messages/second per namespace |
+|Total outbound publish requests | 5000 messages/second per namespace |
 |Total inbound Publish requests per connection | 100/second |
+|Total outbound Publish requests per connection | 100/second |
 
 ### Resources level limits
 | Resource Type | Description| Limit| 
@@ -389,7 +393,7 @@ All the names are of String type
 
 | Category| Name length| Allowed characters| Other considerations|
 | ------------ | ------------ | ------------ | ------------ |
-| Namespace| 6-50 characters| Alphanumeric, and hyphens(-); no spaces|  Starts with letter and ends with alphanumeric; Name needs to be unique per region | 
+| Namespace| 3-50 characters| Alphanumeric, and hyphens(-); no spaces|  Name needs to be unique per region | 
 |CA Certificate| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
 | Client| 1-128 characters| Alphanumeric, hyphen(-), colon(:), dot(.), and underscore(_), no spaces| Case sensitive; Name needs to be unique per namespace | 
 | Client attributes| Total size of the attributes is <=4KB| Alphanumeric and underscores(_)| Case sensitive; Attribute values can be strings, string arrays, integers; Name needs to be unique per namespace| 
