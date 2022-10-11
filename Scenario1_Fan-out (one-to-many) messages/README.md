@@ -34,9 +34,9 @@ rg_name="<your Resource Group name>"
 **Configure the resources manually:**
 - Set the following variables to use in the following commands:
 ```bash
-ns_name="mqtt-sample-Scenario0"
-sub_id="d48566a8-2428-4a6c-8347-9675d09fb851"
-rg_name="slb-rg"
+ns_name="mqtt-sample-Scenario1"
+sub_id="<your Subscription ID>"
+rg_name="<your Resource Group name>"
 base_type="Microsoft.EventGrid/namespaces"
 resource_prefix="/subscriptions/${sub_id}/resourceGroups/${rg_name}/providers/Microsoft.EventGrid/namespaces/${ns_name}"
 ```
