@@ -17,7 +17,6 @@ This is a hello world scenario, with a publisher and subscriber communicating on
 You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
-
 - Run this command to configure the script `chmod 700 create_resources.sh`
 
 - Edit the script "create_resources.sh" to change the subscription id and resource group:
@@ -28,7 +27,7 @@ rg_name="<your Resource Group name>"
 - Run the script to configure all the resources: `./create_resources.sh`
 
 **Configure the resources manually:**
--Set the following variables to use in the following commands:
+- Set the following variables to use in the following commands:
 ```bash
 ns_name="mqtt-sample-Scenario0"
 sub_id="d48566a8-2428-4a6c-8347-9675d09fb851"
