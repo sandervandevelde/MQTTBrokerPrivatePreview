@@ -17,6 +17,7 @@ This is a hello world scenario, with a publisher and subscriber communicating on
 You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
+
 - Run this command to configure the script `chmod 700 create_resources.sh`
 
 - Edit the script "create_resources.sh" to change the subscription id and resource group:
