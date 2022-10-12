@@ -365,7 +365,7 @@ For this release, the following limits are supported.  Please do not stress test
 | Name spaces | Maximum number of name spaces per subscription | 10 |
 | Clients | Maximum number of clients | 10K |
 | CA Certificates | Maximum number of registered CA root certificates | 2 |
-| Client Groups | Maximum number of topic spaces client groups| 10 |
+| Client Groups | Maximum number of client groups| 10 |
 | Topic spaces | Maximum number of topic spaces | 10 |
 | Topic templates | Maximum number of topic templates within a topic space | 10 |
 | Permission bindings | Maximum number of permission bindings | 100 |
