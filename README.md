@@ -354,8 +354,8 @@ For this release, the following limits are supported.  Please do not stress test
 |New Connect requests | 500/second per namespace |
 |Subscribe requests | 5000 messages/second |
 |Total number of subscriptions per connection | 50 |
-|Total inbound publish requests | 5000 messages/second per namespace |
-|Total outbound publish requests | 5000 messages/second per namespace |
+|Total inbound publish requests | 5000 messages/second |
+|Total outbound publish requests | 5000 messages/second |
 |Total inbound Publish requests per connection | 100/second |
 |Total outbound Publish requests per connection | 100/second |
 
@@ -365,7 +365,7 @@ For this release, the following limits are supported.  Please do not stress test
 | Name spaces | Maximum number of name spaces per subscription | 10 |
 | Clients | Maximum number of clients | 10K |
 | CA Certificates | Maximum number of registered CA root certificates | 2 |
-| Client Groups | Number of client groups per namespace | 10 |
+| Client Groups | Maximum number of topic spaces client groups| 10 |
 | Topic spaces | Maximum number of topic spaces | 10 |
 | Topic templates | Maximum number of topic templates within a topic space | 10 |
 | Permission bindings | Maximum number of permission bindings | 100 |
