@@ -66,7 +66,7 @@ The following features are not in scope for this release, but they will be suppo
 		- To easily install and run Linux on Windows, run `wsl --install -d Ubuntu`. Afterwards, you can run `wsl` to start running commands on your Ubuntu subsystem. [Learn more](https://learn.microsoft.com/en-us/windows/wsl/)
 	2. Clone this repository to any directory in your Linux environment: `git clone https://github.com/Azure/MQTTBrokerPrivatePreview.git`
 	3. Follow the instructions in the [Environment_configuration README](/Environment_configuration/README.md) to register Azure CLI and set common variables for resources deployment.
-	4. Follow the instructions in the[Python README](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/python#azure-mqtt-broker-sample-python-instructions) to be able to test the scenarios.
+	4. Follow the instructions in the [Python README](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/python#azure-mqtt-broker-sample-python-instructions) to be able to test the scenarios.
 	5. Navigate to each of the scenario folders and follow its README.md instructions to run the scenario.
 
 - To connect to the new MQTT broker functionality in Event Grid, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA-signed certificate or a self-signed certificate.  Please see the [client authentication section](#client-authentication). You can use your own certificates or the certificate generation script provided in this guide and referenced in the scenarios' instructions.
