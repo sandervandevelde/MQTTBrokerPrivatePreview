@@ -20,6 +20,7 @@ python3 -m pip install virtualenv
 
 * In case of `/usr/bin/python3: No module named pip` error, install as follows
   ```
+  sudo apt-get update
   sudo apt install python3-pip
   ```
   
