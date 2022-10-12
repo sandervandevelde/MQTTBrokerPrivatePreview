@@ -55,7 +55,6 @@ The following features are not in scope for this release, but they will be suppo
 
 
 
-
 ## Prerequisites
 
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
@@ -76,11 +75,6 @@ The following features are not in scope for this release, but they will be suppo
 - To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
 	- Use the Namespace-Creation-with-Routing ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
 	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
-
-
-### Warning
-- MQTT broker functionality in Event Grid is in early development and this tech preview is available under NDA. Bugs are expected, and we look forward to feedback via email to askmqtt@microsoft.com.
-- Before deviating from the steps in this QuickStart, be sure to review the limitations listed below for the corresponding feature to avoid any confusion.
 
 
 ## QuickStart
@@ -125,7 +119,7 @@ Some of the key terms relevant for private preview are explained below.
 | Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topicspaces, permissionbindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
 | Client| Client can be a device or a service that will publish and/or subscribe MQTT messages |
 | Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be “self-signed”. Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
-| Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, Floor 3 is an attribute that provides the client's location. |
+| Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, client type is an attribute that provides the client's type. |
 | Client group| Client group is a collection of clients that are grouped by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific Topic Spaces |
 | Topic spaces | Topic spaces is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics. |
 | Topic filter| An MQTT topic filter is an MQTT topic that can include wildcards for one or more of its segments, allowing it to match multiple MQTT topics. It is used to simplify subscriptions declarations as one topic filter can match multiple topics. |
@@ -417,8 +411,7 @@ All the names are of String type
 	- Username and password based authentication is currently not supported.  It will be supported in future release.
 - What happens if I have more than 10 subscribers per topic for a low fanout topic space?
     - The 11th subscription request for the same topic will be rejected.
-- Is MQTT 3.1 supported?
-    - No
 
 
+Please share your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u) or email us at askmqtt@microsoft.com with any questions.  Thank you!!
 
