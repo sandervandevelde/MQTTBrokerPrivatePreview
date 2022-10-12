@@ -31,3 +31,23 @@
      alt="Deploy ARM template on portal 5"
      style="float: left; margin-right: 10px;" />
 
+
+
+
+
+
+
+**Instructions for the initial environment setup**
+
+1. Update profile.sh file to specify your subscription id and resource group name.
+
+2. Make the scripts executable:
+```bash
+chmod 700 profile.sh
+chmod 700 setupEnv.sh
+```
+3. Run the scripts:
+```bash
+source profile.sh
+./setupEnv.sh
+```
