@@ -61,8 +61,8 @@ az resource create --resource-type ${base_type}/clientGroups --id ${resource_pre
 az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/hello --api-version 2022-10-15-preview --properties @./resources/TS_hello.json
 ```
 - Create the following permission bindings:
-	- pub-hello: to grant access for the client group CG_all0 to publish to the topic space hello
-	- sub-hello: to grant access for the client group CG_all0 to subscribe to the topic space hello
+	- pub-hello: to grant access for the client group all0 to publish to the topic space hello
+	- sub-hello: to grant access for the client group all0 to subscribe to the topic space hello
 ```bash
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/sub-hello --api-version 2022-10-15-preview --properties @./resources/PB_sub-hello.json
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/pub-hello --api-version 2022-10-15-preview --properties @./resources/PB_pub-hello.json
