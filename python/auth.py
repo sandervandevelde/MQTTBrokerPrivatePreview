@@ -66,17 +66,6 @@ class X509Auth(BaseAuth):
         gateway_host_name: str = None,
     ) -> Any:
         """
-        create a new auth object from a connection string
-
-        :param hostname: Name of the IoTHub host
-        :param gateway_hostname: Name of the protocol gateway or IoTEdge instance
-        :param device_id: deviceId for the IoTHub device or module
-        :param module_id: moduleId for teh IoTHub module
-        :param cert_filename: The file path to contents of the certificate (or certificate chain)
-            used to authenticate the device.
-        :param key_filename: The file path to the key associated with the certificate.
-        :param pass_phrase: (optional) The pass_phrase used to encode the key file.
-
         :returns: X509Auth object created by this function.
         """
         obj = cls()
