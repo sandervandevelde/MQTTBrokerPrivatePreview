@@ -40,6 +40,7 @@ client.start_connect()
 if not client.connection_status.wait_for_connected(timeout=20):
     sys.exit(1)
 print("Connected")
+print()
 
 ##################################
 # SUBSCRIBE
@@ -62,12 +63,13 @@ elif ack_result[0] == -1:
     sys.exit(1)
 else:
     print("Subscription was granted with qos {}".format(ack_result[0]))
+print()
 
 ##################################
 # LISTEN
 ##################################
 
-time_to_listen_in_seconds = 600
+time_to_listen_in_seconds = 300
 end_time = time.time() + time_to_listen_in_seconds
 
 while time.time() <= end_time:
@@ -79,6 +81,7 @@ while time.time() <= end_time:
         print("Message received on topic {}".format(message.topic))
         payload_object = json.loads(message.payload)
         print("Payload: {}".format(payload_object))
+print()
 
 ##################################
 # DISCONNECT

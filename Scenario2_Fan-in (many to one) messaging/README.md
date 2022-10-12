@@ -5,66 +5,82 @@ This scenario simulates device to cloud communication and can be leveraged for u
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|Map_Client | Subscriber | vehicles/+/GPS |
-|Vehicle1 | Publisher | vehicles/vehicle1/GPS |
-|Vehicle2 | Publisher | vehicles/vehicle2/GPS |
+|s2-map-client | Subscriber | vehicles/+/GPS |
+|s2-vehicle1 | Publisher | vehicles/vehicle1/GPS |
+|s2-vehicle2 | Publisher | vehicles/vehicle2/GPS |
 
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|Map_Client (Attributes: “Type”:”Mapping”)| MapClients | MapClients-Sub |  LocationDataRecieved: -Topic Templates: vehicles/+/GPS -Subscription Support: LowFanout |
-|vehicle1 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-Pub |  LocationDataPublished: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
-|vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| Vehicles-Pub |  LocationDataPublished: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
+|s2-map-client (Attributes: “Type”:”Mapping”)| map | map-subscriber |  subscribe: -Topic Templates: vehicles/+/GPS -Subscription Support: LowFanout |
+|s2-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
+|s2-vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
 
-**Configure the resources:**
-- Create a namespace
+Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+
+**Configure the resources through the script:**
+- Run the following commands to run the script, creating the resources: 
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2 --is-full-object --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\NS_Scenario2.json
+chmod 700 create_resources.sh
+./create_resources.sh
+```
+
+**Configure the resources manually:**
+- Create a namespace:
+```bash
+az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario2.json
+```
+- Generate certificates using the cert-gen scripts. You can skip this step if you're using your own certificate.
+```bash
+pushd ../cert-gen
+./certGen.sh create_leaf_certificate_from_intermediate s2-vehicle1
+./certGen.sh create_leaf_certificate_from_intermediate s2-vehicle2
+./certGen.sh create_leaf_certificate_from_intermediate s2-map-client
+popd
+```
+- Create the CA Certificate:
+```bash
+az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
 ```
 - Register the following clients:
-	- Map_Client 
+	- s2-map-client
 		- Attribute: Type=mapping
-	- Vehicle1
+	- s2-vehicle1
 		- Attribute: Type=vehicle
-	- Vehicle2
+	- s2-vehicle2
 		- Attribute: Type=vehicle
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/clients/Map_Client --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\C_Map_Client.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/clients/Vehicle1 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\C_Vehicle1.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/clients/Vehicle2 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\C_Vehicle2.json
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s2-map-client --api-version 2022-10-15-preview --properties @./resources/C_map-client.json
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s2-vehicle1 --api-version 2022-10-15-preview --properties @./resources/C_vehicle1.json
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s2-vehicle2 --api-version 2022-10-15-preview --properties @./resources/C_vehicle2.json
 ```
 - Create the following client groups:
-	- MapClients to include the Map_Client
+	- map to include the s2-map-client
 		- Query: ${client.attribute.Type}= “mapping”
-	- Vehicles to include vehicle1 and vehicle2 clients
+	- vehicles to include s2-vehicle1 and s2-vehicle2 clients
 		- Query: ${client.attribute.Type}= “vehicle”
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/clientGroups/MapClients --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\CG_MapClients.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/clientGroups/Vehicles --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\CG_Vehicles.json
+az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/map --api-version 2022-10-15-preview --properties @./resources/CG_map.json
+az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/vehicles --api-version 2022-10-15-preview --properties @./resources/CG_vehicles.json
 ```
 - Create the following topic spaces:
-	- LocationDataRecieved:
+	- subscribe:
 		- Topic Templates: vehicles/+/GPS
 		- Subscription Support: LowFanout
-	- LocationDataPublished:
+	- publish:
 		- Topic Templates: vehicles/${client.name}/GPS
 		- Subscription Support: NotSupported
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/topicSpaces/LocationDataRecieved --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\TS_LocationDataRecieved.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/topicSpaces/LocationDataPublished --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\TS_LocationDataPublished.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/subscribe --api-version 2022-10-15-preview --properties @./resources/TS_subscribe.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/publish --api-version 2022-10-15-preview --properties @./resources/TS_publish.json
 ```
 
 - Create the following permission bindings:
-	- MapClients-Sub: to grant access for the client group MapClients to subscribe to the topic space LocationDataRecieved
-	- Vehicles-Pub: to grant access for the client group Vehicles to publish to the topic space LocationDataPublished
+	- map-subscriber: to grant access for the client group map to subscribe to the topic space subscribe
+	- vehicles-publisher: to grant access for the client group vehicles to publish to the topic space publish
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/permissionBindings/MapClients-Sub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\PB_MapClients-Sub.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario2/permissionBindings/Vehicles-Pub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario2\PB_Vehicles-Pub.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/map-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_map-subscriber.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicles-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicles-publisher.json
 ```
 
 **Test the scenario using the python scripts:**

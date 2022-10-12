@@ -21,8 +21,11 @@ The private preview is only for testing.  Please do NOT use it for your producti
 
 **Cost to use:**  For this release, MQTT broker functionality in Event Grid is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions.  Please check the Event Grid pricing [here](https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
+**Supported Region**
+This private preview is currently supported only in Central US EUAP region.
+
 **Post private preview program**
-When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Canary region.
+When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Central US EUAP region region.
 
 
 ## Capabilities available in this preview
@@ -54,27 +57,21 @@ The following features are not in scope for this release, but they will be suppo
 - Pay As You Go Billing
 
 
-
 ## Prerequisites
 
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
 
-- MQTT broker functionality in Event Grid is currently supported only in Central US EUAP region
+- You can use any ARM client to deploy the service's resources and any compliant MQTT client to test the service. However, this guide will only provide commands and scripts using [Azure CLI](/Azure%20CLI/README.md) for deploying resouces and Paho client in python for testing in Ubuntu. Follow these steps to take advantage of the provided instructions: 
+	1. Use any Linux environment for testing.
+		- To easily install and run Linux on Windows, run `wsl --install -d Ubuntu`. Afterwards, you can run `wsl` to start running commands on your Ubuntu subsystem. [Learn more](https://learn.microsoft.com/en-us/windows/wsl/)
+	2. Clone this repository to any directory in your Linux environment: `git clone https://github.com/Azure/MQTTBrokerPrivatePreview.git`
+	3. Follow the instructions in the [Environment_configuration README](/Environment_configuration/README.md) to register Azure CLI and set common variables for resources deployment.
+	4. Follow the instructions in the [Python README](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/python#azure-mqtt-broker-sample-python-instructions) to be able to test the scenarios.
+	5. Navigate to each of the scenario folders and follow its README.md instructions to run the scenario.
 
-- Resource Group:  
-    Use portal to create a resource group called "MQTT-Pri-Prev-rg1"
-	
-- To deploy the resources such as clients, topicspaces, etc. you can use Azure CLI, ARM client, etc. as per your preference.  We have proivded a set of Azure CLI commands for your reference [here](/Azure%20CLI/README.md).
+- To connect to the new MQTT broker functionality in Event Grid, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA-signed certificate or a self-signed certificate.  Please see the [client authentication section](#client-authentication). You can use your own certificates or the certificate generation script provided in this guide and referenced in the scenarios' instructions.
 
-- To connect to the new MQTT broker functionality in Event Grid, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate.  Please see the [client authentication section](#client-authentication).
-    - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
-
-- To test the message pub/sub, you can use any of your favorite tools.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
-    - Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.
-
-- To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
-	- Use the Namespace-Creation-with-Routing ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
-	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
+- To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. [Scenario4](/Scenario4_Route MQTT data through Event Grid subscription/) showcases an example of taking advantage of the routing functionality and the [Routing and Namespace sections of the generic Azure CLI instructions](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/Azure%20CLI#event-grid-topic) also provides instructions on the routing configuration.  
 
 
 ## QuickStart
@@ -85,10 +82,13 @@ Let us get started with a simple pub/sub scenario, with a publisher and subscrib
 |Pub_client | Publisher | sample/topic |
 |Sub_client | Subscriber | sample/topic |
 
-Navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./Scenario0_Hello_World/`
+After following the instructions in the [Prerequisites](#prerequisites), navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./Scenario0_Hello_World/`
 
-Run the following script to create the resources: `./create_resources.sh`
-
+Run the following commands to run the script, creating the resources: 
+```bash
+chmod 700 create_resources.sh
+./create_resources.sh
+```
 To test the scenario:
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
@@ -97,7 +97,7 @@ To test the scenario:
 
 
 ## Scenarios
-Here are a few scenarios you can try out.  Please refer the details below on the limitations.  Each scenario is segregated by it's own namespace to keep the testing clean and simple.  However, you can tweak the scenarios to configure all the resources under same namespace for testing further.
+Here are a couple of scenarios that showcase the functionality of the service. Follow the instructions in the [Prerequisites](#Prerequisites) to test these scenarios.
 
 | # | Scenario | Description |
 | ------------ | ------------ | ------------ |
@@ -231,7 +231,7 @@ For example, you can provide access to client group “machines” to the topic 
 - High fanout: will specify a subscription delivery mode optimized for having unlimited number of subscribers per topic, with higher latency.
 	- Example scenario: There is a large group of vehicles in a city subscribing to the same weather alerts that get broadcasted on the same topic.
 
-### Topic space considerations
+#### Topic space considerations
 - **Default Behavior:**
 To publish or subscribe to any topic, a matching topic space must be configured, and a permission binding needs to be set for the client group(s) that include the clients that need publish/subscribe access to this topic space. 
 - **Topic templates Overlap:**
@@ -247,7 +247,7 @@ If you set your topic space with a low fanout or high fanout subscription modes,
 	- Topic space updates may take up to 5 minutes to propagate.
 
 
-### Access Controls
+### Access Control
 
 Client Groups and Topic Spaces are designed to simplify access control. Consider the following as you design Client Groups and Topic Spaces: 
 - Group a set of clients into 'Client Groups' such that each Client Group represents the clients that need the same access to publish and/or subscribe to the same set of topics.
@@ -311,9 +311,6 @@ For example:
 	|Plant2_ MgmtClient1 | Plant2Mgmt | Plant2Mgmt-Pub | Plant2Commands -Topic Template: plants/plant2/MgmtClients/#|
 	| |  | Plant2Mgmt-Sub | Plant2Telemetry -Topic Template: plants/plant2/OpClients/#|
  
-
-
-
 ### Routing
 This functionality will enable you to route your messages from your clients to different Azure services like Event hubs, Service Bus, etc or your custom endpoint. This functionality is achieved through [Event Grid](https://docs.microsoft.com/en-us/azure/event-grid/), by sending all your messages from your clients to an [Event Grid topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-topics), and using [Event Grid subscriptions](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route the messages from that Event Grid topic to the [supported endpoints](https://docs.microsoft.com/en-us/azure/event-grid/event-handlers).
 
@@ -321,19 +318,9 @@ Event Grid is a highly scalable, serverless event broker that you can use to int
 
 **Note:**  To be able to take advantage of this feature, you have to either use the ARM template to create the Event Grid custom topic first and provide that topic’s ARM Id during the namespace creation.
 
-### High-Level Steps
-You can either use the X ARM template to create the Event Grid custom topic as well as the namespace or create your Event Grid custom topic as the first step to route your messages.
+[Scenario4](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/) showcases an example of taking advantage of the routing functionality and the [Routing and Namespace section of the generic Azure CLI instructions](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/Azure%20CLI#event-grid-topic) also provides instructions on the routing configuration.  
 
-**Using the ARM template:**
-1. Use the ARM template to create the [Event Grid topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-topics) as well as the namespace. The created custom topic is where all MQTT messages will be forwarded.
-2. Create an [Event Grid subscription](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route these messages to one of the supported Azure services or a custom endpoint.
-
-**Create your Event Grid custom topic:**
-1. [Create an Event Grid custom topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-event-quickstart-portal) where all MQTT messages will be forwarded. This topic needs to fulfill the requirements detailed below in the routing considerations.
-2. Create an [Event Grid subscription](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route these messages to one of the supported Azure services or a custom endpoint.
-3. Create the namespace with MQTT broker functionality in Event Grid enabled and pass on the ARM ID for the custom topic that you created in step 1.
-
-### Routing Considerations:
+#### Routing Considerations:
 - The Event grid topic that will be used for routing need to fulfil the following requirements:
 - It needs to be set to use the Cloud Event Schema v1.0
 - It needs to be in the same region as the namespace
@@ -345,15 +332,15 @@ You can either use the X ARM template to create the Event Grid custom topic as w
 
 #### The schema for the Cloud Event Schema:
 Each message being routed is enveloped in a Cloud Event according to the following schema sample: 
-```json
+```
 {
     "specversion": "1.0",
-    "id": "9aeb0fdf-c01e-0131-0922-9eb54906e20", // Unique id generated by the gateway upon receiving the message
-    "time" : "2019-11-18T15:13:39.4589254Z", // time of message arriving to Azure pub-sub assigned by gateway
+    "id": "9aeb0fdf-c01e-0131-0922-9eb54906e20", //Unique id generated by the gateway upon receiving the message
+    "time" : "2019-11-18T15:13:39.4589254Z", //Time of message arriving to Azure pub-sub assigned by gateway
     "type" : "MQTT.EventPublished",
-    "source"  : "namespace1", // name of your namespace that received the MQTT message.
-    "subject" : "vehicles/ floor1/ vehicleId1/temp" , //MQTT topic that accompanied the MQTT publish message.   
-  "data" : “<Published MQTT message>”
+    "source"  : "namespace1", //Name of your namespace that received the MQTT message.
+    "subject" : "vehicles/ floor1/ vehicleId1/temp" , //MQTT topic that accompanied the MQTT publish message.
+    "data_64" : “<Published MQTT message>”
 }
 ```
 
@@ -367,8 +354,8 @@ For this release, the following limits are supported.  Please do not stress test
 |New Connect requests | 500/second per namespace |
 |Subscribe requests | 5000 messages/second |
 |Total number of subscriptions per connection | 50 |
-|Total inbound publish requests | 5000 messages/second per namespace |
-|Total outbound publish requests | 5000 messages/second per namespace |
+|Total inbound publish requests | 5000 messages/second |
+|Total outbound publish requests | 5000 messages/second |
 |Total inbound Publish requests per connection | 100/second |
 |Total outbound Publish requests per connection | 100/second |
 
@@ -378,7 +365,7 @@ For this release, the following limits are supported.  Please do not stress test
 | Name spaces | Maximum number of name spaces per subscription | 10 |
 | Clients | Maximum number of clients | 10K |
 | CA Certificates | Maximum number of registered CA root certificates | 2 |
-| Client Groups | Number of client groups per namespace | 10 |
+| Client Groups | Maximum number of client groups| 10 |
 | Topic spaces | Maximum number of topic spaces | 10 |
 | Topic templates | Maximum number of topic templates within a topic space | 10 |
 | Permission bindings | Maximum number of permission bindings | 100 |

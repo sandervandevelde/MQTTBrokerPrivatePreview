@@ -39,6 +39,7 @@ if not client.connection_status.wait_for_connected(timeout=20):
     print("failed to connect.  exiting")
     sys.exit(1)
 print("Connected")
+print()
 
 ##################################
 # PUBLISH
@@ -53,6 +54,7 @@ if client.incoming_pubacks.wait_for_ack(mid, timeout=20):
     print("PUBACK received")
 else:
     print("PUBACK not received within 20 seconds")
+print()
 
 ##################################
 # DISCONNECT

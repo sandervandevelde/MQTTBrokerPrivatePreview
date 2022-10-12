@@ -23,22 +23,13 @@ function update_ca_certificate_resources()
     done
 }
 
-# WARNING: do this only once
-az cloud register --name Dogfood --endpoint-active-directory-resource-id  https://management.core.windows.net/ --endpoint-resource-manager https://api-dogfood.resources.windows-int.net/ --endpoint-active-directory  https://login.windows-ppe.net/ --endpoint-active-directory-graph-resource-id https://graph.ppe.windows.net/
-
-az cloud set --name Dogfood
+az cloud set --name AzureCloud
 az login
 
 az account set -s ${sub_id}
 
 pushd ../cert-gen
 ./certGen.sh create_root_and_intermediate
-
-# get cert info
-#openssl x509 -noout -text -in "certs/pub-client.cert.pem"
-
-# get cert thumbprint
-#openssl x509 -in certs/pub-client.cert.pem -fingerprint -sha256 -nocert  | sed 's/://g'
 popd
 
 update_ca_certificate_resources "../cert-gen/certs/azure-mqtt-test-only.intermediate.cert.pem" ".."

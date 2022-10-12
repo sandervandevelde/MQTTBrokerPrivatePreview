@@ -2,13 +2,15 @@
 
 ## Make sure you have python 3.6+ installed
 
-Make sure you have python 3.6, 3.7, 3.8, or 3.9 installed.   Run `python3 --version` to verify:
+Make sure you have python 3.6, or higher installed.   Run `python3 --version` to verify:
 ```
 (Python-3.6.10) bertk@bertk-hp:~/temp/broker$ python3 --version
 Python 3.6.10
 ```
 
 On Linux, you can install python3 with `sudo apt install python3 python3-pip`
+
+On Windows, run `python` to install python through the Microsoft Store.
 
 ## Update PIP
 
@@ -20,6 +22,7 @@ python3 -m pip install virtualenv
 
 * In case of `/usr/bin/python3: No module named pip` error, install as follows
   ```
+  sudo apt-get update
   sudo apt install python3-pip
   ```
   
@@ -39,13 +42,13 @@ Next, we set up a virtual environment.  This gives us a safe space to install Py
   python3 -m pip install virtualenv
   ```
 
-2. Create your virtual environment in some directory.  This can go anywhere. The last directory segment defines the name of the environment. Let's use `env/mqtt-broker`:
+2. Create your virtual environment in any directory. The last directory segment defines the name of the environment. Let's use `env/mqtt-broker`:
 
   ```
   python3 -m venv env/mqtt-broker
   ```
 
-  In case of `The virtual environment was not created successfully because ensurepip is not available. On Debian/Ubuntu systems, you need to install the python3-venv package using the following command.` error, install virtual environment as follows.
+  If you encountered the following error: `The virtual environment was not created successfully because ensurepip is not available. On Debian/Ubuntu systems, you need to install the python3-venv package using the following command.`, install virtual environment as follows.
 
   ```
   sudo apt install python3.8-venv
@@ -81,6 +84,14 @@ Next, we set up a virtual environment.  This gives us a safe space to install Py
 
 ## Install helper modules
 
+The following instructions will help you install the modules that you will need to run tests.
+
+You need to change the directory to run the following commands from this python folder of your cloned repo. Change the following command to point to the correct path.
+
+```
+cd ./MQTTBrokerPrivatePreview/python
+
+```
 To install the modules that you will need to run these tests, run pip to install the code in this directory in 'editable' mode.
 
 ```
@@ -94,7 +105,7 @@ This should install Paho as well as a few other libraries that we need.  You can
 (iothub-broker) bertk@bertk-hp:~/projects/broker/IoTHubMQTTBrokerPreviewSamples/python$ pip list
 Package                        Version Location
 ------------------------------ ------- -----------------------------------------------------------------
-IoTHubMQTTBrokerPreviewSamples 0.0.0   /home/bertk/projects/broker/IoTHubMQTTBrokerPreviewSamples/python
+MQTTBrokerPreviewSamples 0.0.0   /home/bertk/projects/broker/IoTHubMQTTBrokerPreviewSamples/python
 paho-mqtt                      1.5.1
 pip                            21.2.4
 setuptools                     56.1.0
@@ -115,9 +126,9 @@ To verify that you have the libraries successfully installed, you can:
 
 For example:
 ```
-(iothub-broker) bertk@bertk-hp:~/projects/broker/IoTHubMQTTBrokerPreviewSamples/python$ cd ..
-(iothub-broker) bertk@bertk-hp:~/projects/broker/IoTHubMQTTBrokerPreviewSamples$ python
-Python 3.6.10 (default, Jul  7 2020, 14:58:11)
+(mqtt-broker) bertk@bertk-hp:~/projects/broker/MQTTBrokerPrivatePreview/python$ cd ..
+(mqtt-broker) bertk@bertk-hp:~/projects/broker/MQTTBrokerPrivatePreview$ python
+Python 3.10.7 (default, Jul  7 2020, 14:58:11)
 [GCC 7.4.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import paho_client
