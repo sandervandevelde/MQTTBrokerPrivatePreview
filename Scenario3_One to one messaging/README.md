@@ -15,35 +15,24 @@ Consider a use case where a user can unlock their car from a mobile app. The req
 **Resource Configuration:**
 | Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|s3-mobile1 (Attributes: "Type"="mobile")| Mobiles| MobileClients-Pub|  UnlockPublish -Topic Template: -vehicles/unlock/req/+/${client.name} -vehicles/unlock/res/+/${client.name} -Subscription Support: Not supported |
-|s3-mobile1 (Attributes: "Type"="mobile")| Mobiles| MobileClients-Sub|  UnlockSubscribe -Topic Template: -vehicles/unlock/req/\${client.name}/# -vehicles/unlock/res/\${client.name}/# -Subscription Support: LowFanout|
-|s3-vehicle1 (Attributes: “Type”:”vehicle”)| Vehicles| Vehicles-Pub |  UnlockPublish -Topic Template: -vehicles/unlock/req/+/\${client.name} -vehicles/unlock/res/+/${client.name} -Subscription Support: Not supported |
-|s3-vehicle1 (Attributes: “Type”:”vehicle”)| Vehicles| Vehicles-Sub |  UnlockSubscribe -Topic Template: -vehicles/unlock/req/\${client.name}/# -vehicles/unlock/res/${client.name}/# -Subscription Support: LowFanout |
+|s3-mobile1 (Attributes: "Type"="mobile")| mobile| mobile-publisher|  mobile-publish (Topic Template: vehicles/unlock/req/+/${client.name} -Subscription Support: Not supported) |
+|s3-mobile1 (Attributes: "Type"="mobile")| mobile| mobile-subscriber|  mobile-subscribe (Topic Template: vehicles/unlock/res/${client.name}/# -Subscription Support: LowFanout)|
+|s3-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle| vehicle-publisher |  vehicle-publish (Topic Template: vehicles/unlock/res/+/${client.name} -Subscription Support: Not supported) |
+|s3-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle| vehicle-subscriber |  vehicle-subscribe (Topic Template: vehicles/unlock/req/${client.name}/# -Subscription Support: LowFanout) |
 
-You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
-- Run this command to configure the script `chmod 700 create_resources.sh`
-
-- Edit the script "create_resources.sh" to change the subscription id and resource group variables to include the values of your own Subscription ID and Resource Group name:
+- Run the following commands to run the script, creating the resources: 
 ```bash
-sub_id="<your Subscription ID>"
-rg_name="<your Resource Group name>"
+chmod 700 create_resources.sh
+./create_resources.sh
 ```
-- Run the script to configure all the resources: `./create_resources.sh`
 
 **Configure the resources manually:**
-- Set the following variables to use in the following commands:
-```bash
-ns_name="mqtt-sample-Scenario2"
-sub_id="<your Subscription ID>"
-rg_name="<your Resource Group name>"
-base_type="Microsoft.EventGrid/namespaces"
-resource_prefix="/subscriptions/${sub_id}/resourceGroups/${rg_name}/providers/Microsoft.EventGrid/namespaces/${ns_name}"
-```
 - Create a namespace:
 ```bash
-az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario2.json
+az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario3.json
 ```
 - Generate certificates using the cert-gen scripts. You can skip this step if you're using your own certificate.
 ```bash
@@ -52,11 +41,6 @@ pushd ../cert-gen
 ./certGen.sh create_leaf_certificate_from_intermediate s3-mobile1
 popd
 ```
-- Edit the CAC_test-ca-cert.json to input the certificate string:
-	- Go to ./MQTTBrokerPrivatePreview/cert-gen/certs/azure-mqtt-test-only.intermediate.cert.pem 
-	- Copy string between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----
-	- Paste the string in ./MQTTBrokerPrivatePreview/Scenario0_Hello_World/resources/CAC_test-ca-cert.json. 
-		- To put the cert string as a one line in the json, use ("End" button>"Delete" button) until all the string is in one line in the json
 - Create the CA Certificate:
 ```bash
 az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
@@ -67,51 +51,51 @@ az resource create --resource-type ${base_type}/caCertificates --id ${resource_p
 	- s3-vehicle1
 		- Attribute: Type=vehicle
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clients/Mobile1 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\C_Mobile1.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clients/Vehicle1 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\C_Vehicle1.json
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s3-mobile1 --api-version 2022-10-15-preview --properties @./resources/C_mobile1.json
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s3-vehicle1 --api-version 2022-10-15-preview --properties @./resources/C_vehicle1.json
 ```
 - Create the following client groups:
-	- MobileClients to include the s3-mobile1 client
+	- mobile to include the s3-mobile1 client
 		- Query: ${client.attribute.Type}= “mobile”
-	- Vehicles to include s3-vehicle1 client
+	- vehicle to include s3-vehicle1 client
 		- Query: ${client.attribute.Type}= “vehicle”
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clientGroups/Mobiles --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\CG_Mobiles.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/clientGroups/Vehicles --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\CG_Vehicles.json
+az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/mobile --api-version 2022-10-15-preview --properties @./resources/CG_mobile.json
+az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/vehicle --api-version 2022-10-15-preview --properties @./resources/CG_vehicle.json
 ```		
 - Create the following topic spaces:
-	- UnlockPublish:
+	- mobile-publish:
 		- Topic Templates:
-			- vehicles/unlock/req/+/${principal.deviceid}
-			- vehicles/unlock/res/+/${principal.deviceid}
+			- vehicles/unlock/req/+/${client.name}
 		- Subscription Support: NotSupported
-	- UnlockSubscribe:
+	- mobile-subscribe:
 		- Topic Templates:
-			- vehicles/unlock/req/${principal.deviceid}/#
-			- vehicles/unlock/res/${principal.deviceid}/#
+			- vehicles/unlock/res/${client.name}/#
+		- Subscription Support: LowFanout
+	- vehicle-publish:
+		- Topic Templates:
+			- vehicles/unlock/res/+/${client.name}
+		- Subscription Support: NotSupported
+	- vehicle-subscribe:
+		- Topic Templates:
+			- vehicles/unlock/req/${client.name}/#
 		- Subscription Support: LowFanout
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/topicSpaces/UnlockPublish --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\TS_UnlockPublish.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/topicSpaces/UnlockSubscribe --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\TS_UnlockSubscribe.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-publisher.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-subscriber.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/mobile-publisher --api-version 2022-10-15-preview --properties @./resources/PB_mobile-publisher.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/mobile-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_mobile-subscriber.json
 ```
 - Create the following permission bindings:
-	- MobileClients-Pub: to grant access for the client group MobileClients to publish to the topic space UnlockPublish
-	- MobileClients-Pub: to grant access for the client group MobileClients to subscribe to the topic space UnlockSubscribe
-	- Vehicles-Pub: to grant access for the client group Vehicles to publish to the topic space UnlockPublish
-	- Vehicles-Pub: to grant access for the client group Vehicles to subscribe to the topic space UnlockSubscribe
-
-
+	- mobile-publisher: to grant access for the client group mobile to publish to the topic space mobile-publish
+	- mobile-subscriber: to grant access for the client group mobile to subscribe to the topic space mobile-subscribe
+	- vehicle-publisher: to grant access for the client group vehicle to publish to the topic space vehicle-publish
+	- vehicle-subscriber: to grant access for the client group vehicle to subscribe to the topic space vehicle-subscribe
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/MobileClients-Pub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\PB_MobileClients-Pub.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/MobileClients-Sub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\PB_MobileClients-Sub.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/Vehicles-Pub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\PB_Vehicles-Pub.json
-
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario3/permissionBindings/Vehicles-Sub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario3\PB_Vehicles-Sub.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/mobile-publisher --api-version 2022-10-15-preview --properties @./resources/PB_mobile-publisher.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/mobile-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_mobile-subscriber.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-publisher.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-subscriber.json
 ```
 
 **Test the scenario using the python scripts:**

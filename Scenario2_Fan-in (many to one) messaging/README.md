@@ -16,27 +16,16 @@ This scenario simulates device to cloud communication and can be leveraged for u
 |s2-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
 |s2-vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
 
-You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
-- Run this command to configure the script `chmod 700 create_resources.sh`
-
-- Edit the script "create_resources.sh" to change the subscription id and resource group variables to include the values of your own Subscription ID and Resource Group name:
+- Run the following commands to run the script, creating the resources: 
 ```bash
-sub_id="<your Subscription ID>"
-rg_name="<your Resource Group name>"
+chmod 700 create_resources.sh
+./create_resources.sh
 ```
-- Run the script to configure all the resources: `./create_resources.sh`
 
 **Configure the resources manually:**
-- Set the following variables to use in the following commands:
-```bash
-ns_name="mqtt-sample-Scenario2"
-sub_id="<your Subscription ID>"
-rg_name="<your Resource Group name>"
-base_type="Microsoft.EventGrid/namespaces"
-resource_prefix="/subscriptions/${sub_id}/resourceGroups/${rg_name}/providers/Microsoft.EventGrid/namespaces/${ns_name}"
-```
 - Create a namespace:
 ```bash
 az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario2.json
@@ -49,11 +38,6 @@ pushd ../cert-gen
 ./certGen.sh create_leaf_certificate_from_intermediate s2-map-client
 popd
 ```
-- Edit the CAC_test-ca-cert.json to input the certificate string:
-	- Go to ./MQTTBrokerPrivatePreview/cert-gen/certs/azure-mqtt-test-only.intermediate.cert.pem 
-	- Copy string between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----
-	- Paste the string in ./MQTTBrokerPrivatePreview/Scenario0_Hello_World/resources/CAC_test-ca-cert.json. 
-		- To put the cert string as a one line in the json, use ("End" button>"Delete" button) until all the string is in one line in the json
 - Create the CA Certificate:
 ```bash
 az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
@@ -71,9 +55,9 @@ az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/
 az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s2-vehicle2 --api-version 2022-10-15-preview --properties @./resources/C_vehicle2.json
 ```
 - Create the following client groups:
-	- map to include the Map_Client
+	- map to include the s2-map-client
 		- Query: ${client.attribute.Type}= “mapping”
-	- vehicles to include vehicle1 and vehicle2 clients
+	- vehicles to include s2-vehicle1 and s2-vehicle2 clients
 		- Query: ${client.attribute.Type}= “vehicle”
 ```bash
 az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/map --api-version 2022-10-15-preview --properties @./resources/CG_map.json
@@ -87,16 +71,16 @@ az resource create --resource-type ${base_type}/clientGroups --id ${resource_pre
 		- Topic Templates: vehicles/${client.name}/GPS
 		- Subscription Support: NotSupported
 ```bash
-az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/publish --api-version 2022-10-15-preview --properties @./resources/TS_publish.json
 az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/subscribe --api-version 2022-10-15-preview --properties @./resources/TS_subscribe.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/publish --api-version 2022-10-15-preview --properties @./resources/TS_publish.json
 ```
 
 - Create the following permission bindings:
-	- map-subscriber: to grant access for the client group MapClients to subscribe to the topic space LocationDataRecieved
-	- vehicles-publisher: to grant access for the client group Vehicles to publish to the topic space LocationDataPublished
+	- map-subscriber: to grant access for the client group map to subscribe to the topic space subscribe
+	- vehicles-publisher: to grant access for the client group vehicles to publish to the topic space publish
 ```bash
-az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicles-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicles-publisher.json
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/map-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_map-subscriber.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicles-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicles-publisher.json
 ```
 
 **Test the scenario using the python scripts:**

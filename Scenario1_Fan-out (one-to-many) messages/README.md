@@ -12,34 +12,20 @@ This scenario simulates cloud-to-device commands to several devices and can be l
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|fleet-mgt-client (Attributes: “Type”:”Fleet-Mgmt”)| fleet-mgr| PB_fleet-mgr-publisher|  weather-alerts (Topic template: fleet/alerts/weather/alert1) -Subscription Support: HighFanout|
-|s1-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-subscriber|  weather-alerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
-|vehicle2 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-subscriber|  weather-alerts (Topic template: fleet/alerts/#) -Subscription Support: NotSupported|
+|fleet-mgt-client (Attributes: “Type”:”Fleet-Mgmt”)| fleet-mgr| fleet-mgr-publisher|  weather-alerts (Topic template: fleet/alerts/weather/alert1 -Subscription Support: HighFanout)|
+|s1-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-subscriber|  weather-alerts (Topic template: fleet/alerts/# -Subscription Support: NotSupported)|
+|s1-vehicle2 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-subscriber|  weather-alerts (Topic template: fleet/alerts/# -Subscription Support: NotSupported)|
 
-
-![Deploy to Azure](https://aka.ms/deploytoazurebutton)
-
-You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
-- Run this command to configure the script `chmod 700 create_resources.sh`
-
-- Edit the script "create_resources.sh" to change the subscription id and resource group variables to include the values of your own Subscription ID and Resource Group name:
+- Run the following commands to run the script, creating the resources: 
 ```bash
-sub_id="<your Subscription ID>"
-rg_name="<your Resource Group name>"
+chmod 700 create_resources.sh
+./create_resources.sh
 ```
-- Run the script to configure all the resources: `./create_resources.sh`
 
 **Configure the resources manually:**
-- Set the following variables to use in the following commands:
-```bash
-ns_name="mqtt-sample-Scenario1"
-sub_id="<your Subscription ID>"
-rg_name="<your Resource Group name>"
-base_type="Microsoft.EventGrid/namespaces"
-resource_prefix="/subscriptions/${sub_id}/resourceGroups/${rg_name}/providers/Microsoft.EventGrid/namespaces/${ns_name}"
-```
 - Create a namespace:
 ```bash
 az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario1.json
@@ -52,11 +38,6 @@ pushd ../cert-gen
 ./certGen.sh create_leaf_certificate_from_intermediate s1-fleet-mgr
 popd
 ```
-- Edit the CAC_test-ca-cert.json to input the certificate string:
-	- Go to ./MQTTBrokerPrivatePreview/cert-gen/certs/azure-mqtt-test-only.intermediate.cert.pem 
-	- Copy string between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----
-	- Paste the string in ./MQTTBrokerPrivatePreview/Scenario0_Hello_World/resources/CAC_test-ca-cert.json. 
-		- To put the cert string as a one line in the json, use ("End" button>"Delete" button) until all the string is in one line in the json
 - Create the CA Certificate:
 ```bash
 az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json

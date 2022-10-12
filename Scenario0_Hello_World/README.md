@@ -5,14 +5,14 @@ This is a hello world scenario, with a publisher and subscriber communicating on
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|Pub_client | Publisher | sample/topic |
-|Sub_client	 | Subscriber | sample/topic |
+|pub_client | Publisher | sample/topic |
+|sub_client	 | Subscriber | sample/topic |
 
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|pub-client | all0 | pub-hello| hello  -Topic Templates: sample/#  -Subscription Support: LowFanout|
-|sub-client| all0 | sub-hello|  hello  -Topic Templates: sample/#  -Subscription Support: LowFanout|
+|pub-client | all0 | pub-hello| hello  (Topic Templates: sample/#  -Subscription Support: LowFanout)|
+|sub-client| all0 | sub-hello|  hello  (Topic Templates: sample/#  -Subscription Support: LowFanout)|
 
 Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
@@ -48,7 +48,7 @@ az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/
 az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/sub-client --api-version 2022-10-15-preview --properties @./resources/C_sub-client.json
 ```
 - Create the following client group:
-	- all0
+	- all0 to include pub-client and sub-client clients
 		- Query: name IN ['pub-client', 'sub-client']
 ```bash
 az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/all0 --api-version 2022-10-15-preview --properties @./resources/CG_all0.json
@@ -61,8 +61,8 @@ az resource create --resource-type ${base_type}/clientGroups --id ${resource_pre
 az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/hello --api-version 2022-10-15-preview --properties @./resources/TS_hello.json
 ```
 - Create the following permission bindings:
-	- pub-hello: to grant access for the client group CG_all0 to publish to the topic space TS_hello
-	- sub-hello: to grant access for the client group CG_all0 to subscribe to the topic space TS_hello
+	- pub-hello: to grant access for the client group CG_all0 to publish to the topic space hello
+	- sub-hello: to grant access for the client group CG_all0 to subscribe to the topic space hello
 ```bash
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/sub-hello --api-version 2022-10-15-preview --properties @./resources/PB_sub-hello.json
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/pub-hello --api-version 2022-10-15-preview --properties @./resources/PB_pub-hello.json

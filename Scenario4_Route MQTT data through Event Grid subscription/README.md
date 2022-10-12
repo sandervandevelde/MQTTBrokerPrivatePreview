@@ -5,15 +5,23 @@ This scenario showcases how to configure routing to send filtered messages from 
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|Vehicle1 | Publisher | areas/area1/vehicles/vehicle1/GPS|
+|s4-vehicle1 | Publisher | areas/area1/vehicles/vehicle1/GPS|
 
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|Vehicle1 (Attributes: “Type”:”vehicle”)| Vehicles | Vehicles-Pub|  VehiclesLocation: -Topic Templates: areas/+/vehicles/${principal.deviceid}/GPS/#  -Subscription Support: Not supported|
+|s4-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle | vehicle-publisher|  VehiclesLocation: (Topic Templates: areas/+/vehicles/${principal.deviceid}/GPS/#  -Subscription Support: Not supported)|'
 
+Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
-**Configure the resources:**
+**Configure the resources through the script:**
+- Run the following commands to run the script, creating the resources: 
+```bash
+chmod 700 create_resources.sh
+./create_resources.sh
+```
+
+**Configure the resources manually:**
 
 - Configure your Event Grid Topic where your messages will be routed.
 ```bash
@@ -26,34 +34,41 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
 ```
 - Create a namespace with a reference to the Event Grid Topic that you just created
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4 --is-full-object --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\NS_Scenario4.json
+az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario4.json
 ```
-
-- Register the following clients:
-	- Vehicle1
-		- Attribute: Type=vehicle
-		- Authentication: self-signed certificate
+- Generate certificates using the cert-gen scripts. You can skip this step if you're using your own certificate.
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/clients/Vehicle1 --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\C_Vehicle1.json
+pushd ../cert-gen
+./certGen.sh create_leaf_certificate_from_intermediate s4-vehicle1
+popd
 ```
-
+- Create the CA Certificate:
+```bash
+az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
+```
+- Register the following clients:
+	- s4-vehicle1
+		- Attribute: Type=vehicle
+```bash
+az resource create --resource-type ${base_type}/clients --id ${resource_prefix}/clients/s4-vehicle1 --api-version 2022-10-15-preview --properties @./resources/C_vehicle1.json
+```
 - Create the following client groups:
-	- Vehicles to include vehicle1 client
+	- vehicle to include s4-vehicle1 client
 		- Query: ${client.attribute.Type}= “vehicle”
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/clientGroups/Vehicles --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\CG_Vehicles.json
+az resource create --resource-type ${base_type}/clientGroups --id ${resource_prefix}/clientGroups/vehicle --api-version 2022-10-15-preview --properties @./resources/CG_vehicle.json
 ```
 - Create the following topic space:
-	- VehiclesLocation 
+	- vehicle-publish 
 		- Topic Template: vehicles/${principal.deviceid}/GPS/#
 		- Subscription Support: Not supported
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/topicSpaces/VehiclesLocation --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\TS_VehiclesLocation.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/vehicle-publish --api-version 2022-10-15-preview --properties @./resources/TS_vehicle-publish.json
 ```
 - Create the following permission bindings:
-	- Vehicles-Pub: to grant access for the client group Vehicles to publish to the topic space VehiclesLocation
+	- vehicle-publisher: to grant access for the client group vehicle to publish to the topic space vehicle-publish
 ```bash
-az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/<Subscription ID>/resourceGroups/MQTT-Pri-Prev-rg1/providers/Microsoft.EventGrid/namespaces/Scenario4/permissionBindings/Vehicles-Pub --api-version 2022-10-15-preview --properties @C:\jsons\Scenario4\PB_Vehicles-Pub.json
+az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-publisher.json
 ```
 - In the portal, go to the created Event Grid topic > Event subscription menu item, and select Event subscription.
 - Provide the following fields:
