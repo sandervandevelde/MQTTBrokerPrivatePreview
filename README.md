@@ -21,8 +21,11 @@ The private preview is only for testing.  Please do NOT use it for your producti
 
 **Cost to use:**  For this release, MQTT broker functionality in Event Grid is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions.  Please check the Event Grid pricing [here](https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
+**Supported Region**
+This private preview is currently supported only in Central US EUAP region.
+
 **Post private preview program**
-When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Canary region.
+When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Central US EUAP region region.
 
 
 ## Capabilities available in this preview
@@ -54,29 +57,21 @@ The following features are not in scope for this release, but they will be suppo
 - Pay As You Go Billing
 
 
-
-
 ## Prerequisites
 
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
 
-- MQTT broker functionality in Event Grid is currently supported only in Central US EUAP region
+- You can use any ARM client to deploy the service's resources and any compliant MQTT client to test the service. However, this guide will only provide commands and scripts using [Azure CLI](/Azure%20CLI/README.md) for deploying resouces and Paho client in python for testing in Ubuntu. Follow these steps to take advantage of the provided instructions: 
+	1. Use any Linux environment for testing.
+		- To easily install and run Linux on Windows, run `wsl --install -d Ubuntu`. Afterwards, you can run `wsl` to start running commands on your Ubuntu subsystem. [Learn more](https://learn.microsoft.com/en-us/windows/wsl/)
+	2. Clone this repository to any directory in your Linux environment: `git clone https://github.com/Azure/MQTTBrokerPrivatePreview.git`
+	3. Follow the instructions in the [Environment_configuration README](/Environment_configuration/README.md) to register Azure CLI and set common variables for resources deployment.
+	4. Follow the instructions in the[Python README](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/python#azure-mqtt-broker-sample-python-instructions) to be able to test the scenarios.
+	5. Navigate to each of the scenario folders and follow its README.md instructions to run the scenario.
 
-- Resource Group:  
-    Use portal to create a resource group called "MQTT-Pri-Prev-rg1"
-	
-- To deploy the resources such as clients, topicspaces, etc. you can use Azure CLI, ARM client, etc. as per your preference.  We have proivded a set of Azure CLI commands for your reference [here](/Azure%20CLI/README.md).
+- To connect to the new MQTT broker functionality in Event Grid, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA-signed certificate or a self-signed certificate.  Please see the [client authentication section](#client-authentication). You can use your own certificates or the certificate generation script provided in this guide and referenced in the scenarios' instructions.
 
-- To connect to the new MQTT broker functionality in Event Grid, the clients must be authenticated using X.509 certificates. Clients can be authenticated using a CA signed certificate or a thumbprint of a self-signed certificate.  Please see the [client authentication section](#client-authentication).
-    - CA certificate is also a nested resource under the namespace, so each scenario will provide instructions on how to load a CA certificate vs. how to use self-signed certificate.  Once the client is connected regular pub/sub operations will work. 
-
-- To test the message pub/sub, you can use any of your favorite tools.  However, we provided sample code in Python using the Paho MQTT client. You can clone the repo and use it for testing.
-    - Current samples for private preview will use existing MQTT libraries and include helper functions that can be used in your own applications.
-
-- To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. That can be achieved by one of two ways:
-	- Use the Namespace-Creation-with-Routing ARM template to create the namespace and the Event Grid topic where the messages will be forwarded.
-	- Create an Event Grid topic in the same region as the same namespace and configured to use “Cloud Event Schema v1.0”, then input the topic’s ARM ID as the “routeTopic” during namespace creation.
-
+- To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. [Scenario4](/Scenario4_Route MQTT data through Event Grid subscription/) showcases an example of taking advantage of the routing functionality and the [Routing and Namespace section of the generic Azure CLI instructions](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/Azure%20CLI#event-grid-topic) also provides instructions on the routing configuration.  
 
 ### Warning
 - MQTT broker functionality in Event Grid is in early development and this tech preview is available under NDA. Bugs are expected, and we look forward to feedback via email to askmqtt@microsoft.com.
@@ -91,10 +86,13 @@ Let us get started with a simple pub/sub scenario, with a publisher and subscrib
 |Pub_client | Publisher | sample/topic |
 |Sub_client | Subscriber | sample/topic |
 
-Navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./Scenario0_Hello_World/`
+After following the instructions in the [Prerequisites](#prerequisites), navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./Scenario0_Hello_World/`
 
-Run the following script to create the resources: `./create_resources.sh`
-
+Run the following commands to run the script, creating the resources: 
+```bash
+chmod 700 create_resources.sh
+./create_resources.sh
+```
 To test the scenario:
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
@@ -103,7 +101,7 @@ To test the scenario:
 
 
 ## Scenarios
-Here are a few scenarios you can try out.  Please refer the details below on the limitations.  Each scenario is segregated by it's own namespace to keep the testing clean and simple.  However, you can tweak the scenarios to configure all the resources under same namespace for testing further.
+Here are a couple of scenarios that showcase the functionality of the service. Follow the instructions in the [Prerequisites](#Prerequisites) to test these scenarios.
 
 | # | Scenario | Description |
 | ------------ | ------------ | ------------ |
