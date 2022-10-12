@@ -3,7 +3,7 @@
 ## Copyright (c) Microsoft. All rights reserved.
 ## Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-ns_name="mqtt-sample-scenario0-1"
+ns_name="mqtt-sample-scenario0"
 resource_prefix="${ns_id_prefix}/${ns_name}"
 
 pushd ../cert-gen
