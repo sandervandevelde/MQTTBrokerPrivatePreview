@@ -82,7 +82,7 @@ Let us get started with a simple pub/sub scenario, with a publisher and subscrib
 |Pub_client | Publisher | sample/topic |
 |Sub_client | Subscriber | sample/topic |
 
-After following the instructions in the [Prerequisites](#prerequisites), navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./Scenario0_Hello_World/`
+After following the instructions in the [Prerequisites](#prerequisites), navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./MQTTBrokerPrivatePreview/Scenario0_Hello_World/`
 
 Run the following commands to run the script, creating the resources: 
 ```bash
@@ -92,8 +92,8 @@ chmod 700 create_resources.sh
 To test the scenario:
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
-3. In a terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/publish.py`
-4. In a different terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/subscribe.py`
+3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./subscribe.py`
+4. In a different terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./publish.py`
 
 
 ## Scenarios
