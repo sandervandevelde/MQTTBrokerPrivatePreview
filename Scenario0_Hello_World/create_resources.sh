@@ -5,6 +5,7 @@
 
 ns_name="mqtt-sample0-${ns_name_suffix}"
 resource_prefix="${ns_id_prefix}/${ns_name}"
+gw_url="${ns_name}.centraluseuap-1.ts.eventgrid.azure.net"
 
 pushd ../cert-gen
 ./certGen.sh create_leaf_certificate_from_intermediate pub-client
@@ -36,5 +37,5 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 
 echo "Resources uploaded."
 
-export gw_url="${ns_name}.centraluseuap-1.ts.eventgrid.azure.net"
-echo "gw_url set to ${gw_url}"
+echo "Run the following in all shell windows before running python scripts:"
+echo "export gw_url=${gw_url}"

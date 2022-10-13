@@ -35,6 +35,7 @@ if not client.connection_status.wait_for_connected(timeout=20):
     print("{}: failed to connect.  exiting".format(client.auth.device_id))
     sys.exit(1)
 print("{}: Connected".format(client.auth.device_id))
+print()
 
 ##################################
 # PUBLISH
@@ -53,12 +54,13 @@ print(
     )
 )
 
+timeout_sec = 60
 print("{}: Waiting for PUBACK for mid={}".format(client.auth.device_id, mid))
-if client.incoming_pubacks.wait_for_ack(mid, timeout=20):
+if client.incoming_pubacks.wait_for_ack(mid, timeout=timeout_sec):
     print("{}: PUBACK received".format(client.auth.device_id))
 else:
-    print("{}: PUBACK not received within 20 seconds".format(client.auth.device_id))
-
+    print("{}: PUBACK not received within {} seconds".format(client.auth.device_id, timeout_sec))
+print()
 
 ##################################
 # DISCONNECT

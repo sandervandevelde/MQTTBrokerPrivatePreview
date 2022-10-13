@@ -48,6 +48,7 @@ def listen(client: PahoClient) -> None:
         print("{}: failed to connect.  exiting".format(client.auth.device_id))
         sys.exit(1)
     print("{}: Connected".format(client.auth.device_id))
+    print()
 
     ##################################
     # SUBSCRIBE
@@ -80,6 +81,7 @@ def listen(client: PahoClient) -> None:
                 client.auth.device_id, ack_result[0]
             )
         )
+    print()
 
     ##################################
     # LISTEN
@@ -99,6 +101,7 @@ def listen(client: PahoClient) -> None:
                     client.auth.device_id, message.topic, payload_object
                 )
             )
+    print()
 
     ##################################
     # DISCONNECT
