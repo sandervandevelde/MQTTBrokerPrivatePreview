@@ -63,7 +63,7 @@ The following features are not in scope for this release, but they will be suppo
 
 - You can use any ARM client to deploy the service's resources and any compliant MQTT client to test the service. However, this guide will only provide commands and scripts using [Azure CLI](/Azure%20CLI/README.md) for deploying resouces and Paho client in python for testing in Ubuntu. Follow these steps to take advantage of the provided instructions: 
 	1. Use any Linux environment for testing.
-		- To easily install and run Linux on Windows, run `wsl --install -d Ubuntu`. Afterwards, you can run `wsl` to start running commands on your Ubuntu subsystem. [Learn more](https://learn.microsoft.com/en-us/windows/wsl/)
+		- To easily install and run Linux on Windows, run `wsl --install -d Ubuntu`. After installation is complete, you can run `wsl` to start running commands on your Ubuntu subsystem whenever you open a new terminal window. [Learn more](https://learn.microsoft.com/en-us/windows/wsl/)
 	2. Clone this repository to any directory in your Linux environment: `git clone https://github.com/Azure/MQTTBrokerPrivatePreview.git`
 	3. Follow the instructions in the [Environment_configuration README](/Environment_configuration/README.md) to register Azure CLI and set common variables for resources deployment.
 	4. Follow the instructions in the [Python README](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/python#azure-mqtt-broker-sample-python-instructions) to be able to test the scenarios.
