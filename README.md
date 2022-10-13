@@ -82,7 +82,7 @@ Let us get started with a simple pub/sub scenario, with a publisher and subscrib
 |Pub_client | Publisher | sample/topic |
 |Sub_client | Subscriber | sample/topic |
 
-After following the instructions in the [Prerequisites](#prerequisites), navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./Scenario0_Hello_World/`
+After following the instructions in the [Prerequisites](#prerequisites), navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./MQTTBrokerPrivatePreview/Scenario0_Hello_World/`
 
 Run the following commands to run the script, creating the resources: 
 ```bash
@@ -92,8 +92,8 @@ chmod 700 create_resources.sh
 To test the scenario:
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
-3. In a terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/publish.py`
-4. In a different terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/subscribe.py`
+3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./subscribe.py`
+4. In a different terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./publish.py`
 
 
 ## Scenarios
@@ -119,7 +119,7 @@ Some of the key terms relevant for private preview are explained below.
 | Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topicspaces, permissionbindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
 | Client| Client can be a device or a service that will publish and/or subscribe MQTT messages |
 | Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be “self-signed”. Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
-| Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, Floor 3 is an attribute that provides the client's location. |
+| Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, client type is an attribute that provides the client's type. |
 | Client group| Client group is a collection of clients that are grouped by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific Topic Spaces |
 | Topic spaces | Topic spaces is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics. |
 | Topic filter| An MQTT topic filter is an MQTT topic that can include wildcards for one or more of its segments, allowing it to match multiple MQTT topics. It is used to simplify subscriptions declarations as one topic filter can match multiple topics. |
@@ -398,3 +398,7 @@ All the names are of String type
 	- Username and password based authentication is currently not supported.  It will be supported in future release.
 - What happens if I have more than 10 subscribers per topic for a low fanout topic space?
     - The 11th subscription request for the same topic will be rejected.
+
+
+Please share your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u) or email us at askmqtt@microsoft.com with any questions.  Thank you!!
+

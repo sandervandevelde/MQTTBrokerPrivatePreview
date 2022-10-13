@@ -4,7 +4,7 @@
 
 Make sure you have python 3.6, or higher installed.   Run `python3 --version` to verify:
 ```
-(Python-3.6.10) bertk@bertk-hp:~/temp/broker$ python3 --version
+(Python-3.6.10) user@contoso:~/temp/broker$ python3 --version
 Python 3.6.10
 ```
 
@@ -28,7 +28,7 @@ python3 -m pip install virtualenv
   
 * You can ignore the below warning.  When you create your virtual environment, it will enable the correct version of pip.
 ```
-The scripts pip.exe, pip3.9.exe and pip3.exe are installed in 'C:\Users\bertk\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\Scripts' which is not on PATH.
+The scripts pip.exe, pip3.9.exe and pip3.exe are installed in 'C:\Users\user\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\Scripts' which is not on PATH.
   Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
 ```
 
@@ -45,7 +45,7 @@ Next, we set up a virtual environment.  This gives us a safe space to install Py
 2. Create your virtual environment in any directory. The last directory segment defines the name of the environment. Let's use `env/mqtt-broker`:
 
   ```
-  python3 -m venv env/mqtt-broker
+  python3 -m venv ~/env/mqtt-broker
   ```
 
   If you encountered the following error: `The virtual environment was not created successfully because ensurepip is not available. On Debian/Ubuntu systems, you need to install the python3-venv package using the following command.`, install virtual environment as follows.
@@ -58,7 +58,7 @@ Next, we set up a virtual environment.  This gives us a safe space to install Py
 
   In Linux:
   ```
-  source env/mqtt-broker/bin/activate
+  source ~/env/mqtt-broker/bin/activate
   ```
 
   In Windows command prompt:
@@ -74,8 +74,8 @@ Next, we set up a virtual environment.  This gives us a safe space to install Py
   After you do this, your prompt will change to include the `mqtt-broker` name.
 
   ```
-  bertk@bertk-hp:~$ source ~/env/mqtt-broker/bin/activate
-  (mqtt-broker) bertk@bertk-hp:~$
+ user@contoso:~$ source ~/env/mqtt-broker/bin/activate
+  (mqtt-broker) user@contoso:~$
   ```
 
 4. Now you are using the python and pip executables from inside the `env/mqtt-broker` directory, and all libraries that you install will also be stored in this directory.
@@ -102,16 +102,16 @@ If you see `ERROR: Failed building wheel for paho.mqtt`, run `pip install wheel`
 
 This should install Paho as well as a few other libraries that we need.  You can verify this with `pip list`:
 ```
-(iothub-broker) bertk@bertk-hp:~/projects/broker/IoTHubMQTTBrokerPreviewSamples/python$ pip list
+(iothub-broker) user@contoso:~/projects/broker/IoTHubMQTTBrokerPreviewSamples/python$ pip list
 Package                        Version Location
 ------------------------------ ------- -----------------------------------------------------------------
-MQTTBrokerPreviewSamples 0.0.0   /home/bertk/projects/broker/IoTHubMQTTBrokerPreviewSamples/python
+MQTTBrokerPreviewSamples 0.0.0   /home/user/projects/broker/IoTHubMQTTBrokerPreviewSamples/python
 paho-mqtt                      1.5.1
 pip                            21.2.4
 setuptools                     56.1.0
 six                            1.16.0
 wheel                          0.36.2
-(iothub-broker) bertk@bertk-hp:~/projects/broker/IoTHubMQTTBrokerPreviewSamples/python$
+(iothub-broker) user@contoso:~/projects/broker/IoTHubMQTTBrokerPreviewSamples/python$
 ```
 
 ## Verifying your install
@@ -126,8 +126,8 @@ To verify that you have the libraries successfully installed, you can:
 
 For example:
 ```
-(mqtt-broker) bertk@bertk-hp:~/projects/broker/MQTTBrokerPrivatePreview/python$ cd ..
-(mqtt-broker) bertk@bertk-hp:~/projects/broker/MQTTBrokerPrivatePreview$ python
+(mqtt-broker) user@contoso:~/projects/broker/MQTTBrokerPrivatePreview/python$ cd ..
+(mqtt-broker) user@contoso:~/projects/broker/MQTTBrokerPrivatePreview$ python
 Python 3.10.7 (default, Jul  7 2020, 14:58:11)
 [GCC 7.4.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.

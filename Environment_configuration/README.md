@@ -1,52 +1,18 @@
-**Instructions to deploy using ARM template on portal:**
+# Instructions for the initial environment setup
 
-1. Go to Azure portal, type "deploy a custom template" in the search.
-
-<img src="Deploy ARM template on portal 1.png"
-     alt="Deploy ARM template on portal 1"
-     style="float: left; margin-right: 10px;" />
-
-
-2. Select "Deploy a custom template" from the Services list.  Click on "Build your own template in the editor".
-
-<img src="Deploy ARM template on portal 2.png"
-     alt="Deploy ARM template on portal 2"
-     style="float: left; margin-right: 10px;" />
-
-3. Copy the json from the "ARM template for all resources.json" file in the scenario's json folder into the editor.  Click the save button.
-	 
-<img src="Deploy ARM template on portal 3.png"
-     alt="Deploy ARM template on portal 3"
-     style="float: left; margin-right: 10px;" />
-
-4. Check the subscription and select the resource group.  Click on the "Reveiw + Create" button to initiate the deployment.
-
-<img src="Deploy ARM template on portal 4.png"
-     alt="Deploy ARM template on portal 4"
-     style="float: left; margin-right: 10px;" />
-
-5. You will see the screen that deployment is in progress, wait till it's successful.  Once it shows the deployment is successful, you can see the list of all the resources created for the scenario.
-
-<img src="Deploy ARM template on portal 5.png"
-     alt="Deploy ARM template on portal 5"
-     style="float: left; margin-right: 10px;" />
-
-
-
-
-
-
-
-**Instructions for the initial environment setup**
+Follow these steps to configure Azure CLI and set the common variables that will be used in the each scenario for deploying resources.
 
 1. Update profile.sh file to specify your subscription id and resource group name.
-
+```bash
+sub_id="<<your-subscription-id>>"
+rg_name="<<your-resource-name>>"
+```
 2. Make the scripts executable:
 ```bash
 chmod 700 profile.sh
 chmod 700 setupEnv.sh
 ```
-3. Run the scripts:
+3. Run the following scripts. Make sure you rerun these scripts on every new shell window to set the right variables used in the scripts in the scenarios.
 ```bash
 source profile.sh
 ./setupEnv.sh
