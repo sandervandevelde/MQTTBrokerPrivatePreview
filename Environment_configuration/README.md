@@ -12,7 +12,7 @@ rg_name="<<your-resource-name>>"
 chmod 700 profile.sh
 chmod 700 setupEnv.sh
 ```
-3. Run the scripts:
+3. Run the following scripts. Make sure you rerun these scripts on every new shell window to set the right variables used in the scripts in the scenarios.
 ```bash
 source profile.sh
 ./setupEnv.sh
