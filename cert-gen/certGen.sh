@@ -293,11 +293,11 @@ function prepare_filesystem()
     mkdir -p certs
     mkdir -p newcerts
 
-    rm -f ./index.txt
-    touch ./index.txt
+    rm -f ./newcerts/index.txt
+    touch ./newcerts/index.txt
 
-    rm -f ./serial
-    echo 01 > ./serial
+    rm -f ./newcerts/serial
+    echo 01 > ./newcerts/serial
 }
 
 ###############################################################################

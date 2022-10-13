@@ -5,14 +5,14 @@ This is a hello world scenario, with a publisher and subscriber communicating on
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|pub_client | Publisher | sample/topic |
-|sub_client	 | Subscriber | sample/topic |
+|pub_client | Publisher | samples/topic |
+|sub_client	 | Subscriber | samples/topic |
 
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|pub-client | all0 | pub-hello| hello  (Topic Templates: sample/#  -Subscription Support: LowFanout)|
-|sub-client| all0 | sub-hello|  hello  (Topic Templates: sample/#  -Subscription Support: LowFanout)|
+|pub-client | all0 | pub-hello| hello  (Topic Templates: samples/#  -Subscription Support: LowFanout)|
+|sub-client| all0 | sub-hello|  hello  (Topic Templates: samples/#  -Subscription Support: LowFanout)|
 
 Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
@@ -55,7 +55,7 @@ az resource create --resource-type ${base_type}/clientGroups --id ${resource_pre
 ```
 - Create the following topic space:
 	- hello
-		- Topic Template: sample/#
+		- Topic Template: samples/#
 		- Subscription Support: LowFanout
 ```bash
 az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/hello --api-version 2022-10-15-preview --properties @./resources/TS_hello.json
@@ -71,5 +71,5 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 **Test the scenario using the python scripts:**
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
-3. In a terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/publish.py`
+3. In a terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.ts.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/publish.py`
 4. In a different terminal window, set up the following variable: `gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python python/subscribe.py`
