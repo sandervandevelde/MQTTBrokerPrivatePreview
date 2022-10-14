@@ -1,27 +1,20 @@
 # Scenario 4 – Route MQTT data through Event Grid subscription
 This scenario showcases how to configure routing to send filtered messages from the MQTT Broker to an  Event Hub instance. Consider a use case where one needs to identify the location of vehicles, and want to route the vehicles’ location data from each area to a separate event hub instance.
 
-**Scenario:**
+## Scenario:
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
 |s4-vehicle1 | Publisher | areas/area1/vehicles/vehicle1/GPS|
 
-**Resource Configuration:**
+## Resource Configuration:
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
 |s4-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle | vehicle-publisher|  VehiclesLocation: (Topic Templates: areas/+/vehicles/${principal.deviceid}/GPS/#  -Subscription Support: Not supported)|'
 
-Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. Use the following instructions to configure the resources and test the scenario.
 
-**Configure the resources through the script:**
-- Run the following commands to run the script, creating the resources: 
-```bash
-chmod 700 create_resources.sh
-./create_resources.sh
-```
-
-**Configure the resources manually:**
+## Configure the resources:
 
 - Configure your Event Grid Topic where your messages will be routed.
 ```bash
@@ -29,9 +22,14 @@ chmod 700 create_resources.sh
 az eventgrid topic create -g <resource group> --name <topic name> -l centraluseuap --input-schema cloudeventschemav1_0
 # Register the Event Grid resource provider
 az provider register --namespace Microsoft.EventGrid
-# Set EventGrid Data Sender role to your user ID
-az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Data Sender" --scope "/subscriptions/<subscription ID>/resourcegroups/<resource group>/providers/Microsoft.EventGrid/topics/<event grid topic name>"
 ```
+- Set EventGrid Data Sender role to your user ID
+	- In the portal, go to the created Event Grid topic resource. 
+	- In the "Access control (IAM)" menu item, select "Add a role assignment".
+	- In the "Role" tab, select "EventGrid Data Sender", then select "Next".
+	- In the "Members" tab, click on "+Select members", then type your AD user name in the "Select" box that will appear (e.g. user@contoso.com).
+	- Select your AD user name, then select "Review + assign"
+
 - Create a namespace with a reference to the Event Grid Topic that you just created
 ```bash
 az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario4.json
@@ -70,18 +68,22 @@ az resource create --resource-type ${base_type}/topicSpaces --id ${resource_pref
 ```bash
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-publisher.json
 ```
-- In the portal, go to the created Event Grid topic > Event subscription menu item, and select Event subscription.
-- Provide the following fields:
-	- Name: event subscription name
+
+## Test the scenario:
+Use the following steps to set up a subscription on your created event grid topic (script's topic name= mqtt-sample-topic), run the python scripts to send messages, and observe the messages on your endpoint.
+
+###Set up an Event Grid Subscription to your Event Hubs endpoint:
+- In the portal, go to the created Event Grid topic (mqtt-sample-topic) resource, and select "+ Event Subscription" in the Overview menu item.
+- In the Basics tab, provide the following fields:
+	- Name: your event subscription name
 	- Event Schema: Cloud Event Schema v1.0
 	- Endpoint type: Event Hubs
 	- Endpoint: your Event Hubs endpoint
-- Go to the “Filters” tab, and “Enable subject filtering”
+- Go to the Filters tab, and “Enable subject filtering”
 	- In the field “Subject Begins With”, type “areas/area1/vehicles/”
 		- The MQTT topic is represented by the Subject field in the routed Cloud Event Schema so this configuration will filter all the messages with the MQTT Topic that starts with “areas/area1/vehicles/”.
-
-
-**Test the scenario using the python scripts:**
+		
+###Test the scenario using the python scripts:		
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
 3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./publish.py`
