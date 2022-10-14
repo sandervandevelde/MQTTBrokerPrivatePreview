@@ -27,7 +27,7 @@ The private preview is only for testing.  Please do NOT use it for your producti
 This private preview is currently supported only in Central US EUAP region.
 
 **Post private preview program**
-When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Central US EUAP region region.
+When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Central US EUAP region.
 
 
 ## Capabilities available in this preview
@@ -157,7 +157,7 @@ These client attributes can be used to create the client groups.  For example, i
 The main purpose of client groups is to provide common authorization to a set of clients to either publish and/or subscribe on one or more Topic spaces.  Every client needs to be part of a client group to be able to publish and subscribe on topic spaces.  The goal is to keep the quantity of client groups very small to make permissions manageable.
 For this preview, we will be supporting a maximum of 10 client groups per namespace.
 
-Clients need to be grouped in a way that it’s easier to reuse the group to publish and subscribe across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish from/subscribe to.  We recommend identifying the commonalities across the scenarios, to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
+While grouping clients, please ensure that it's easier to reuse the group to publish and subscribe across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish to and subscribe to.  We recommend identifying the commonalities across the scenarios, to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
 
 **What are client attributes?**
 Client attributes are a set of user defined key-value pairs or tags that provide information about the client.  These attributes will be the main ingredient in the client group filtering expressions.  Attributes could be describing the physical or functional characteristics of the client.  Typical attribute could be type of the client (client type).  
