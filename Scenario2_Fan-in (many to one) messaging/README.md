@@ -82,9 +82,15 @@ az resource create --resource-type ${base_type}/topicSpaces --id ${resource_pref
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/map-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_map-subscriber.json
 az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicles-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicles-publisher.json
 ```
-
 **Test the scenario using the python scripts:**
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
-2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
-3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./subscribe.py`
-4. In a different terminal window, set up the following variable: `export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./publish.py`
+2. Open two terminal windows in your Linux environment, and run the following commands in both terminal windows after editing the \<namespace name>:
+```bash
+# Make sure you have the `mqtt-broker` virtual environment activated 
+source ~/env/mqtt-broker/bin/activate
+# Set up the following variable
+export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"
+```
+3. In one terminal window, run the subscribe sample script through the following command: `python ./subscribe.py`.
+4. In the other terminal window, run the publish sample script through the following command: `python ./publish.py`.
+5. Observe the messages in the published messages in the subscribe terminal window.
