@@ -107,6 +107,6 @@ source ~/env/mqtt-broker/bin/activate
 # Set up the following variable
 export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"
 ```
-3. In one terminal window, run the subscribe sample script through the following command: `python ./subscribe.py`.
-4. In the other terminal window, run the publish sample script through the following command: `python ./publish.py`.
-5. Observe the messages in the published messages in the subscribe terminal window.
+3. In one terminal window, run the mobile_device sample script through the following command: `python ./mobile_device.py`.
+4. In the other terminal window, run the vehicle_device sample script through the following command: `python ./vehicle_device.py`.
+5. Observe the messages in flowing in both terminal windows.
