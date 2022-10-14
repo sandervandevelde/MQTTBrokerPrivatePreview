@@ -96,6 +96,6 @@ Use the following steps to set up a subscription on your created event grid topi
 		
 ### Test the scenario using the python scripts:		
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
-2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
+2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate`
 3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./publish.py`
 4. In the portal, go to your Storage account > Queues. Select your queue and observe the incoming messages.
