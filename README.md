@@ -33,8 +33,8 @@ This private preview provides the following capabilities
 - Cloud MQTT broker functionality in Event Grid enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
 - QoS 0, 1: MQTT manages the re-transmission of messages and guarantees delivery making communication in unreliable networks a lot reliable.
-- Flexible access control model:  Grouping clients into “client groups” and topic references into topic spaces to ease access control management.
-- Fine-grained access control model:  Introducing “topic templates” with variables support to enable fine-grained access control.
+- Flexible access control model:  Grouping clients into "client groups" and topic references into topic spaces to ease access control management.
+- Fine-grained access control model:  Introducing "topic templates" with variables support to enable fine-grained access control.
 - Support for 1-1, 1-many and many-1 messaging patterns to accommodate for a variety of pub/sub scenarios
 - Compatibility with standard MQTT client libraries (ex. Eclipse Paho) allows users to migrate configuration much faster
 - Route MQTT messages through Event Grid subscriptions to integrate data with Azure services or custom endpoints for flexibility to further process the data
@@ -79,8 +79,8 @@ Let us get started with a simple pub/sub scenario, with a publisher and subscrib
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|Pub_client | Publisher | sample/topic |
-|Sub_client | Subscriber | sample/topic |
+|Pub_client | Publisher | samples/topic |
+|Sub_client | Subscriber | samples/topic |
 
 After following the instructions in the [Prerequisites](#prerequisites), navigate to the Scenario0_Hello_World folder in your cloned repo through `cd ./MQTTBrokerPrivatePreview/Scenario0_Hello_World/`
 
@@ -92,12 +92,12 @@ chmod 700 create_resources.sh
 To test the scenario:
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
-3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./subscribe.py`
-4. In a different terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./publish.py`
+3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./subscribe.py`
+4. In a different terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./publish.py`
 
 
 ## Scenarios
-Here are a couple of scenarios that showcase the functionality of the service. Follow the instructions in the [Prerequisites](#Prerequisites) to test these scenarios.
+Here are a few scenarios that showcase the functionality of the service. Follow the instructions in the [Prerequisites](#Prerequisites) to test these scenarios.
 
 | # | Scenario | Description |
 | ------------ | ------------ | ------------ |
@@ -116,15 +116,15 @@ Some of the key terms relevant for private preview are explained below.
 | Term| Definition |
 | ------------ | ------------ |
 | MQTT Broker| An MQTT broker is an intermediary entity that enables MQTT clients to communicate. Specifically, an MQTT broker receives messages published by clients, filters the messages by topic, and distributes them to subscribers. |
-| Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topicspaces, permissionbindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
+| Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topic spaces, permission bindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
 | Client| Client can be a device or a service that will publish and/or subscribe MQTT messages |
-| Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be “self-signed”. Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
+| Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be "self-signed". Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
 | Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, client type is an attribute that provides the client's type. |
-| Client group| Client group is a collection of clients that are grouped by a set of common client attribute(s) using a query string, and will publish and/or subscribe to a specific Topic Spaces |
+| Client group| Client group is a collection of clients that are grouped by a set of common client attribute(s) using a query string, and could be allowed to publish and/or subscribe to a specific Topic Spaces |
 | Topic spaces | Topic spaces is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics. |
 | Topic filter| An MQTT topic filter is an MQTT topic that can include wildcards for one or more of its segments, allowing it to match multiple MQTT topics. It is used to simplify subscriptions declarations as one topic filter can match multiple topics. |
 | Topic template| Topic templates are an extension of the topic filter that supports variables. It is used for fine-grained access control within a client group. |
-| PermissionBinding| A Permission Binding grants access to a specific client group to either publish or subscribe on a specific topic spaces.  |
+| Permission bindings| A Permission Binding grants access to a specific client group to either publish or subscribe on a specific topic spaces.  |
 
 ## Concepts
 
@@ -134,9 +134,9 @@ The following credential types are supported:
 - Certificates issued by a Certificate Authority (CA) 
 - Self-signed certificates
 
-**CA signed certificates:**  In this method, a root or intermediate X.509 certificate is registered with the service.  Essentially, the root or intermediary certificate that is used to sign the client certificate, must be registered with the service first.  Later, clients are authenticated if they have a valid leaf certificate that's signed by the root or intermediate certificate that was supplied to the service.  While registering the clients, the subject common name of the leaf certificate needs to be supplied for authentication.  Service will validate the subject name with the CA certificate (or the intermediary certificate) that was registered earlier to validate the identity of the client.  
+**CA signed certificates:**  In this method, a root or intermediate X.509 certificate is registered with the service.  Essentially, the root or intermediary certificate that is used to sign the client certificate, must be registered with the service first.  Later, clients are authenticated if they have a valid leaf certificate that's signed by the root or intermediate certificate that was supplied to the service.  While registering the clients, the subject common name of the leaf certificate needs to be supplied for authentication. Service will validate the subject values match the subject values from the client certificate and also validate the client certificate is signed the root or intermediary certificate that was registered earlier.  
 
-**Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the  certificate thumbprint alongside the identity record.  In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
+**Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the certificate thumbprint alongside the identity record. In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
 
 One and only one authentication type properties (CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
 
@@ -160,15 +160,15 @@ Clients need to be grouped in a way that it’s easier to reuse the group to pub
 **What are client attributes?**
 Client attributes are a set of user defined key-value pairs or tags that provide information about the client.  These attributes will be the main ingredient in the client group filtering expressions.  Attributes could be describing the physical or functional characteristics of the client.  Typical attribute could be type of the client (client type).  
 Here is an example:
-- Type: Values could be “sensor” or “thermostat” or “vehicle”
+- Type: Values could be "sensor" or "thermostat" or "vehicle"
 
 Here’s a sample schema for the attribute definition: 
 
-```bash
+```json
 {  
     "id": "device123",  
     "attributes": {  
-        "status": “active”,  
+        "status": "active",
         "sensors": ["motion", "noise", "light"]  
      }  
 }
@@ -180,14 +180,14 @@ While configuring the client attributes, consider the topics that the clients wi
 To setup a client group, user needs to build a query that filters a set of clients based on their attribute values.
 
 Here are a few sample queries:
-- (Attributes.sensors = “motion” or Attributes.sensors = “humidity”) or Attributes.status <> “sleep mode”
-- Attributes.sensors IN [“motion”, “humidity”, “temperature”] and attributes.floor <= 5
+- (attributes.sensors = "motion" or attributes.sensors = "humidity") or attributes.status <> "sleep mode"
+- attributes.sensors IN ["motion", "humidity", "temperature"] and attributes.floor <= 5
 
 In group queries, following operands are allowed:
-- Equal operator “=”
-- Not equal operator in 2 forms “<>” and “!=” 
-- Less than “<”, greater than “>”, less than equal to “<=”, greater than equal to “>=” for long integer values
-- “IN” to compare with a set of values
+- Equality operator "="
+- Not equal operator in 2 forms "<>" and "!=" 
+- Less than "<", greater than ">", less than equal to "<=", greater than equal to ">=" for long integer values
+- "IN" to compare with a set of values
 
 Please refer to the [naming considerations table](#naming-considerations) for details on allowed characters and patterns.
 
@@ -202,11 +202,11 @@ It is important to note that the publishing is a supported action on all topic s
 
 The service supports all the MQTT wildcards defined by the [MQTT specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718107) as follows:
 - +: which matches a single segment.
-	- E.g. topic filter: “machines/+/alert” will match the following topics:
+	- E.g. topic filter: "machines/+/alert" will match the following topics:
 		- machines/temp/alert
 		- vehicles/humidity/alert
 - #: which matches zero or more segments at the end of the topic. 
-	- E.g. topic filter: “machines/#” will match the following topics:
+	- E.g. topic filter: "machines/#" will match the following topics:
 		- machines
 		- machines/temp
 		- machines/humidity
@@ -216,13 +216,13 @@ See [Topic Wilcards](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1
 
 **Topic template:** Topic templates are an extension of the topic filter that supports variables. It is used for fine-grained access control within a client group. You can provide access to a client group to publish or subscribe on a topic space with multiple topic templates. If any of the topic templates include a variable, only the clients associated with this variable will have access to the corresponding topic.
 
-For example, you can provide access to client group “machines” to the topic space “machinesTelemetry” that includes the topic template “machines/${client.name}/temp”. Only the machine with client name = machine1 will be able to publish on topic “machines/machine1/temp”, and only the machine with client name = machine2 will be able to publish on topic “machines/machine2/temp”, and so on. This prevents machine2 from publishing false information on behalf of machine1, even though it has access to the same topic space, and vice versa. 
+For example, you can provide access to client group "machines" to the topic space "machinesTelemetry" that includes the topic template "machines/${client.name}/temp". Only the machine with client name = machine1 will be able to publish on topic "machines/machine1/temp", and only the machine with client name = machine2 will be able to publish on topic "machines/machine2/temp", and so on. This prevents machine2 from publishing false information on behalf of machine1, even though it has access to the same topic space, and vice versa. 
 
 **Supported variables:**
 - ${client_name}: this variable represents the name of the client assigned during client creation.
-- ${client.attributes.x}: this variable represents any of the assigned attributes to a client during client creation/update, so as “x” would be equal to the exact string of the attribute key. Read more about client attributes in the Terminology section.
+- ${client.attributes.x}: this variable represents any of the assigned attributes to a client during client creation/update, so as "x" would be equal to the exact string of the attribute key. Read more about client attributes in the Terminology section.
 
-**Note:** A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment. E.g. a topic template could include “machines/${client.name|.factory1}/temp” will match topics “machines/machine1.factory1/temp”, “machines/machine2.factory1/temp”, etc
+**Note:** A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment. E.g. a topic template could include "machines/${client.name|.factory1}/temp" will match topics "machines/machine1.factory1/temp", "machines/machine2.factory1/temp", etc
 
 **Subscription support:** Subscription support is used to optimize the service’s mode of  message delivery to your clients based on your scenario. There are three modes: 
 - Not supported: will indicate that topic space could be used only for publishing. This will be helpful in scenarios when you expect your corresponding topic templates to overlap since this is the only mode that will allow your topic templates to overlap with any other topic template.
@@ -235,9 +235,9 @@ For example, you can provide access to client group “machines” to the topic 
 - **Default Behavior:**
 To publish or subscribe to any topic, a matching topic space must be configured, and a permission binding needs to be set for the client group(s) that include the clients that need publish/subscribe access to this topic space. 
 - **Topic templates Overlap:**
-If you set your topic space with a low fanout or high fanout subscription modes, the corresponding topic templates cannot overlap with each other, but they can overlap with a topic space with “not supported” subscription support. The overlap exists if a topic could match more than one topic template: 
+If you set your topic space with a low fanout or high fanout subscription modes, the corresponding topic templates cannot overlap with each other, but they can overlap with a topic space with "not supported" subscription support. The overlap exists if a topic could match more than one topic template: 
 	- Examples:
-		- “machines/${client.name}/temp” and “machines/+/temp” /#” overlap because the second template covers the first one via wildcard. 
+		- "machines/${client.name}/temp" and "machines/+/temp" overlap because the second template covers the first one via wildcard. 
 		- vehicles/vehicle1/telemetry/# and vehicles/${principal.deviceId}/telemetry/# conflict because in the second template the segment with variable is treated as single level wildcard + and hence, covers the first topic template. PublishOnly topic spaces can overlap with LowFanout topic spaces.
 - **Configuration:**
 	- Topic templates use special characters $ and | and these need to be escaped differently based on the shell being used. In PowerShell, $ can be escaped with vehicles/${dollar}telemetry/#. If you’re using PowerShell, you can accomplish this as shown in the examples below: 
@@ -325,14 +325,14 @@ Event Grid is a highly scalable, serverless event broker that you can use to int
 - It needs to be set to use the Cloud Event Schema v1.0
 - It needs to be in the same region as the namespace
 - **Filtering:**
-	- You can use the Event Grid Subscription’s filtering capability to filter the routed messages based on the MQTT topic through filtering on the “subject” property in the Cloud Event schema. Event Grid Subscriptions supports free simple subject filtering by specifying a starting or ending value for the subject. For example, 
-		- You can specify the subject ends with “gps” to only route messages reporting on location. 
-		- You can filter the subject begins with “factory1/Area2/” to route only the messages that belong to facotry1 and area 2 to a specific endpoint and you can replicate this configuration to route messages from other factories/areas to different endpoints.
+	- You can use the Event Grid Subscription’s filtering capability to filter the routed messages based on the MQTT topic through filtering on the "subject" property in the Cloud Event schema. Event Grid Subscriptions supports free simple subject filtering by specifying a starting or ending value for the subject. For example, 
+		- You can specify the subject ends with "gps" to only route messages reporting on location. 
+		- You can filter the subject begins with "factory1/Area2/" to route only the messages that belong to facotry1 and area 2 to a specific endpoint and you can replicate this configuration to route messages from other factories/areas to different endpoints.
 	- You can also take advantage of the [Event Subscription’s advanced filtering](https://docs.microsoft.com/en-us/azure/event-grid/event-filtering#advanced-filtering) to filter based on the MQTT topic through filtering on the subject property in the Cloud Event Schema. This enable you to set more complex filters by secifying a comparison operator, key, and value.
 
 #### The schema for the Cloud Event Schema:
 Each message being routed is enveloped in a Cloud Event according to the following schema sample: 
-```
+```json
 {
     "specversion": "1.0",
     "id": "9aeb0fdf-c01e-0131-0922-9eb54906e20", //Unique id generated by the gateway upon receiving the message
@@ -340,7 +340,7 @@ Each message being routed is enveloped in a Cloud Event according to the followi
     "type" : "MQTT.EventPublished",
     "source"  : "namespace1", //Name of your namespace that received the MQTT message.
     "subject" : "vehicles/ floor1/ vehicleId1/temp" , //MQTT topic that accompanied the MQTT publish message.
-    "data_64" : “<Published MQTT message>”
+    "data_64" : "<Published MQTT message>"
 }
 ```
 
