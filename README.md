@@ -1,6 +1,6 @@
 # MQTT broker functionality in Event Grid
 
-The Microsoft Azure Messaging team invites you and your organization to preview the MQTT broker functionality in Event Grid.  During this preview, we will provide full support with a high level of engagement from the Azure Messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability for your pub/sub solutions. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
+The Microsoft Azure Messaging team invites you and your organization to preview the MQTT broker functionality in Event Grid.  During this preview, we will provide full support with a high level of engagement from the Azure Messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
 ## Overview
 MQTT broker functionality in Event Grid delivers a flexible message broker to enable secure transfer of messages to and from clients. You can now use MQTT’s flexible topic structure to send and receive messages from your clients (devices/services) and support flexible messaging patterns such as command and control and as well as broadcast messages to clients.
@@ -30,12 +30,12 @@ When the private preview program ends, or when your tests are completed, you can
 
 ## Capabilities available in this preview
 This private preview provides the following capabilities
-- Cloud MQTT broker functionality in Event Grid enabling pub/sub on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
+- Cloud MQTT broker functionality in Event Grid enabling publish and subscribe on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
 - QoS 0, 1: MQTT manages the re-transmission of messages and guarantees delivery making communication in unreliable networks a lot reliable.
 - Flexible access control model:  Grouping clients into "client groups" and topic references into topic spaces to ease access control management.
 - Fine-grained access control model:  Introducing "topic templates" with variables support to enable fine-grained access control.
-- Support for 1-1, 1-many and many-1 messaging patterns to accommodate for a variety of pub/sub scenarios
+- Support for 1-1, 1-many and many-1 messaging patterns to accommodate for a variety of scenarios
 - Compatibility with standard MQTT client libraries (ex. Eclipse Paho) allows users to migrate configuration much faster
 - Route MQTT messages through Event Grid subscriptions to integrate data with Azure services or custom endpoints for flexibility to further process the data
 - Persistent session will allow for clean session if client disconnects and reconnects, ensuring subscribed messages are sent after reconnection.
@@ -75,7 +75,7 @@ The following features are not in scope for this release, but they will be suppo
 
 
 ## QuickStart
-Let us get started with a simple pub/sub scenario, with a publisher and subscriber communicating on a topic. 
+Let us get started with a simple scenario, with a publisher and subscriber communicating on a topic. 
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
@@ -152,10 +152,10 @@ In this scenario, vehicles can be configured as clients that publish/subscribe t
 These client attributes can be used to create the client groups.  For example, if the vehicles that can carry loads over 2 tons are prone to accidents if driven with low braking fluid, in icy road conditions, then all such vehicles can be grouped together to continuously monitor and alert the drivers in case of potential hazardous conditions based on weather at their locations.
 
 ### Client group considerations:
-The main purpose of client groups is to provide common authorization to a set of clients to either publish and/or subscribe on one or more Topic spaces.  Every client needs to be part of a client group to be able to pub/sub on topic spaces.  The goal is to keep the quantity of client groups very small to make permissions manageable.
+The main purpose of client groups is to provide common authorization to a set of clients to either publish and/or subscribe on one or more Topic spaces.  Every client needs to be part of a client group to be able to publish and subscribe on topic spaces.  The goal is to keep the quantity of client groups very small to make permissions manageable.
 For this preview, we will be supporting a maximum of 10 client groups per namespace.
 
-Clients need to be grouped in a way that it’s easier to reuse the group to pub/sub across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish from/subscribe to.  We recommend identifying the commonalities across the scenarios, to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
+Clients need to be grouped in a way that it’s easier to reuse the group to publish and subscribe across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish from/subscribe to.  We recommend identifying the commonalities across the scenarios, to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
 
 **What are client attributes?**
 Client attributes are a set of user defined key-value pairs or tags that provide information about the client.  These attributes will be the main ingredient in the client group filtering expressions.  Attributes could be describing the physical or functional characteristics of the client.  Typical attribute could be type of the client (client type).  
@@ -386,18 +386,14 @@ All the names are of String type
 ## Frequently asked questions 
 - Is Azure monitoring metrics and logging available? 
 	- Not in this release.  We will add monitoring metrics and diagnostic logs in the next release.
-- What happens if client attempts to pub/sub on a topic when a matching topic space is not found? 
-	- Client connection will be closed. 
-- How can my clients send MQTT messages to the service? 
-	- You can use any standard MQTT client SDK.  See SDK samples here. 
-- How can I fix 'Subscription was rejected' error when running the samples? 
-	- Topic space updates take up-to 5 minutes to propagate, please retry the samples after a few minutes. 
+- What happens if client attempts to publish on a topic when a matching topic space is not found? 
+	- Client connection will be closed. Identify which client groups the client belongs to.  Based on the permission bindings, identify the topic spaces to which the client groups have access to publish.
 - How do I connect to the MQTT broker functionality in Event Grid with a third party tool that requires username and password as string? 
 	- Username and password based authentication is not supported in this release.  It will be supported in a future release.
 - What happens if I have more than 10 subscribers per topic for a low fanout topic space?
     - In this release, the 11th subscription request for the same topic will be rejected.
 - How do Azure IoT Hub and Azure Event Grid compare?
-    - While Azure IoT Hub and Azure Event Grid (with new MQTT Broker capability) enable messaging between devices and services, that are necessary for IoT solutions, there are some key differences. Both services support device-to-cloud and cloud-to-device communication but Event Grid also enables device-to-device communication, via the cloud MQTT Broker. IoT Hub provides richer device management and bulk-device provisioning through integration with Azure Device Provisioning Service. In terms of protocols Event Grid supports HTTP & MQTT and IoT Hub supports HTTP, MQTT & AMQP. For pub/sub messaging use cases, you can start with Azure Event Grid. If your solution requires bulk device provisioning and device management, then you can start with Azure IoT Hub. In future, Azure Event Grid will integrate with Azure Device Provisioning Service to enable these bulk provisioning capabilities.
+    - While Azure IoT Hub and Azure Event Grid (with new MQTT Broker capability) enable messaging between devices and services, that are necessary for IoT solutions, there are some key differences. Both services support device-to-cloud and cloud-to-device communication but Event Grid also enables device-to-device communication, via the cloud MQTT Broker. IoT Hub provides richer device management and bulk-device provisioning through integration with Azure Device Provisioning Service. In terms of protocols Event Grid supports HTTP & MQTT and IoT Hub supports HTTP, MQTT & AMQP. For messaging use cases using MQTT protocol, you can start with Azure Event Grid. If your solution requires bulk device provisioning and device management, then you can start with Azure IoT Hub. In future, Azure Event Grid will integrate with Azure Device Provisioning Service to enable these bulk provisioning capabilities.
 
 
 
