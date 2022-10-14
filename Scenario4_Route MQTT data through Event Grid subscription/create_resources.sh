@@ -3,9 +3,11 @@
 ## Copyright (c) Microsoft. All rights reserved.
 ## Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-ns_name="mqtt-sample-scenario4"
-eg_topic_name="mqtt-sample-topic"
+ns_name="mqtt-sample4-${ns_name_suffix}"
 resource_prefix="${ns_id_prefix}/${ns_name}"
+gw_url="${ns_name}.centraluseuap-1.ts.eventgrid.azure.net"
+
+eg_topic_name="eg-sample-topic-${az_region}"
 eg_topic_id="/subscriptions/${sub_id}/resourcegroups/${rg_name}/providers/Microsoft.EventGrid/topics/${eg_topic_name}"
 
 pushd ../cert-gen
@@ -13,8 +15,8 @@ pushd ../cert-gen
 popd
 
 echo "Setting up EventGrid topic."
-az eventgrid topic create -g ${rg_name} --name ${eg_topic_name} -l southcentralus --input-schema cloudeventschemav1_0 
-az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Data Sender" --scope "${eg_topic_id}"
+az eventgrid topic create -g ${rg_name} --name ${eg_topic_name} -l ${az_region} --input-schema cloudeventschemav1_0 
+az role assignment create --assignee ${ad_username} --role "EventGrid Data Sender" --scope "${eg_topic_id}"
 az provider register --namespace Microsoft.EventGrid
 echo "EventGrid topic created."
 
@@ -39,5 +41,5 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 
 echo "Resources uploaded."
 
-export gw_url="${ns_name}.southcentralus-1.ts.eventgrid-int.azure.net"
-echo "gw_url set to ${gw_url}"
+echo "Run the following in all shell windows before running python scripts:"
+echo "export gw_url=${gw_url}"
