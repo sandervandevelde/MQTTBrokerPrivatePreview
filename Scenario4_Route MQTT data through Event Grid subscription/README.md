@@ -1,5 +1,5 @@
 # Scenario 4 – Route MQTT data through Event Grid subscription
-This scenario showcases how to configure routing to send filtered messages from the MQTT Broker to an  Event Hub instance. Consider a use case where one needs to identify the location of vehicles, and want to route the vehicles’ location data from each area to a separate event hub instance.
+This scenario showcases how to configure routing to send filtered messages from the MQTT Broker to an [Azure storage queue](https://learn.microsoft.com/en-us/azure/storage/queues/storage-quickstart-queues-portal). Consider a use case where one needs to identify the location of vehicles, and want to route the vehicles’ location data from each area to a separate storage queue.
 
 ## Scenario:
 
@@ -81,13 +81,13 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 ## Test the scenario:
 Use the following steps to set up a subscription on your created event grid topic, run the python scripts to send messages, and observe the messages on your endpoint.
 
-### Set up an Event Grid Subscription to your Event Hubs endpoint:
+### Set up an Event Grid Subscription to your storage queue:
 - In the portal, go to the created Event Grid topic resource, and select "+ Event Subscription" in the Overview menu item.
 - In the Basics tab, provide the following fields:
 	- Name: your event subscription name
 	- Event Schema: Cloud Event Schema v1.0
-	- Endpoint type: Event Hubs
-	- Endpoint: your Event Hubs endpoint
+	- Endpoint type: Storage Queues
+	- Endpoint: your Storage Queues endpoint
 - Go to the Filters tab, and “Enable subject filtering”
 	- In the field “Subject Begins With”, type “areas/area1/vehicles/”
 		- The MQTT topic is represented by the Subject field in the routed Cloud Event Schema so this configuration will filter all the messages with the MQTT Topic that starts with “areas/area1/vehicles/”.
@@ -98,4 +98,4 @@ Use the following steps to set up a subscription on your created event grid topi
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
 3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./publish.py`
-4. In the portal, go to your Event Hubs instance and observe the incoming messages.
+4. In the portal, go to your Storage account > Queues. Select your queue and observe the incoming messages.
