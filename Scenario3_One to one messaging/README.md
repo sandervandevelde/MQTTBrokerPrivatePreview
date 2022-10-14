@@ -1,7 +1,7 @@
 # Scenario 3 – One to one messaging
 This scenario simulates the request-response messaging pattern. Request-response uses two topics, one for the request and one for the response.
 
-Consider a use case where a user can unlock their car from a mobile app. The request to unlock are published on vehicles/unlock/req/<carClientId>/<mobileClientId> and the response of unlock operation are published on vehicles/unlock/res/<mobileClientId>/<carClientId>.
+Consider a use case where a user can unlock their car from a mobile app. The request to unlock are published on vehicles/unlock/req/<carClientId>/<mobileClientId> and the response of unlock operation are published on vehicles/unlock/res/\<mobileClientId>/\<carClientId>.
 
 **Scenario:**
 
