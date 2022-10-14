@@ -32,22 +32,26 @@ az provider register --namespace Microsoft.EventGrid
 
 - Edit NameSpace_Scenario4.json to add the reference to the topic that you just created
 	- Navigate to the resources directory through `cd ./resources`
-	- Edit the file NameSpace_Scenario4.json to add the topic reference as shown in the example below:
-	`"routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group Name>/providers/Microsoft.EventGrid/topics/<Event Grid Topic Name>"`
+	- Edit the file NameSpace_Scenario4.json to add the topic reference as shown in the following example:`"routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group Name>/providers/Microsoft.EventGrid/topics/<Event Grid Topic Name>"`
+	- Navigate back to the "Scenario4_Route MQTT data through Event Grid subscription" directory through `cd ..`
 
+- Set a unique namespace name in the following varibale to be used in the following commands
+```bash
+export resource_prefix="${ns_id_prefix}/<unique namespace name>"
+```
 - Create a namespace with a reference to the Event Grid Topic that you just created
 ```bash
 az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NameSpace_Scenario4.json
 ```
-- Generate certificates using the cert-gen scripts. You can skip this step if you're using your own certificate.
+- Create the CA Certificate:
+```bash
+az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
+```
+- Generate the client certificate using the cert-gen scripts. You can skip this step if you're using your own certificate.
 ```bash
 pushd ../cert-gen
 ./certGen.sh create_leaf_certificate_from_intermediate s4-vehicle1
 popd
-```
-- Create the CA Certificate:
-```bash
-az resource create --resource-type ${base_type}/caCertificates --id ${resource_prefix}/caCertificates/test-ca-cert --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json
 ```
 - Register the following clients:
 	- s4-vehicle1
@@ -75,10 +79,10 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 ```
 
 ## Test the scenario:
-Use the following steps to set up a subscription on your created event grid topic (script's topic name= mqtt-sample-topic), run the python scripts to send messages, and observe the messages on your endpoint.
+Use the following steps to set up a subscription on your created event grid topic, run the python scripts to send messages, and observe the messages on your endpoint.
 
-###Set up an Event Grid Subscription to your Event Hubs endpoint:
-- In the portal, go to the created Event Grid topic (mqtt-sample-topic) resource, and select "+ Event Subscription" in the Overview menu item.
+### Set up an Event Grid Subscription to your Event Hubs endpoint:
+- In the portal, go to the created Event Grid topic resource, and select "+ Event Subscription" in the Overview menu item.
 - In the Basics tab, provide the following fields:
 	- Name: your event subscription name
 	- Event Schema: Cloud Event Schema v1.0
@@ -87,9 +91,11 @@ Use the following steps to set up a subscription on your created event grid topi
 - Go to the Filters tab, and “Enable subject filtering”
 	- In the field “Subject Begins With”, type “areas/area1/vehicles/”
 		- The MQTT topic is represented by the Subject field in the routed Cloud Event Schema so this configuration will filter all the messages with the MQTT Topic that starts with “areas/area1/vehicles/”.
+
+- Select "Create"
 		
-###Test the scenario using the python scripts:		
+### Test the scenario using the python scripts:		
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
-3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./publish.py`
+3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.centraluseuap.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./publish.py`
 4. In the portal, go to your Event Hubs instance and observe the incoming messages.
