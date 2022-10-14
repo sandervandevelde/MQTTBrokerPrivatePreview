@@ -55,9 +55,7 @@ A virtual environment gives us a safe space to install Python libraries without 
   (mqtt-broker) user@contoso:~$
   ```
 
-4. Now you are using the python and pip executables from inside the `env/mqtt-broker` directory, and all libraries that you install will also be stored in this directory.
-
-  Also, now that we're in the virtual environment, you can use `python3` or `python` commands since they both point to the same thing.
+Now you are using the python and pip executables from inside the `env/mqtt-broker` directory, and all libraries that you install will also be stored in this directory. Also, now that we're in the virtual environment, you can use `python3` or `python` commands since they both point to the same thing.
 
 ## Install helper modules
 
