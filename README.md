@@ -384,23 +384,23 @@ All the names are of String type
 | Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
 
 ## Frequently asked questions 
-- Is monitoring metrics and logging available? 
+- Is Azure monitoring metrics and logging available? 
 	- Not in this release.  We will add monitoring metrics and diagnostic logs in the next release.
 - What happens if client attempts to pub/sub on a topic when a matching topic space is not found? 
 	- Client connection will be closed. 
 - How can my clients send MQTT messages to the service? 
 	- You can use any standard MQTT client SDK.  See SDK samples here. 
-- How can I fix Subscription was rejected error when running the samples? 
-	- Topic space updates take up-to 5 minutes to propagate, please retry the samples post that. 
+- How can I fix 'Subscription was rejected' error when running the samples? 
+	- Topic space updates take up-to 5 minutes to propagate, please retry the samples after a few minutes. 
 - How do I connect to the MQTT broker functionality in Event Grid with a third party tool that requires username and password as string? 
-	- Username and password based authentication is currently not supported.  It will be supported in future release.
+	- Username and password based authentication is not supported in this release.  It will be supported in a future release.
 - What happens if I have more than 10 subscribers per topic for a low fanout topic space?
-    - The 11th subscription request for the same topic will be rejected.
+    - In this release, the 11th subscription request for the same topic will be rejected.
 - How do Azure IoT Hub and Azure Event Grid compare?
-    - While Azure IoT Hub and Azure Event Grid (with new MQTT Broker capability) enable messaging between devices and services, that are necessary for IoT solutions, there are some key differences. Both services support device-to-cloud and cloud-to-device communication but Event Grid also enables device-to-device      communication, via the cloud MQTT Broker. IoT Hub provides richer device management and bulk-device provisioning through integration with Azure Device Provisioning Service. In terms of protocols Event Grid supports HTTP & MQTT and IoT Hub supports HTTP, MQTT & AMQP.For pub/sub messaging use cases, you can start with Azure Event Grid. If your solution requires bulk device provisioning and device management, then you can start with Azure IoT Hub. In future, Azure Event Grid will integrate with Azure Device Provisioning Service to enable these bulk provisioning capabilities.
+    - While Azure IoT Hub and Azure Event Grid (with new MQTT Broker capability) enable messaging between devices and services, that are necessary for IoT solutions, there are some key differences. Both services support device-to-cloud and cloud-to-device communication but Event Grid also enables device-to-device      communication, via the cloud MQTT Broker. IoT Hub provides richer device management and bulk-device provisioning through integration with Azure Device Provisioning Service. In terms of protocols Event Grid supports HTTP & MQTT and IoT Hub supports HTTP, MQTT & AMQP. For pub/sub messaging use cases, you can start with Azure Event Grid. If your solution requires bulk device provisioning and device management, then you can start with Azure IoT Hub. In future, Azure Event Grid will integrate with Azure Device Provisioning Service to enable these bulk provisioning capabilities.
 
 
 
 
-Please share your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u) or email us at askmqtt@microsoft.com with any questions.  Thank you!!
+Please share your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u) or email us at askmqtt@microsoft.com with any questions.
 
