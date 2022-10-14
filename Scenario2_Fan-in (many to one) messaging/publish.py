@@ -56,6 +56,7 @@ def listen(client: PahoClient, initial_location: Dict[str, Any]) -> None:
         print("{}: Connection failed.  Exiting.".format(client.auth.device_id))
         sys.exit(1)
     print("{}: Connected".format(client.auth.device_id))
+    print()
 
     ##################################
     # PUBLISH
@@ -77,6 +78,7 @@ def listen(client: PahoClient, initial_location: Dict[str, Any]) -> None:
                 client.auth.device_id, str(payload), rc, PahoClient.error_string(rc)
             )
         )
+        print()
 
         print("{}: Waiting for PUBACK for mid={}".format(client.auth.device_id, mid))
         if client.incoming_pubacks.wait_for_ack(mid, timeout=20):
@@ -87,10 +89,12 @@ def listen(client: PahoClient, initial_location: Dict[str, Any]) -> None:
                     client.auth.device_id
                 )
             )
+        print()
 
         # sleep between .5 and 2.5 seconds
         sleep_time = random.uniform(0.5, 2.5)
         print("{}: sleeping for {} seconds".format(client.auth.device_id, sleep_time))
+        print()
         time.sleep(sleep_time)
 
     ##################################

@@ -87,7 +87,7 @@ def listen(client: PahoClient) -> None:
     # LISTEN
     ##################################
 
-    time_to_listen_in_seconds = 600
+    time_to_listen_in_seconds = 300
     end_time = time.time() + time_to_listen_in_seconds
 
     while time.time() <= end_time:

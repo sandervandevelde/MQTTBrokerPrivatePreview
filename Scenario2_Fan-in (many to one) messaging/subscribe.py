@@ -36,6 +36,7 @@ if not client.connection_status.wait_for_connected(timeout=20):
     print("{}: Connection failed.  Exiting.".format(client.auth.device_id))
     sys.exit(1)
 print("{}: Connected".format(client.auth.device_id))
+print()
 
 ##################################
 # SUBSCRIBE
@@ -66,6 +67,7 @@ else:
             client.auth.device_id, ack_result[0]
         )
     )
+print()
 
 ##################################
 # LISTEN
@@ -85,7 +87,7 @@ while time.time() <= end_time:
                 client.auth.device_id, message.topic, payload_object
             )
         )
-
+print()
 
 ##################################
 # DISCONNECT

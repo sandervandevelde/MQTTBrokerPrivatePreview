@@ -5,16 +5,16 @@ This scenario simulates device to cloud communication and can be leveraged for u
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|s2-map-client | Subscriber | vehicles/+/GPS |
-|s2-vehicle1 | Publisher | vehicles/vehicle1/GPS |
-|s2-vehicle2 | Publisher | vehicles/vehicle2/GPS |
+|s2-map-client | Subscriber | vehicles/+/GPS/position |
+|s2-vehicle1 | Publisher | vehicles/vehicle1/GPS/position |
+|s2-vehicle2 | Publisher | vehicles/vehicle2/GPS/position |
 
 **Resource Configuration:**
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|s2-map-client (Attributes: “Type”:”Mapping”)| map | map-subscriber |  subscribe: -Topic Templates: vehicles/+/GPS -Subscription Support: LowFanout |
-|s2-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
-|s2-vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS -Subscription Support: NotSupported |
+|s2-map-client (Attributes: “Type”:”Mapping”)| map | map-subscriber |  subscribe: -Topic Templates: vehicles/+/GPS/position -Subscription Support: LowFanout |
+|s2-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS/position -Subscription Support: NotSupported |
+|s2-vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS/position -Subscription Support: NotSupported |
 
 Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
@@ -86,5 +86,5 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 **Test the scenario using the python scripts:**
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
 2. Make sure you have the `mqtt-broker` virtual environment activated by running `source ~/env/mqtt-broker/bin/activate` in Linux or `env/mqtt-broker/bin/activate` in Windows
-3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./subscribe.py`
-4. In a different terminal window, set up the following variable: `export gw_url="<namespace name>.southcentralus-1.mqtt.eventgrid-int.azure.net"` and run the sample script through the following command: `python ./publish.py`
+3. In a terminal window, set up the following variable: `export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./subscribe.py`
+4. In a different terminal window, set up the following variable: `export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"` and run the sample script through the following command: `python ./publish.py`
