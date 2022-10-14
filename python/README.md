@@ -30,7 +30,7 @@ The scripts pip.exe, pip3.9.exe and pip3.exe are installed in 'C:\Users\user\App
 
 A virtual environment gives us a safe space to install Python libraries without changing your "global" python configuration.
 
-Create a virtual environment through the following command. The last directory segment defines the name of the environment. Let's use `env/mqtt-broker`:
+1. Create a virtual environment through the following command. The last directory segment defines the name of the environment. Let's use `env/mqtt-broker`:
 
   ```
   python3 -m venv ~/env/mqtt-broker
@@ -42,7 +42,7 @@ Create a virtual environment through the following command. The last directory s
   sudo apt install python3.8-venv
   ```
 
-3. Activate your virtual environment.  You need to run this everytime you use the provided python scripts in each scenario. 
+2. Activate your virtual environment.  You need to run this everytime you use the provided python scripts in each scenario. 
 
   ```
   source ~/env/mqtt-broker/bin/activate
