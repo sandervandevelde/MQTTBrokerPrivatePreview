@@ -1,6 +1,6 @@
 # Instructions for the initial environment setup
 
-Follow these steps to configure Azure CLI and set the common variables that will be used in the each scenario for deploying resources. You will need to follow these steps in every new terminal window before testing.
+Follow these steps to configure Azure CLI and set the common variables that will be used in the each scenario for deploying resources.
 
 1. Navigate to the Environment_configuration folder in your cloned repo through `cd ./MQTTBrokerPrivatePreview/Environment_configuration/`
 2.   Update profile.sh file to specify your subscription id and resource group name.
