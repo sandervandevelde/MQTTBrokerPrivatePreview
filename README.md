@@ -155,6 +155,7 @@ These client attributes can be used to create the client groups.  For example, i
 
 ### Client group considerations:
 The main purpose of client groups is to provide common authorization to a set of clients to either publish and/or subscribe on one or more Topic spaces.  Every client needs to be part of a client group to be able to publish and subscribe on topic spaces.  The goal is to keep the quantity of client groups very small to make permissions manageable.
+
 For this preview, we will be supporting a maximum of 10 client groups per namespace.
 
 While grouping clients, please ensure that it's easier to reuse the group to publish and subscribe across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish to and subscribe to.  We recommend identifying the commonalities across the scenarios, to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
