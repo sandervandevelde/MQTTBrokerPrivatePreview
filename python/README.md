@@ -2,16 +2,10 @@
 
 ## Make sure you have python 3.6+ installed
 
-Make sure you have python 3.6, or higher installed.   Run `python3 --version` to verify:
+Make sure you have python 3.6, or higher installed. Run `python3 --version` to verify. If it's not installed, run the following command to install it:
+```bash
+sudo apt install python3 python3-pip
 ```
-(Python-3.6.10) user@contoso:~/temp/broker$ python3 --version
-Python 3.6.10
-```
-
-On Linux, you can install python3 with `sudo apt install python3 python3-pip`
-
-On Windows, run `python` to install python through the Microsoft Store.
-
 ## Update PIP
 
 For extra safety, upgrade the Python package manager (PIP) by running the following command.
@@ -32,43 +26,26 @@ The scripts pip.exe, pip3.9.exe and pip3.exe are installed in 'C:\Users\user\App
   Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
 ```
 
-## Set up your virtual environment
+## Create your virtual environment
 
-Next, we set up a virtual environment.  This gives us a safe space to install Python libraries without changing your "global" python configuration.
+A virtual environment gives us a safe space to install Python libraries without changing your "global" python configuration.
 
-1. Install the `virtualenv` library
-
-  ```
-  python3 -m pip install virtualenv
-  ```
-
-2. Create your virtual environment in any directory. The last directory segment defines the name of the environment. Let's use `env/mqtt-broker`:
+Create a virtual environment through the following command. The last directory segment defines the name of the environment. Let's use `env/mqtt-broker`:
 
   ```
   python3 -m venv ~/env/mqtt-broker
   ```
 
-  If you encountered the following error: `The virtual environment was not created successfully because ensurepip is not available. On Debian/Ubuntu systems, you need to install the python3-venv package using the following command.`, install virtual environment as follows.
+  If you encountered the following error: `The virtual environment was not created successfully because ensurepip is not available.`, install the python3-venv package using the following command:
 
   ```
   sudo apt install python3.8-venv
   ```
 
-3. Activate your virtual environment.  You need to do this any time you want to work with this code.
+3. Activate your virtual environment.  You need to run this everytime you use the provided python scripts in each scenario. 
 
-  In Linux:
   ```
   source ~/env/mqtt-broker/bin/activate
-  ```
-
-  In Windows command prompt:
-  ```
-  env\mqtt-broker\Scripts\activate.bat
-  ```
-
-  In powershell:
-  ```
-  .\env\mqtt-broker\Scripts\Activate.ps1
   ```
 
   After you do this, your prompt will change to include the `mqtt-broker` name.
@@ -102,16 +79,16 @@ If you see `ERROR: Failed building wheel for paho.mqtt`, run `pip install wheel`
 
 This should install Paho as well as a few other libraries that we need.  You can verify this with `pip list`:
 ```
-(iothub-broker) user@contoso:~/projects/broker/IoTHubMQTTBrokerPreviewSamples/python$ pip list
-Package                        Version Location
------------------------------- ------- -----------------------------------------------------------------
-MQTTBrokerPreviewSamples 0.0.0   /home/user/projects/broker/IoTHubMQTTBrokerPreviewSamples/python
-paho-mqtt                      1.5.1
-pip                            21.2.4
-setuptools                     56.1.0
-six                            1.16.0
-wheel                          0.36.2
-(iothub-broker) user@contoso:~/projects/broker/IoTHubMQTTBrokerPreviewSamples/python$
+(mqtt-broker) user@contoso:~/MQTTBrokerPrivatePreview/python$ pip list
+Package                  Version Location
+------------------------ ------- --------------------------------------------
+MQTTBrokerPreviewSamples 0.0.0   /home/user/MQTTBrokerPrivatePreview/python
+paho-mqtt                1.6.1
+pip                      20.0.2
+pkg-resources            0.0.0
+setuptools               44.0.0
+six                      1.16.0
+wheel                    0.37.1
 ```
 
 ## Verifying your install
