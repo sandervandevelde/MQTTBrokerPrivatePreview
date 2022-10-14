@@ -3,8 +3,9 @@
 ## Copyright (c) Microsoft. All rights reserved.
 ## Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-ns_name="mqtt-sample-scenario3"
+ns_name="mqtt-sample3-${ns_name_suffix}"
 resource_prefix="${ns_id_prefix}/${ns_name}"
+gw_url="${ns_name}.centraluseuap-1.ts.eventgrid.azure.net"
 
 pushd ../cert-gen
 ./certGen.sh create_leaf_certificate_from_intermediate s3-vehicle1
@@ -35,5 +36,5 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 
 echo "Resources uploaded."
 
-export gw_url="${ns_name}.southcentralus-1.ts.eventgrid-int.azure.net"
-echo "gw_url set to ${gw_url}"
+echo "Run the following in all shell windows before running python scripts:"
+echo "export gw_url=${gw_url}"
