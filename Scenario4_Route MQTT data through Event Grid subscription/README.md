@@ -30,9 +30,14 @@ az provider register --namespace Microsoft.EventGrid
 	- In the "Members" tab, click on "+Select members", then type your AD user name in the "Select" box that will appear (e.g. user@contoso.com).
 	- Select your AD user name, then select "Review + assign"
 
+- Edit NameSpace_Scenario4.json to add the reference to the topic that you just created
+	- Navigate to the resources directory through `cd ./resources`
+	- Edit the file NameSpace_Scenario4.json to add the topic reference as shown in the example below:
+	`"routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group Name>/providers/Microsoft.EventGrid/topics/<Event Grid Topic Name>"`
+
 - Create a namespace with a reference to the Event Grid Topic that you just created
 ```bash
-az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario4.json
+az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NameSpace_Scenario4.json
 ```
 - Generate certificates using the cert-gen scripts. You can skip this step if you're using your own certificate.
 ```bash
