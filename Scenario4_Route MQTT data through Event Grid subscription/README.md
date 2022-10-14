@@ -27,7 +27,7 @@ az provider register --namespace Microsoft.EventGrid
 	- In the portal, go to the created Event Grid topic resource. 
 	- In the "Access control (IAM)" menu item, select "Add a role assignment".
 	- In the "Role" tab, select "EventGrid Data Sender", then select "Next".
-	- In the "Members" tab, click on "+Select members", then type your AD User name in the search bar that will appear (e.g. user@contoso.com).
+	- In the "Members" tab, click on "+Select members", then type your AD User name in the "Select" box that will appear (e.g. user@contoso.com).
 	- Select your AD user name, then select "Review + assign"
 
 - Create a namespace with a reference to the Event Grid Topic that you just created
