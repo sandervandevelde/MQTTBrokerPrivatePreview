@@ -81,7 +81,7 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 
 **Test the scenario using the python scripts:**
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
-2. Open two terminal windows in your Linux environment, and run the following commands in both terminal windows after editing the \<namespace name>:
+2. Open two terminal windows in your Linux environment, navigate to the scenario directory in both windows, and then run the following commands in both windows after editing the \<namespace name>:
 ```bash
 # Make sure you have the `mqtt-broker` virtual environment activated 
 source ~/env/mqtt-broker/bin/activate
