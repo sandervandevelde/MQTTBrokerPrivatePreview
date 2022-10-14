@@ -79,10 +79,10 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 ```
 
 ## Test the scenario:
-Use the following steps to set up a subscription on your created event grid topic (script's topic name= mqtt-sample-topic), run the python scripts to send messages, and observe the messages on your endpoint.
+Use the following steps to set up a subscription on your created event grid topic, run the python scripts to send messages, and observe the messages on your endpoint.
 
 ### Set up an Event Grid Subscription to your Event Hubs endpoint:
-- In the portal, go to the created Event Grid topic (mqtt-sample-topic) resource, and select "+ Event Subscription" in the Overview menu item.
+- In the portal, go to the created Event Grid topic resource, and select "+ Event Subscription" in the Overview menu item.
 - In the Basics tab, provide the following fields:
 	- Name: your event subscription name
 	- Event Schema: Cloud Event Schema v1.0
