@@ -61,13 +61,13 @@ Now you are using the python and pip executables from inside the `env/mqtt-broke
 
 The following instructions will help you install the modules that you will need to run tests.
 
-You need to change the directory to run the following commands from this python folder of your cloned repo. Change the following command to point to the correct path.
+1. You need to change the directory to run the following commands from this python folder of your cloned repo. Change the following command to point to the correct path.
 
 ```
 cd ./MQTTBrokerPrivatePreview/python
 
 ```
-To install the modules that you will need to run these tests, run pip to install the code in this directory in 'editable' mode.
+2. To install the modules that you will need to run these tests, run pip to install the code in this directory in 'editable' mode.
 
 ```
 pip install -e .
