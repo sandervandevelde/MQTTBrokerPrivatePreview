@@ -34,13 +34,13 @@ When the private preview program ends, or when your tests are completed, you can
 This private preview provides the following capabilities
 - Cloud MQTT broker functionality in Event Grid enabling publish and subscribe on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
-- QoS 0, 1: MQTT manages the re-transmission of messages and guarantees delivery making communication in unreliable networks a lot reliable.
-- Flexible access control model:  Grouping clients into "client groups" and topic references into topic spaces to ease access control management.
-- Fine-grained access control model:  Introducing "topic templates" with variables support to enable fine-grained access control.
-- Support for 1-1, 1-many and many-1 messaging patterns to accommodate for a variety of scenarios
+- QoS 0, 1: QoS 0 level guarantees a best-effort delivery. QoS1 guarantees that the message will be delivered at least once.
+- Flexible access control model:  Grouping clients into ClientGroups and topic references into TopicSpaces to ease access control management.
+- Fine-grained access control model:  Introducing TopicTemplates with variables support to enable fine-grained access control.
+- Support for one-one, one-many, many-one messaging patterns to accommodate for a variety of scenarios
 - Compatibility with standard MQTT client libraries (ex. Eclipse Paho) allows users to migrate configuration much faster
 - Route MQTT messages through Event Grid subscriptions to integrate data with Azure services or custom endpoints for flexibility to further process the data
-- Persistent session will allow for clean session if client disconnects and reconnects, ensuring subscribed messages are sent after reconnection.
+- Persistent sessions ensure that the messages are preserved for a certain time and sent to clients that disconnect and reconnect
 - Support for TLS 1.2 endpoints for data plane operations to keep the data transmission secure
 - Also, see [throttle limit tables](#limits) below
 
