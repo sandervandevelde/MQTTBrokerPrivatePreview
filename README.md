@@ -143,19 +143,19 @@ One and only one authentication type properties (CertificateThumbprint or Certif
 ### Client Groups
 Client group is a new concept introduced to make management of client access controls (publish/subscribe) easy – multiple clients can be grouped together based on certain commonalities to provide similar levels of authorization to publish and/or subscribe to Topic spaces.
 
-Clients can be devices or applications, such as devices or vehicles that send/receive MQTT messages.
+Clients can be devices or applications, such as devices or vehicles that send/receive MQTT messages. We provide a default client group, named $all, which all clients are associated with. For ease of testing, you can considering using $all for premissions.
 
-For example, a fleet management company with hundreds of trucks and other shipment delivery vehicles across the country, can improve their routing, tracking, driver safety and predictable maintenance capabilities by sending and receiving MQTT messages to/from the vehicles to monitoring applications on cloud.
+For example, a fleet management company with hundreds of trucks and other shipment delivery vehicles across the country, can improve their routing, tracking, driver safety and predictable maintenance capabilities by sending and receiving MQTT messages to/from the vehicles to/from monitoring applications on cloud.
 
-In this scenario, vehicles can be configured as clients that publish/subscribe to various topics such as weather information, road conditions, geo location, engine performance and other wear-and-tear aspects of the vehicle.  And, while configuring the vehicle as a client, a set of attributes such as vehicle type, year, make & model, max load capacity can also be included as part of the client metadata.
+In this scenario, vehicles can be configured as clients that publish/subscribe to various topics such as weather information, road conditions, geo location, engine performance and other wear-and-tear aspects of the vehicle.  And, while configuring the vehicle as a client, a set of attributes such as vehicle type, year, make & model, max load capacity can also be included as part of the client metadata via client attributes.
 
-These client attributes can be used to create the client groups.  For example, if the vehicles that can carry loads over 2 tons are prone to accidents if driven with low braking fluid especially in icy road conditions, then all such vehicles can be grouped together to continuously monitor and alert the drivers in case of potential hazardous conditions based on weather at their locations.
+These client attributes can be used to create the client groups.  For example, if the vehicles that can carry loads over 2 tons are prone to accidents if driven with low braking fluid, in icy road conditions, then all such vehicles can be grouped together to continuously monitor and alert the drivers in case of potential hazardous conditions based on weather at their locations.
 
 ### Client group considerations:
 The main purpose of client groups is to provide common authorization to a set of clients to either publish and/or subscribe on one or more Topic spaces.  Every client needs to be part of a client group to be able to pub/sub on topic spaces.  The goal is to keep the quantity of client groups very small to make permissions manageable.
 For this preview, we will be supporting a maximum of 10 client groups per namespace.
 
-Clients need to be grouped in a way that it’s easier to reuse the group to pub/sub across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish/subscribe to.  Identify the commonalities across the scenarios to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
+Clients need to be grouped in a way that it’s easier to reuse the group to pub/sub across multiple topic spaces.  To this end, it is important to think through the end-to-end scenarios to identify the topics every client will publish from/subscribe to.  We recommend identifying the commonalities across the scenarios, to avoid over fragmentation of client groups and topic spaces.  Set the client attributes generic enough to achieve simple grouping and avoid highly complex group queries.
 
 **What are client attributes?**
 Client attributes are a set of user defined key-value pairs or tags that provide information about the client.  These attributes will be the main ingredient in the client group filtering expressions.  Attributes could be describing the physical or functional characteristics of the client.  Typical attribute could be type of the client (client type).  
