@@ -91,6 +91,8 @@ Use the following steps to set up a subscription on your created event grid topi
 - Go to the Filters tab, and “Enable subject filtering”
 	- In the field “Subject Begins With”, type “areas/area1/vehicles/”
 		- The MQTT topic is represented by the Subject field in the routed Cloud Event Schema so this configuration will filter all the messages with the MQTT Topic that starts with “areas/area1/vehicles/”.
+
+- Select "Create"
 		
 ### Test the scenario using the python scripts:		
 1. If you haven't installed the required modules, follow the instructions in the [python README file](../python/README.md).
