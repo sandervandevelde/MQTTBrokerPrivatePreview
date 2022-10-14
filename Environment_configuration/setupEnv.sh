@@ -23,7 +23,10 @@ function update_ca_certificate_resources()
     done
 }
 
-az cloud set --name AzureCloud
+az cloud register -n centraluseuap --endpoint-active-directory https://login.microsoftonline.com --endpoint-active-directory-graph-resource-id https://graph.windows.net/ --endpoint-active-directory-resource-id https://management.core.windows.net/ --endpoint-gallery https://gallery.azure.com/ --endpoint-management https://management.core.windows.net/ --endpoint-resource-manager https://centraluseuap.management.azure.com/ --suffix-storage-endpoint core.windows.net --suffix-keyvault-dns vault.azure.net
+
+az cloud set --name centraluseuap
+## az cloud set --name AzureCloud
 az login
 
 az account set -s ${sub_id}
