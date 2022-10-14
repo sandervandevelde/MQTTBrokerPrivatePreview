@@ -26,6 +26,10 @@ chmod 700 create_resources.sh
 ```
 
 **Configure the resources manually:**
+- Set a unique namespace name in the following varibale to be used in the following commands
+```bash
+export resource_prefix="${ns_id_prefix}/<unique namespace name>"
+```
 - Create a namespace:
 ```bash
 az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS_Scenario2.json
