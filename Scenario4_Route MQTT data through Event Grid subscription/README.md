@@ -35,6 +35,10 @@ az provider register --namespace Microsoft.EventGrid
 	- Edit the file NameSpace_Scenario4.json to add the topic reference as shown in the following example:`"routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group Name>/providers/Microsoft.EventGrid/topics/<Event Grid Topic Name>"`
 	- Navigate back to the "Scenario4_Route MQTT data through Event Grid subscription" directory through `cd ..`
 
+- Set a unique namespace name in the following varibale to be used in the following commands
+```bash
+export resource_prefix="${ns_id_prefix}/<unique namespace name>"
+```
 - Create a namespace with a reference to the Event Grid Topic that you just created
 ```bash
 az resource create --resource-type ${base_type} --id ${resource_prefix} --is-full-object --api-version 2022-10-15-preview --properties @./resources/NameSpace_Scenario4.json
