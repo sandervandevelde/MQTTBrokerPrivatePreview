@@ -17,7 +17,7 @@ The private preview is only for testing.  Please do NOT use it for your producti
 
 **Engagement:**  We will actively engage with you during the preview. At any point, feel free to connect with us for questions/concerns by emailing to askmqtt@microsoft.com.
 
-**Feedback:**  At the end of the preview, we will capture additional feedback using this form.
+**Feedback:**  At the end of the preview, we will capture additional feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).
 
 **Cost to use:**  For this release, MQTT broker functionality in Event Grid is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions.  Please check the Event Grid pricing [here](https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
