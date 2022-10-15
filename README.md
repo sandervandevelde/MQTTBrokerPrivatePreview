@@ -167,7 +167,7 @@ Here is an example:
 
 Here’s a sample schema for the attribute definition: 
 
-```json
+```bash
 {  
     "id": "device123",  
     "attributes": {  
