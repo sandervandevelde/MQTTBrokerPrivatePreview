@@ -391,7 +391,7 @@ All the names are of String type
 	- Not in this release.  We will add monitoring metrics and diagnostic logs in the next release.
 - What happens if client attempts to publish on a topic when a matching topic space is not found? 
 	- Client connection will be closed. Identify which client groups the client belongs to.  Based on the permission bindings, identify the topic spaces to which the client groups have access to publish.
-- How do I connect to the MQTT broker functionality in Event Grid with a third party tool that requires username and password as string? 
+- How do I connect an MQTT client that requires username and password for authentication?
 	- Username and password based authentication is not supported in this release.  It will be supported in a future release.
 - What happens if I have more than 10 subscribers per topic for a low fanout topic space?
     - In this release, the 11th subscription request for the same topic will be rejected.
