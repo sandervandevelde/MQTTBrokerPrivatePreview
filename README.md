@@ -171,7 +171,7 @@ Here’s a sample schema for the attribute definition:
 {  
     "id": "device123",  
     "attributes": {  
-        "status": "active",
+        "type": "home-sensors",
         "sensors": ["motion", "noise", "light"]  
      }  
 }
@@ -183,7 +183,7 @@ While configuring the client attributes, consider the topics that the clients wi
 To setup a client group, user needs to build a query that filters a set of clients based on their attribute values.
 
 Here are a few sample queries:
-- (attributes.sensors = "motion" or attributes.sensors = "humidity") or attributes.status <> "sleep mode"
+- (attributes.sensors = "motion" or attributes.sensors = "humidity") or attributes.type = "home-sensors"
 - attributes.sensors IN ["motion", "humidity", "temperature"] and attributes.floor <= 5
 
 In group queries, following operands are allowed:
