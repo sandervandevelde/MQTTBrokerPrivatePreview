@@ -2,6 +2,7 @@
 # Licensed under the MIT License. See License.txt in the project root for
 # license information.
 import logging
+import time
 from paho.mqtt import client as mqtt
 from auth import BaseAuth, X509Auth
 from mqtt_helpers import IncomingMessageList, IncomingAckList, ConnectionStatus
@@ -180,3 +181,8 @@ class PahoClient(object):
 
     def client_id(self) -> str:
         return self.auth.client_id  # type: ignore
+
+    def print_msg(self, msg: str) -> None:
+        current_time = time.gmtime()
+        str_time = time.strftime('%Y/%m/%d %H:%M:%S %Z', current_time)
+        print("{}: {}: {}".format(str_time, self.auth.client_id, msg))

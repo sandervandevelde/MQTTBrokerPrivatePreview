@@ -35,11 +35,12 @@ client = PahoClient.create_from_x509_certificate(
 # CONNECT
 ##################################
 
-print("Connecting to {}".format(client.auth.device_id))
+client.print_msg("Connecting...")
 client.start_connect()
 if not client.connection_status.wait_for_connected(timeout=20):
+    client.print_msg("Failed to connect. Exiting")
     sys.exit(1)
-print("Connected")
+client.print_msg("Connected")
 print()
 
 ##################################
@@ -47,22 +48,22 @@ print()
 ##################################
 
 qos = 1
-print("Subscribing to {} at qos {}".format(topic_filter, qos))
+client.print_msg("Subscribing to {} at qos {}".format(topic_filter, qos))
 (rc, mid) = client.subscribe(topic_filter, qos)
 
 ack_result = client.incoming_subacks.wait_for_ack(mid, timeout=20)
 if not ack_result:
-    print("SUBACK not received within 20 seconds")
+    client.print_msg("SUBACK not received within 20 seconds")
     client.disconnect()
     client.connection_status.wait_for_disconnected()
     sys.exit(1)
 elif ack_result[0] == -1:
-    print("Subscription was rejected")
+    client.print_msg("Subscription was rejected")
     client.disconnect()
     client.connection_status.wait_for_disconnected()
     sys.exit(1)
 else:
-    print("Subscription was granted with qos {}".format(ack_result[0]))
+    client.print_msg("Subscription was granted with qos {}".format(ack_result[0]))
 print()
 
 ##################################
@@ -74,19 +75,20 @@ end_time = time.time() + time_to_listen_in_seconds
 
 while time.time() <= end_time:
     remaining_time = end_time - time.time()
-    print("Waiting for messages for {} more seconds".format(remaining_time))
+    client.print_msg("{}: Waiting for messages for {} more seconds".format(time.time(), remaining_time))
 
     message = client.incoming_messages.pop_next_message(timeout=remaining_time)
     if message:
-        print("Message received on topic {}".format(message.topic))
+        client.print_msg("Message received on topic {}".format(message.topic))
         payload_object = json.loads(message.payload)
-        print("Payload: {}".format(payload_object))
+        client.print_msg("Payload: {}".format(payload_object))
 print()
 
 ##################################
 # DISCONNECT
 ##################################
 
-print("Disconnecting")
+time.sleep(1)
+client.print_msg("Disconnecting")
 client.disconnect()
 client.connection_status.wait_for_disconnected()
