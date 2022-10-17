@@ -30,12 +30,12 @@ client = PahoClient.create_from_x509_certificate(client_id, cert_path, cert_key_
 # CONNECT
 ##################################
 
-print("{}: Connecting".format(client.auth.device_id))
+client.print_msg("Connecting")
 client.start_connect()
 if not client.connection_status.wait_for_connected(timeout=20):
-    print("{}: Connection failed.  Exiting.".format(client.auth.device_id))
+    client.print_msg("Connection failed. Exiting.")
     sys.exit(1)
-print("{}: Connected".format(client.auth.device_id))
+client.print_msg("Connected")
 print()
 
 ##################################
@@ -45,27 +45,25 @@ print()
 topic_filter = "vehicles/+/GPS/#"
 
 qos = 1
-print(
-    "{}: Subscribing to {} at qos {}".format(client.auth.device_id, topic_filter, qos)
+client.print_msg(
+    "Subscribing to {} at qos {}".format(topic_filter, qos)
 )
 (rc, mid) = client.subscribe(topic_filter, qos)
 
-ack_result = client.incoming_subacks.wait_for_ack(mid, timeout=20)
+ack_result = client.incoming_subacks.wait_for_ack(mid, timeout=60)
 if not ack_result:
-    print("{}: SUBACK not received within 20 seconds".format(client.auth.device_id))
+    client.print_msg("SUBACK not received within 20 seconds")
     client.disconnect()
     client.connection_status.wait_for_disconnected()
     sys.exit(1)
 elif ack_result[0] == -1:
-    print("{}: Subscription was rejected".format(client.auth.device_id))
+    client.print_msg("Subscription was rejected")
     client.disconnect()
     client.connection_status.wait_for_disconnected()
     sys.exit(1)
 else:
-    print(
-        "{}: Subscription was granted with qos {}".format(
-            client.auth.device_id, ack_result[0]
-        )
+    client.print_msg(
+        "Subscription was granted with qos {}".format(ack_result[0])
     )
 print()
 
@@ -82,9 +80,9 @@ while time.time() <= end_time:
     message = client.incoming_messages.pop_next_message(timeout=remaining_time)
     if message:
         payload_object = json.loads(message.payload)
-        print(
-            "{}: Message for received on topic {}: {}".format(
-                client.auth.device_id, message.topic, payload_object
+        client.print_msg(
+            "Message received on topic {}: {}".format(
+                message.topic, payload_object
             )
         )
 print()
@@ -93,6 +91,7 @@ print()
 # DISCONNECT
 ##################################
 
-print("{}: Disconnecting".format(client.auth.device_id))
+time.sleep(2)
+client.print_msg("Disconnecting")
 client.disconnect()
 client.connection_status.wait_for_disconnected()
