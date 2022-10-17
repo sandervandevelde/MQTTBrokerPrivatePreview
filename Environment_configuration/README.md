@@ -24,6 +24,7 @@ source profile.sh
 6. Run the "setupEnv.sh"  script to create the root certificate that will be used in the sample scenarios and update the resources' configuration files (CAC_test-ca-cert.json). The script will also configure Azure CLI. A browser window will open to complete the login.
 
 > **Warning**
+
 >  Make sure to run this script **only once** to avoid discrepancies between the generated certificates and the configuration files. 
 
 ```bash
