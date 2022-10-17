@@ -5,6 +5,7 @@ import os
 import sys
 import logging  # noqa: F401
 import json
+import time
 from paho_client import PahoClient
 
 """
@@ -29,12 +30,12 @@ client = PahoClient.create_from_x509_certificate(client_id, cert_path, cert_key_
 # CONNECT
 ##################################
 
-print("{}: Starting connection".format(client.auth.device_id))
+client.print_msg("Starting connection")
 client.start_connect()
 if not client.connection_status.wait_for_connected(timeout=20):
-    print("{}: failed to connect.  exiting".format(client.auth.device_id))
+    client.print_msg("Failed to connect. Exiting")
     sys.exit(1)
-print("{}: Connected".format(client.auth.device_id))
+client.print_msg("Connected")
 print()
 
 ##################################
@@ -46,26 +47,25 @@ payload = {
     "message": "The national weather service has issued a tornado watch for Milwaukee County until 8 PM tonight"
 }
 
-print("{}: Publishing to {} at QOS=1: {}".format(client.auth.device_id, topic, payload))
+client.print_msg("Publishing to {} at QOS=1: {}".format(topic, payload))
 (rc, mid) = client.publish(topic, json.dumps(payload), qos=1)
-print(
-    "{}: Publish returned rc={}: {}".format(
-        client.auth.device_id, rc, PahoClient.error_string(rc)
-    )
+client.print_msg(
+    "Publish returned rc={}: {}".format(rc, PahoClient.error_string(rc))
 )
 
 timeout_sec = 60
-print("{}: Waiting for PUBACK for mid={}".format(client.auth.device_id, mid))
+client.print_msg("Waiting for PUBACK for mid={}".format(mid))
 if client.incoming_pubacks.wait_for_ack(mid, timeout=timeout_sec):
-    print("{}: PUBACK received".format(client.auth.device_id))
+    client.print_msg("PUBACK received")
 else:
-    print("{}: PUBACK not received within {} seconds".format(client.auth.device_id, timeout_sec))
+    client.print_msg("PUBACK not received within {} seconds".format(timeout_sec))
 print()
 
 ##################################
 # DISCONNECT
 ##################################
 
-print("{}: Disconnecting".format(client.auth.device_id))
+time.sleep(2)
+client.print_msg("Disconnecting")
 client.disconnect()
 client.connection_status.wait_for_disconnected()

@@ -75,7 +75,7 @@ end_time = time.time() + time_to_listen_in_seconds
 
 while time.time() <= end_time:
     remaining_time = end_time - time.time()
-    client.print_msg("{}: Waiting for messages for {} more seconds".format(time.time(), remaining_time))
+    client.print_msg("Waiting for messages for {} more seconds".format(remaining_time))
 
     message = client.incoming_messages.pop_next_message(timeout=remaining_time)
     if message:

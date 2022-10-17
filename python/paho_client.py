@@ -184,5 +184,5 @@ class PahoClient(object):
 
     def print_msg(self, msg: str) -> None:
         current_time = time.gmtime()
-        str_time = time.strftime('%Y/%m/%d %H:%M:%S %Z', current_time)
+        str_time = time.strftime('%Y-%m-%d %H:%M:%SZ', current_time)
         print("{}: {}: {}".format(str_time, self.auth.client_id, msg))
