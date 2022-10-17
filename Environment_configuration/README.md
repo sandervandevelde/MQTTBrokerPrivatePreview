@@ -11,6 +11,7 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 ```bash
 sub_id="<<your-subscription-id>>"
 rg_name="<<your-resource-name>>"
+ad_username="<your-AD-username>" # i.e user@contoso.com
 ```
 4. Make the scripts executable:
 ```bash
@@ -22,3 +23,4 @@ chmod 700 setupEnv.sh
 source profile.sh
 ./setupEnv.sh
 ```
+The setupEnv.sh script creates the root certificates used by all sample scenarios and it updates CAC_test-ca-cert.json files in all scenario directories. WARNING: This script should be run only once.

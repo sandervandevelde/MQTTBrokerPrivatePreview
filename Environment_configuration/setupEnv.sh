@@ -3,6 +3,16 @@
 ## Copyright (c) Microsoft. All rights reserved.
 ## Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+function generate_ca_cert_file()
+{
+    local file_path="${1}"
+    local cert_value="\"-----BEGIN CERTIFICATE-----\\n${2}\\n-----END CERTIFICATE-----\""
+
+    echo "{" >> $file_path
+    echo "    \"encodedCertificate\": $cert_value" >> $file_path
+    echo "}" >> $file_path
+}
+
 function update_ca_certificate_resources()
 {
     local cert_path="${1}"
@@ -18,8 +28,10 @@ function update_ca_certificate_resources()
 
     for file in ${2}/Scenario*/resources/CAC_*
     do
-        echo "Updating cert value in file: $file"
-        sed -i "s/<<ca-cert-pem-content>>/${escaped_full_cert_value}/" "$file"
+        echo "Deleting file $file"
+        rm -f $file
+        echo "Generating $file with new ca cert value."
+        generate_ca_cert_file $file $full_cert_value
     done
 }
 
