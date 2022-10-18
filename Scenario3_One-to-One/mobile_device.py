@@ -39,39 +39,37 @@ topic_filter = "vehicles/unlock/res/{}/#".format(client.auth.device_id)
 # CONNECT
 ##################################
 
-print("{}: Connecting".format(client.auth.device_id))
+client.print_msg("Connecting")
 client.start_connect()
 if not client.connection_status.wait_for_connected(timeout=20):
-    print("{}: Connection failed.  Exiting.".format(client.auth.device_id))
+    client.print_msg("Connection failed. Exiting.")
     sys.exit(1)
-print("{}: Connected".format(client.auth.device_id))
+client.print_msg("Connected")
 print()
 ##################################
 # SUBSCRIBE
 ##################################
 
 qos = 1
-print(
-    "{}: Subscribing to {} at qos {}".format(client.auth.device_id, topic_filter, qos)
+client.print_msg(
+    "Subscribing to {} at qos {}".format(topic_filter, qos)
 )
 (rc, mid) = client.subscribe(topic_filter, qos)
 
 ack_result = client.incoming_subacks.wait_for_ack(mid, timeout=20)
 if not ack_result:
-    print("{}: SUBACK not received within 20 seconds".format(client.auth.device_id))
+    client.print_msg("SUBACK not received within 20 seconds")
     client.disconnect()
     client.connection_status.wait_for_disconnected()
     sys.exit(1)
 elif ack_result[0] == -1:
-    print("{}: Subscription was rejected".format(client.auth.device_id))
+    client.print_msg("Subscription was rejected")
     client.disconnect()
     client.connection_status.wait_for_disconnected()
     sys.exit(1)
 else:
-    print(
-        "{}: Subscription was granted with qos {}".format(
-            client.auth.device_id, ack_result[0]
-        )
+    client.print_msg(
+        "Subscription was granted with qos {}".format(ack_result[0])
     )
 print()
 
@@ -89,23 +87,19 @@ payload = {
 }
 
 
-print(
-    "{}: Publishing to {} at QOS {}: {}".format(
-        client.auth.device_id, topic, qos, payload
-    )
+client.print_msg(
+    "Publishing to {} at QOS {}: {}".format(topic, qos, payload)
 )
 (rc, mid) = client.publish(topic, json.dumps(payload), qos=qos)
-print(
-    "{}: Publish returned rc={}: {}".format(
-        client.auth.device_id, rc, PahoClient.error_string(rc)
-    )
+client.print_msg(
+    "Publish returned rc={}: {}".format(rc, PahoClient.error_string(rc))
 )
 
-print("{}: Waiting for PUBACK for mid={}".format(client.auth.device_id, mid))
+client.print_msg("Waiting for PUBACK for mid={}".format(mid))
 if client.incoming_pubacks.wait_for_ack(mid, timeout=20):
-    print("{}: PUBACK received".format(client.auth.device_id))
+    client.print_msg("PUBACK received")
 else:
-    print("{}: PUBACK not received within 20 seconds".format(client.auth.device_id))
+    client.print_msg("PUBACK not received within 20 seconds")
 print()
 
 ##################################
@@ -117,29 +111,25 @@ end_time = time.time() + time_to_listen_in_seconds
 
 while time.time() <= end_time:
     remaining_time = end_time - time.time()
-    print(
-        "{}: listening for response for {} more seconds".format(
-            client.auth.device_id, remaining_time
-        )
+    client.print_msg(
+        "listening for response for {} more seconds".format(remaining_time)
     )
 
     message = client.incoming_messages.pop_next_message(timeout=remaining_time)
     if message:
         payload_object = json.loads(message.payload)
-        print(
+        client.print_msg(
             "{}: Message for UNLOCKED received on topic {}: {}".format(
                 client.auth.device_id, message.topic, payload_object
             )
         )
         if payload_object["commandId"] == command_id:
-            print(
-                "{}: response received.  Result={}".format(
-                    client.auth.device_id, payload_object["result"]
-                )
+            client.print_msg(
+                "response received.  Result={}".format(payload_object["result"])
             )
             break
         else:
-            print("{}: unknown response.  Ignoring".format(client.auth.device_id))
+            client.print_msg("unknown response. Ignoring")
 
 print()
 
@@ -147,6 +137,7 @@ print()
 # DISCONNECT
 ##################################
 
-print("{}: Disconnecting".format(client.auth.device_id))
+time.sleep(2)
+client.print_msg("Disconnecting")
 client.disconnect()
 client.connection_status.wait_for_disconnected()
