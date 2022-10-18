@@ -50,13 +50,12 @@ def listen(client: PahoClient, initial_location: Dict[str, Any]) -> None:
     # CONNECT
     ##################################
 
-    print("{}: Connecting".format(client.auth.device_id))
+    client.print_msg("Connecting")
     client.start_connect()
     if not client.connection_status.wait_for_connected(timeout=20):
-        print("{}: Connection failed.  Exiting.".format(client.auth.device_id))
+        client.print_msg("Connection failed. Exiting.")
         sys.exit(1)
-    print("{}: Connected".format(client.auth.device_id))
-    print()
+    client.print_msg("Connected")
 
     ##################################
     # PUBLISH
@@ -67,41 +66,33 @@ def listen(client: PahoClient, initial_location: Dict[str, Any]) -> None:
         payload["index"] = i
         payload["latitude"] += i
 
-        print(
-            "{}: Publishing to {} at QOS=1: {}".format(
-                client.auth.device_id, topic, payload
-            )
+        client.print_msg(
+            "Publishing to {} at QOS=1: {}".format(topic, payload)
         )
         (rc, mid) = client.publish(topic, json.dumps(payload), qos=1)
-        print(
-            "{}: Publish for {} returned rc={}: {}".format(
-                client.auth.device_id, str(payload), rc, PahoClient.error_string(rc)
+        client.print_msg(
+            "Publish for {} returned rc={}: {}".format(
+                str(payload), rc, PahoClient.error_string(rc)
             )
         )
-        print()
 
-        print("{}: Waiting for PUBACK for mid={}".format(client.auth.device_id, mid))
+        client.print_msg("Waiting for PUBACK for mid={}".format(mid))
         if client.incoming_pubacks.wait_for_ack(mid, timeout=20):
-            print("{}: PUBACK received".format(client.auth.device_id))
+            client.print_msg("PUBACK received")
         else:
-            print(
-                "{}: PUBACK not received within 20 seconds".format(
-                    client.auth.device_id
-                )
-            )
-        print()
+            client.print_msg("PUBACK not received within 20 seconds")
 
         # sleep between .5 and 2.5 seconds
         sleep_time = random.uniform(0.5, 2.5)
-        print("{}: sleeping for {} seconds".format(client.auth.device_id, sleep_time))
-        print()
+        client.print_msg("Sleeping for {} seconds".format(sleep_time))
         time.sleep(sleep_time)
 
     ##################################
     # DISCONNECT
     ##################################
 
-    print("{}: Disconnecting".format(client.auth.device_id))
+    time.sleep(2)
+    client.print_msg("Disconnecting")
     client.disconnect()
     client.connection_status.wait_for_disconnected()
 

@@ -5,6 +5,7 @@ import os
 import sys
 import logging  # noqa: F401
 import json
+import time
 from paho_client import PahoClient
 
 """
@@ -32,34 +33,35 @@ client = PahoClient.create_from_x509_certificate(client_id, cert_path, cert_key_
 # CONNECT
 ##################################
 
-print("Connecting to {}".format(client.auth.device_id))
+client.print_msg("Connecting...")
 client.start_connect()
 
 if not client.connection_status.wait_for_connected(timeout=20):
-    print("failed to connect.  exiting")
+    client.print_msg("Failed to connect. Exiting")
     sys.exit(1)
-print("Connected")
+client.print_msg("Connected")
 print()
 
 ##################################
 # PUBLISH
 ##################################
 
-print("Publishing to {} at QOS=1".format(topic))
+client.print_msg("Publishing to {} at QOS=1".format(topic))
 (rc, mid) = client.publish(topic, json.dumps(payload), qos=1)
-print("Publish returned rc={}: {}".format(rc, PahoClient.error_string(rc)))
+client.print_msg("Publish returned rc={}: {}".format(rc, PahoClient.error_string(rc)))
 
-print("Waiting for PUBACK for mid={}".format(mid))
+client.print_msg("Waiting for PUBACK for mid={}".format(mid))
 if client.incoming_pubacks.wait_for_ack(mid, timeout=20):
-    print("PUBACK received")
+    client.print_msg("PUBACK received")
 else:
-    print("PUBACK not received within 20 seconds")
+    client.print_msg("PUBACK not received within 20 seconds")
 print()
 
 ##################################
 # DISCONNECT
 ##################################
 
-print("Disconnecting")
+time.sleep(1)
+client.print_msg("Disconnecting")
 client.disconnect()
 client.connection_status.wait_for_disconnected()

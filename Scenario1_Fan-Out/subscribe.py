@@ -42,13 +42,12 @@ def listen(client: PahoClient) -> None:
     # CONNECT
     ##################################
 
-    print("{}: Connecting".format(client.auth.device_id))
+    client.print_msg("Connecting...")
     client.start_connect()
     if not client.connection_status.wait_for_connected(timeout=20):
-        print("{}: failed to connect.  exiting".format(client.auth.device_id))
+        client.print_msg("Failed to connect. Exiting")
         sys.exit(1)
-    print("{}: Connected".format(client.auth.device_id))
-    print()
+    client.print_msg("Connected")
 
     ##################################
     # SUBSCRIBE
@@ -57,31 +56,24 @@ def listen(client: PahoClient) -> None:
     qos = 1
     topic_filter = "fleet/alerts/#"
 
-    print(
-        "{}: Subscribing to {} at qos {}".format(
-            client.auth.device_id, topic_filter, qos
-        )
-    )
+    client.print_msg("Subscribing to {} at qos {}".format(topic_filter, qos))
     (rc, mid) = client.subscribe(topic_filter, qos)
 
     ack_result = client.incoming_subacks.wait_for_ack(mid, timeout=20)
     if not ack_result:
-        print("{}: SUBACK not received within 20 seconds".format(client.auth.device_id))
+        client.print_msg("SUBACK not received within 20 seconds")
         client.disconnect()
         client.connection_status.wait_for_disconnected()
         sys.exit(1)
     elif ack_result[0] == -1:
-        print("{}: Subscription was rejected".format(client.auth.device_id))
+        client.print_msg("Subscription was rejected")
         client.disconnect()
         client.connection_status.wait_for_disconnected()
         sys.exit(1)
     else:
-        print(
-            "{}: Subscription was granted with qos {}".format(
-                client.auth.device_id, ack_result[0]
-            )
+        client.print_msg(
+            "Subscription was granted with qos {}".format(ack_result[0])
         )
-    print()
 
     ##################################
     # LISTEN
@@ -92,22 +84,21 @@ def listen(client: PahoClient) -> None:
 
     while time.time() <= end_time:
         remaining_time = end_time - time.time()
+        client.print_msg("Waiting for messages for {} more seconds".format(remaining_time))
 
         message = client.incoming_messages.pop_next_message(timeout=remaining_time)
         if message:
             payload_object = json.loads(message.payload)
-            print(
-                "{}: Message received on topic {}: {}".format(
-                    client.auth.device_id, message.topic, payload_object
-                )
+            client.print_msg(
+                "Message received on topic {}: {}".format(message.topic, payload_object)
             )
-    print()
 
     ##################################
     # DISCONNECT
     ##################################
 
-    print("{}: Disconnecting".format(client.auth.device_id))
+    time.sleep(1)
+    client.print_msg("Disconnecting")
     client.disconnect()
     client.connection_status.wait_for_disconnected()
 

@@ -3,6 +3,29 @@
 ## Copyright (c) Microsoft. All rights reserved.
 ## Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+function warn_only_once()
+{
+    echo
+    [ ! -z "$TERM" ] && tput smso
+    [ ! -z "$TERM" ] && tput setaf 3
+    echo "WARNING: This script should be run only once per your environment."
+    echo "It creates test root certificates and updates some resource files for scenarios."
+    echo "If the script is run more than once it could create some inconsistencies with resources,"
+    echo "and they might need to be cleaned out."
+    [ ! -z "$TERM" ] && tput sgr0
+}
+
+
+function generate_ca_cert_file()
+{
+    local file_path="${1}"
+    local cert_value="\"-----BEGIN CERTIFICATE-----\\n${2}\\n-----END CERTIFICATE-----\""
+
+    echo "{" >> $file_path
+    echo "    \"encodedCertificate\": $cert_value" >> $file_path
+    echo "}" >> $file_path
+}
+
 function update_ca_certificate_resources()
 {
     local cert_path="${1}"
@@ -18,8 +41,10 @@ function update_ca_certificate_resources()
 
     for file in ${2}/Scenario*/resources/CAC_*
     do
-        echo "Updating cert value in file: $file"
-        sed -i "s/<<ca-cert-pem-content>>/${escaped_full_cert_value}/" "$file"
+        echo "Deleting file $file"
+        rm -f $file
+        echo "Generating $file with new ca cert value."
+        generate_ca_cert_file $file $full_cert_value
     done
 }
 
@@ -36,3 +61,5 @@ pushd ../cert-gen
 popd
 
 update_ca_certificate_resources "../cert-gen/certs/azure-mqtt-test-only.intermediate.cert.pem" ".."
+
+warn_only_once

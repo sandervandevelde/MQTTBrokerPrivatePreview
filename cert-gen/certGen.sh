@@ -320,8 +320,6 @@ function generate_leaf_certificate_from_intermediate()
         exit 1
     fi
 
-    rm -f ./certs/${1}.key.pem
-    rm -f ./certs/${1}.cert.pem
     generate_leaf_certificate "${1}" \
                               "${intermediate_ca_dir}" "${intermediate_ca_password}" \
                               "${openssl_intermediate_config_file}"

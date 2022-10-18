@@ -210,7 +210,7 @@ The service supports all the MQTT wildcards defined by the [MQTT specification](
 - +: which matches a single segment.
 	- E.g. topic filter: "machines/+/alert" will match the following topics:
 		- machines/temp/alert
-		- vehicles/humidity/alert
+		- machines/humidity/alert
 - #: which matches zero or more segments at the end of the topic. 
 	- E.g. topic filter: "machines/#" will match the following topics:
 		- machines
