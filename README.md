@@ -118,7 +118,7 @@ Some of the key terms relevant for private preview are explained below.
 | Term| Definition |
 | ------------ | ------------ |
 | MQTT Broker| An MQTT broker is an intermediary entity that enables MQTT clients to communicate. Specifically, an MQTT broker receives messages published by clients, filters the messages by topic, and distributes them to subscribers. |
-| Namespace| A namespace is a declarative region that provides a scope to the resources (certificates, clients, client groups, topic spaces, permission bindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
+| Namespace| A namespace is a declarative space that provides a scope to the resources (certificates, clients, client groups, topic spaces, permission bindings, etc.) inside it.  Namespaces are used to organize the resources into logical groups. |
 | Client| Client can be a device or a service that will publish and/or subscribe MQTT messages |
 | Certificate / Cert| Certificate is a form of asymmetric credential. They are a combination of a public key from an asymmetric keypair and a set of metadata describing the valid uses of the keypair.  If the keypair of the issuer is the same keypair as the certificate, the certificate is said to be "self-signed". Third-party certificate issuers are sometimes called Certificate Authorities (CA). |
 | Client attributes| Client attributes represent a set of key-value pairs that provide descriptive information about the client.  Client attributes are used in creating client groups and as variables in Topic Templates.   For example, client type is an attribute that provides the client's type. |
@@ -129,6 +129,9 @@ Some of the key terms relevant for private preview are explained below.
 | Permission bindings| A Permission Binding grants access to a specific client group to either publish or subscribe on a specific topic spaces.  |
 
 ## Concepts
+
+### Namespace
+A namespace is a declarative space that provides a scope to all the nested resources such as certificates, clients, client groups, topic spaces, permission bindings, etc. inside it.  Namespaces are used to organize the resources into logical groups.  Creating the namespace instantiates the MQTT broker.  Namespace is a tracked resource with 'tags' and a 'location' properties, and once created can be found on resources.azure.com.
 
 ### Client Authentication
 For private preview, we will be supporting authentication of clients using X.509 certificates.  X.509 certificate will provide the credentials to associate a particular client with the tenant, and at the same time, ensure the communication is encrypted.  In this model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity. 
