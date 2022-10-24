@@ -12,7 +12,7 @@ This scenario showcases how to configure routing to send filtered messages from 
 | ------------ | ------------ | ------------ | ------------ |
 |s4-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle | vehicle-publisher|  VehiclesLocation: (Topic Templates: areas/+/vehicles/${principal.deviceid}/GPS/#  -Subscription Support: Not supported)|'
 
-Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. Use the following instructions to configure the resources and test the scenario.
+Follow the instructions in the Prerequisites to test this scenarios. Use the following instructions to configure the resources and test the scenario.
 
 ## Configure the resources:
 

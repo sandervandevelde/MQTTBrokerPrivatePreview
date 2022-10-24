@@ -14,7 +14,7 @@ This is a hello world scenario, with a publisher and subscriber communicating on
 |pub-client | all0 | pub-hello| hello  (Topic Templates: samples/#  -Subscription Support: LowFanout)|
 |sub-client| all0 | sub-hello|  hello  (Topic Templates: samples/#  -Subscription Support: LowFanout)|
 
-Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+Follow the instructions in the Prerequisites to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
 - Run the following commands to run the script, creating the resources: 

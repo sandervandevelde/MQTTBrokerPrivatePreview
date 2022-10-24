@@ -20,7 +20,7 @@ Consider a use case where a user can unlock their car from a mobile app. The req
 |s3-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle| vehicle-publisher |  vehicle-publish (Topic Template: vehicles/unlock/res/+/${client.name} -Subscription Support: Not supported) |
 |s3-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle| vehicle-subscriber |  vehicle-subscribe (Topic Template: vehicles/unlock/req/${client.name}/# -Subscription Support: LowFanout) |
 
-Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+Follow the instructions in the Prerequisites to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
 - Run the following commands to run the script, creating the resources: 

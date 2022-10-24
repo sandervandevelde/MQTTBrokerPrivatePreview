@@ -16,7 +16,7 @@ This scenario simulates device to cloud communication and can be leveraged for u
 |s2-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS/position -Subscription Support: NotSupported |
 |s2-vehicle2 (Attributes: “Type”:”Vehicle”)| Vehicles| vehicles-publisher |  publish: -Topic Templates: vehicles/${client.name}/GPS/position -Subscription Support: NotSupported |
 
-Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+Follow the instructions in the Prerequisites to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
 - Run the following commands to run the script, creating the resources: 
