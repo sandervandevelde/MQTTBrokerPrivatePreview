@@ -16,7 +16,7 @@ This scenario simulates cloud-to-device commands to several devices and can be l
 |s1-vehicle1 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-subscriber|  weather-alerts (Topic template: fleet/alerts/# -Subscription Support: NotSupported)|
 |s1-vehicle2 (Attributes: “Type”:”Vehicle”)| vehicles| vehicles-subscriber|  weather-alerts (Topic template: fleet/alerts/# -Subscription Support: NotSupported)|
 
-Follow the instructions in the [Prerequisites](#prerequisites) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
+Follow the instructions in the [Prerequisites](/MQTT_Preview/README) to test this scenarios. You can either configure these resources through the script or manually. Afterwards, test the scenario using the python script to observe the data flow.
 
 **Configure the resources through the script:**
 - Run the following commands to run the script, creating the resources: 
