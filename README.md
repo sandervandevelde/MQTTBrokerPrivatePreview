@@ -259,63 +259,66 @@ Client Groups and Topic Spaces are designed to simplify access control. Consider
 - Group a set of clients into 'Client Groups' such that each Client Group represents the clients that need the same access to publish and/or subscribe to the same set of topics.
 - Group a set of Topic Templates into 'Topic Spaces' such that each Topic Space represents messages meant for the same audience (a specific Client Group).
 
-For example:
+Examples:
+
+The following examples detail how to configure the access control model based on the following requirements. 
+
 - Example 1:
 
-    A factory has multiple plants with each plant including Clients that need to communicate with each other. However, Clients from other plants of the factory are not allowed to communicate with them.
+    A factory has multiple areas with each area including machines that need to communicate with each other. However, machines from other areas of the factory are not allowed to communicate with them.
 
 	| Client  | Role  | Topic/Topic Filter  |
 	| ------------ | ------------ | ------------ |
-	|Plant1_Client1| Publisher| plants/plant1/clients/client1|
-	|Plant1_Client2| Subscriber| plants/plant1/clients/#|
-	|Plant2_Client1| Publisher| plants/plant2/clients/client1|
-	|Plant2_Client2| Subscriber| plants/plant2/clients/#|
+	|Area1_Machine1| Publisher| areas/area1/machines/machine1|
+	|Area1_Machine2| Subscriber| areas/area1/machines/#|
+	|Area2_Machine1| Publisher| areas/area2/machines/machine1|
+	|Area2_Machine2| Subscriber| areas/area2/machines/#|
 
 - Configuration
-	- Create a Client Group for each factory plant’s clients.
-	- Create a Topic Space for each plant representing the topics that the plant’s clients will communicate over.
-	- Create 2 Permission Bindings for each plant’s Client Group to publish and subscribe to its corresponding plant’s Topic Space.
+	- Create a Client Group for each factory area’s machines.
+	- Create a Topic Space for each area representing the topics that the area’s machines will communicate over.
+	- Create 2 Permission Bindings for each area’s Client Group to publish and subscribe to its corresponding area’s Topic Space.
 
 
 	|Client| Client Group| Permission Binding| Topic Space|
 	| ------------ | ------------ | ------------ | ------------ |
-	|Plant1_Client1| Plant1Clients| Plant1-Pub| Plant1Messages -Topic Template: plants/plant1/clients/#|
-	|Plant1_Client2|Plant1Clients | Plant1-Sub| Plant1Messages -Topic Template: plants/plant1/clients/#|
-	|Plant2_Client1| Plant2Clients| Plant2-Pub| Plant2Messages -Topic Template: plants/plant2/clients/#|
-	|Plant2_Client2|Plant2Clients | Plant2-Sub| Plant2Messages -Topic Template: plants/plant2/clients/#|
+	|Area1_Machine1| Area1Machines| Area1-Pub| Area1Messages -Topic Template: areas/area1/machines/#|
+	|Area1_Machine2| Area1Machines| Area1-Sub| Area1Messages -Topic Template: areas/area1/machines/#|
+	|Area2_Machine1| Area2Machines| Area2-Pub| Area2Messages -Topic Template: areas/area2/machines/#|
+	|Area2_Machine2| Area2Machines| Area2-Sub| Area2Messages -Topic Template: areas/area2/machines/#|
 
 - Example 2:
 
-    Let’s assume an extra requirement for the example above: each plant has management clients and operator clients, and the operator clients must not have publish access in case any of them gets compromised. On the other hand, the management clients need publish access to send commands and subscribe access to receive telemetry.
+    Let’s assume an extra requirement for the example above: each area has management nodes along with the machines, and the machines must not have publish access in case any of them gets compromised. On the other hand, the management nodes need publish access to send commands to the machines and subscribe access to receive telemetry from the machines.
 
 	| Client | Role | Topic/Topic Filter | 
 	| ------------ | ------------ | ------------ |
-	| Plant1_OperatorClient1 | Publisher | plants/plant1/OpClients/client1
-	|| Subscriber | plants/plant1/MgmtClients/# | 
-	| Plant1_MgmtClient1 | Publisher | plants/plant1/MgmtClients/client1
-	|| Subscriber | plants/plant1/OpClients/# | 
-	| Plant2_OperatorClient1 | Publisher | plants/plant2/OpClients/client1
-	| |Subscriber | plants/plant2/MgmtClients/# | 
-	| Plant2_ MgmtClient1 | Publisher | plants/plant2/MgmtClients/client1 | 
-	||Subscriber | plants/plant2/OpClients/# |
+	| Area1_Machine1 | Publisher | areas/area1/machines/machine1
+	|| Subscriber | areas/area1/mgmt/# | 
+	| Area1_Mgmt1 | Publisher | areas/area1/mgmt/machine1
+	|| Subscriber | areas/area1/machines/# | 
+	| Area2_Machine1 | Publisher | areas/area2/machines/machine1
+	| |Subscriber | areas/area2/mgmt/# | 
+	| Area2_ Mgmt1 | Publisher | areas/area2/mgmt/machine1 | 
+	||Subscriber | areas/area2/machines/# |
 
 - Configuration:
-	- Create 2 Client Groups per plant: one for the management clients and another for the operator clients.
-	- Create 2 Topic Spaces for each plant: one representing telemetry topics and another representing commands topics.
-	- Create 2 Permission Bindings for each plant’s management clients to publish to the commands Topic Space and subscribe to the telemetry Topic Space.
-	- Create 2 Permission Bindings for each plant’s operator clients to subscribe to the commands Topic Space and publish to the telemetry Topic Space.
+	- Create 2 Client Groups per area: one for the management nodes and another for the machines.
+	- Create 2 Topic Spaces for each area: one representing telemetry topics and another representing commands topics.
+	- Create 2 Permission Bindings for each area’s management nodes to publish to the commands Topic Space and subscribe to the telemetry Topic Space.
+	- Create 2 Permission Bindings for each area’s machines to subscribe to the commands Topic Space and publish to the telemetry Topic Space.
 
 
 	|Client | Client Group | Permission Binding | Topic/Topic Filter|
 	| ------------ | ------------ | ------------ | ------------ |
-	|Plant1_OperatorClient1 | Plant1Operators | Plant1Op-Pub | Plant1Telemetry -Topic Template: plants/plant1/OpClients/#|
-	| |  | Plant1Op-Sub | Plant1Commands -Topic Template: plants/plant1/MgmtClients/#|
-	|Plant1_MgmtClient1 | Plant1Mgmt | Plant1Mgmt-Pub | Plant1Commands -Topic Template: plants/plant1/MgmtClients/#|
-	| |  | Plant1Mgmt-Sub | Plant1Telemetry -Topic Template: plants/plant1/OpClients/#|
-	|Plant2_OperatorClient1 | Plant2Operators | Plant2Op-Pub | Plant2Telemetry -Topic Template: plants/plant2/OpClients/#|
-	| |  | Plant2Op-Sub | Plant2Commands -Topic Template: plants/plant2/MgmtClients/#|
-	|Plant2_ MgmtClient1 | Plant2Mgmt | Plant2Mgmt-Pub | Plant2Commands -Topic Template: plants/plant2/MgmtClients/#|
-	| |  | Plant2Mgmt-Sub | Plant2Telemetry -Topic Template: plants/plant2/OpClients/#|
+	|Area1_Machine1 | Area1Machines | Area1Machines-Pub | Area1Telemetry -Topic Template: areas/area1/machines/#|
+	| |  | Area1Machines-Sub | Area1Commands -Topic Template: areas/area1/mgmt/#|
+	|Area1_MgmtClient1 | Area1Mgmt | Area1Mgmt-Pub | Area1Commands -Topic Template: areas/area1/mgmt/#|
+	| |  | Area1Mgmt-Sub | Area1Telemetry -Topic Template: areas/area1/machines/#|
+	|Area2_Machine1 | Area2Machines | Area2Machines-Pub | Area2Telemetry -Topic Template: areas/area2/machines/#|
+	| |  | Area2Machines-Sub | Area2Commands -Topic Template: areas/area2/mgmt/#|
+	|Area2_ MgmtClient1 | Area2Mgmt | Area2Mgmt-Pub | Area2Commands -Topic Template: areas/area2/mgmt/#|
+	| |  | Area2Mgmt-Sub | Area2Telemetry -Topic Template: areas/area2/machines/#|
  
 ### Routing
 This functionality will enable you to route your messages from your clients to different Azure services like Event hubs, Service Bus, etc or your custom endpoint. This functionality is achieved through [Event Grid](https://docs.microsoft.com/en-us/azure/event-grid/), by sending all your messages from your clients to an [Event Grid topic](https://docs.microsoft.com/en-us/azure/event-grid/custom-topics), and using [Event Grid subscriptions](https://docs.microsoft.com/en-us/azure/event-grid/subscribe-through-portal) to route the messages from that Event Grid topic to the [supported endpoints](https://docs.microsoft.com/en-us/azure/event-grid/event-handlers).
@@ -326,10 +329,17 @@ Event Grid is a highly scalable, serverless event broker that you can use to int
 
 [Scenario4](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/) showcases an example of taking advantage of the routing functionality and the [Routing and Namespace section of the generic Azure CLI instructions](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/Azure%20CLI#event-grid-topic) also provides instructions on the routing configuration.  
 
+#### How can I use the routing feature?
+Routing the messages from your clients to an Azure service or your custom endpoint enables you to maximize the benefits of this data. The following are some of many use cases to take advantage of this feature:
+- Data Analysis: extract and analyze the routed messags from your clients to optimize your solution. e.g. analyze your machines' telemetry to predict when to schedule maintenance before failures happen to avoid delays and further damage.
+- Serverless applications: trigger a serverless function based on the routed messages from your clients. E.g. when a motion sensor detects a motion, send a notification to security personnel to address it.
+- Data Visualizations: build visualizations of the routed data from your clients to easily represent and understand the data as well as highlight trends and outliers.
+
 #### Routing Considerations:
 - The Event grid topic that will be used for routing need to fulfil the following requirements:
-- It needs to be set to use the Cloud Event Schema v1.0
-- It needs to be in the same region as the namespace
+	- It needs to be set to use the Cloud Event Schema v1.0
+	- It needs to be in the same region as the namespace
+	- You need to assign "EventGrid Data Sender" role to yourself on this topic resource.
 - **Filtering:**
 	- You can use the Event Grid Subscription’s filtering capability to filter the routed messages based on the MQTT topic through filtering on the "subject" property in the Cloud Event schema. Event Grid Subscriptions supports free simple subject filtering by specifying a starting or ending value for the subject. For example, 
 		- You can specify the subject ends with "gps" to only route messages reporting on location. 
