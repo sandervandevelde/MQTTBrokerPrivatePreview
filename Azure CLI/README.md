@@ -53,7 +53,6 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
         "tag2": "value2",
         "tag3": "value3"
     }
-  }
 }
 ~~~
 
