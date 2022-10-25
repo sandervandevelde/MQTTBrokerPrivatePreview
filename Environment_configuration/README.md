@@ -10,7 +10,7 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 3. Update profile.sh file to specify your subscription id and resource group name.
 ```bash
 sub_id="<<your-subscription-id>>"
-rg_name="<<your-resource-name>>"
+rg_name="<<your-resource-group-name>>"
 ```
 4. Make the scripts executable:
 ```bash
