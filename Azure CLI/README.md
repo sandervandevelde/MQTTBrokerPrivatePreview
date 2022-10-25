@@ -40,16 +40,19 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
 #### ARM Contract
 ~~~
 {
-  "properties": {
-    "topicSpacesConfiguration": {
-      "state": "Enabled"
-      "routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group>/providers/Microsoft.EventGrid/topics/<Event Grid Topic name>",
-    },
     "location": "centraluseuap",
+    "properties": {
+        "inputSchema": "CloudEventSchemaV1_0",
+        "topicSpacesConfiguration": {
+          "state": "Enabled",
+          "routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group>/providers/Microsoft.EventGrid/topics/<Event Grid Topic name>"
+        }
+    },
     "tags": {
-    "tag1": "value1",
-    "tag2": "value2",
-    "tag3": "value3"
+        "tag1": "value1",
+        "tag2": "value2",
+        "tag3": "value3"
+    }
   }
 }
 ~~~
