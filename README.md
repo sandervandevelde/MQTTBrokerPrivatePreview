@@ -339,7 +339,12 @@ Routing the messages from your clients to an Azure service or your custom endpoi
 - The Event grid topic that will be used for routing need to fulfil the following requirements:
 	- It needs to be set to use the Cloud Event Schema v1.0
 	- It needs to be in the same region as the namespace
-	- You need to assign "EventGrid Data Sender" role to yourself on this topic resource.
+	- You need to assign "EventGrid Data Sender" role to yourself on the Event Grid Topic.
+		- In the portal, go to the created Event Grid topic resource. 
+		- In the "Access control (IAM)" menu item, select "Add a role assignment".
+		- In the "Role" tab, select "EventGrid Data Sender", then select "Next".
+		- In the "Members" tab, click on "+Select members", then type your AD user name in the "Select" box that will appear (e.g. user@contoso.com).
+		- Select your AD user name, then select "Review + assign"
 - **Filtering:**
 	- You can use the Event Grid Subscription’s filtering capability to filter the routed messages based on the MQTT topic through filtering on the "subject" property in the Cloud Event schema. Event Grid Subscriptions supports free simple subject filtering by specifying a starting or ending value for the subject. For example, 
 		- You can specify the subject ends with "gps" to only route messages reporting on location. 
