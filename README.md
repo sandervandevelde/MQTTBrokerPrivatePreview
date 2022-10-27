@@ -244,11 +244,11 @@ To publish or subscribe to any topic, a matching topic space must be configured,
 If you set your topic space with a low fanout or high fanout subscription modes, the corresponding topic templates cannot overlap with each other, but they can overlap with a topic space with "not supported" subscription support. The overlap exists if a topic could match more than one topic template: 
 	- Examples:
 		- "machines/${client.name}/temp" and "machines/+/temp" overlap because the second template covers the first one via wildcard. 
-		- vehicles/vehicle1/telemetry/# and vehicles/${principal.deviceId}/telemetry/# conflict because in the second template the segment with variable is treated as single level wildcard + and hence, covers the first topic template. PublishOnly topic spaces can overlap with LowFanout topic spaces.
+		- vehicles/vehicle1/telemetry/# and vehicles/${client.name}/telemetry/# conflict because in the second template the segment with variable is treated as single level wildcard + and hence, covers the first topic template. PublishOnly topic spaces can overlap with LowFanout topic spaces.
 - **Configuration:**
 	- Topic templates use special characters $ and | and these need to be escaped differently based on the shell being used. In PowerShell, $ can be escaped with vehicles/${dollar}telemetry/#. If you’re using PowerShell, you can accomplish this as shown in the examples below: 
-		- '"vehicles/${principal.deviceId|dollar}/#"'
-		- 'vehicles/${principal.deviceId"|"dollar}/#'
+		- '"vehicles/${client.name|dollar}/#"'
+		- 'vehicles/${client.name"|"dollar}/#'
 	- Subscription support is immutable. To reconfigure the subscription support, delete the topic space and create a new topic space with the desired subscription support.
 	- Topic space updates may take up to 5 minutes to propagate.
 
