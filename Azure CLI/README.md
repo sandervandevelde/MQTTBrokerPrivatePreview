@@ -6,13 +6,10 @@ This quickstart requires Azure CLI version 2.17.1 or later. Run the following co
     
 To install or upgrade, see [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
     
-- Register the Azure CLI
-    ```bash
-    az cloud register -n centraluseuap --endpoint-active-directory https://login.microsoftonline.com --endpoint-active-directory-graph-resource-id https://graph.windows.net/ --endpoint-active-directory-resource-id https://management.core.windows.net/ --endpoint-gallery https://gallery.azure.com/ --endpoint-management https://management.core.windows.net/ --endpoint-resource-manager https://centraluseuap.management.azure.com/ --suffix-storage-endpoint core.windows.net --suffix-keyvault-dns vault.azure.net
-    ```
+
 - Set Azure cloud
     ```bash
-    az cloud set --name centraluseuap
+    az cloud set --name AzureCloud
     ```
 - Login to Azure
     ```bash
