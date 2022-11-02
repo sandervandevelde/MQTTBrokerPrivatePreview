@@ -345,6 +345,10 @@ Routing the messages from your clients to an Azure service or your custom endpoi
 		- In the "Role" tab, select "EventGrid Data Sender", then select "Next".
 		- In the "Members" tab, click on "+Select members", then type your AD user name in the "Select" box that will appear (e.g. user@contoso.com).
 		- Select your AD user name, then select "Review + assign"
+> **Warning**
+
+>  If you move the Event Grid Topic resource to a different resource group or subscription after configuration, the routing experience will not function as expected.
+
 - **Filtering:**
 	- You can use the Event Grid Subscription’s filtering capability to filter the routed messages based on the MQTT topic through filtering on the "subject" property in the Cloud Event schema. Event Grid Subscriptions supports free simple subject filtering by specifying a starting or ending value for the subject. For example, 
 		- You can specify the subject ends with "gps" to only route messages reporting on location. 
