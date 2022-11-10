@@ -200,11 +200,12 @@ Please refer to the [naming considerations table](#naming-considerations) for de
 
 ### Topic Spaces
 Topic space is a new concept introduced to simplify management of topics used for publishing and subscribing by your clients.
-
-**Topic space:**  A topic space is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics.  
+  
+A topic space is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics.  
 It is important to note that the publishing is a supported action on all topic spaces by default; however, you need to configure the subscription support as detailed below.
 
-**Topic filter:**  An [MQTT topic filter](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718106) is an MQTT topic that can include wildcards for one or more of its segments, allowing it to match multiple MQTT topics. It is used to simplify subscriptions declarations as one topic filter can match multiple topics.
+####Topic filter:
+An [MQTT topic filter](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718106) is an MQTT topic that can include wildcards for one or more of its segments, allowing it to match multiple MQTT topics. It is used to simplify subscriptions declarations as one topic filter can match multiple topics.
 
 The service supports all the MQTT wildcards defined by the [MQTT specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718107) as follows:
 - +: which matches a single segment.
@@ -220,7 +221,8 @@ The service supports all the MQTT wildcards defined by the [MQTT specification](
 
 See [Topic Wilcards](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718107) from the MQTT spec for more details.
 
-**Topic template:** Topic templates are an extension of the topic filter that supports variables. It is used for fine-grained access control within a client group. You can provide access to a client group to publish or subscribe on a topic space with multiple topic templates. If any of the topic templates include a variable, only the clients associated with this variable will have access to the corresponding topic.
+####Topic template: 
+Topic templates are an extension of the topic filter that supports variables. It is used for fine-grained access control within a client group. You can provide access to a client group to publish or subscribe on a topic space with multiple topic templates. If any of the topic templates include a variable, only the clients associated with this variable will have access to the corresponding topic.
 
 For example, you can provide access to client group "machines" to the topic space "machinesTelemetry" that includes the topic template "machines/${client.name}/temp". Only the machine with client name = machine1 will be able to publish on topic "machines/machine1/temp", and only the machine with client name = machine2 will be able to publish on topic "machines/machine2/temp", and so on. This prevents machine2 from publishing false information on behalf of machine1, even though it has access to the same topic space, and vice versa. 
 
@@ -230,7 +232,8 @@ For example, you can provide access to client group "machines" to the topic spac
 
 **Note:** A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment. E.g. a topic template could include "machines/${client.name|.factory1}/temp" will match topics "machines/machine1.factory1/temp", "machines/machine2.factory1/temp", etc
 
-**Subscription support:** Subscription support is used to optimize the service’s mode of  message delivery to your clients based on your scenario. There are three modes: 
+####Subscription support:
+Subscription support is used to optimize the service’s mode of  message delivery to your clients based on your scenario. There are three modes: 
 - Not supported: will indicate that topic space could be used only for publishing. This will be helpful in scenarios when you expect your corresponding topic templates to overlap since this is the only mode that will allow your topic templates to overlap with any other topic template.
 - Low fanout: will specify a subscription delivery mode optimized for having a maximum of 10 subscribers per topic, with very low latency. 
 	- Example scenario: There is a group of vehicles with each vehicle subscribing to its own command delivered to its own topic.
