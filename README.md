@@ -373,7 +373,7 @@ Each message being routed is enveloped in a Cloud Event according to the followi
 ```
 
 ## Limits
-For this release, the following limits are supported.  Please do not stress test beyond the limits mentioned below and for other scenarios.  These limits will be revised for future releases.
+For this release, the following limits are supported.  Please do not stress test beyond the limits mentioned below and for other scenarios.  These limits will be revised for future releases. 
 
 |Limit Description | MQTT broker functionality in Event Grid Private Preview |
 | ------------ | ------------ |
@@ -386,6 +386,8 @@ For this release, the following limits are supported.  Please do not stress test
 |Total outbound publish requests | 5000 messages/second |
 |Total inbound Publish requests per connection | 100/second |
 |Total outbound Publish requests per connection | 100/second |
+
+**Note:**  A message is counted in 1 KB increments. For example, a 6 KB message is counted as 6 messages.
 
 ### Resources level limits
 | Resource Type | Description| Limit| 
