@@ -382,8 +382,8 @@ For this release, the following limits are supported.  Please do not stress test
 |New Connect requests | 500/second per namespace |
 |Subscribe requests | 5000 messages/second |
 |Total number of subscriptions per connection | 50 |
-|Total inbound publish requests | 5000 messages/second |
-|Total outbound publish requests | 5000 messages/second |
+|Total inbound publish requests | 4000 messages/second |
+|Total outbound publish requests | 4000 messages/second |
 |Total inbound Publish requests per connection | 100/second |
 |Total outbound Publish requests per connection | 100/second |
 
