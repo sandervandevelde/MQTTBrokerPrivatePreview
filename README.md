@@ -384,8 +384,8 @@ For this release, the following limits are supported.  Please do not stress test
 |Total number of subscriptions per connection | 50 |
 |Total inbound publish requests | 4000 messages/second |
 |Total outbound publish requests | 4000 messages/second |
-|Total inbound Publish requests per connection | 100/second |
-|Total outbound Publish requests per connection | 100/second |
+|Total inbound Publish requests per connection | 100 messages/second |
+|Total outbound Publish requests per connection | 100 messages/second |
 
 **Note:**  A message is counted in 1 KB increments. For example, a 6 KB message is counted as 6 messages.
 
