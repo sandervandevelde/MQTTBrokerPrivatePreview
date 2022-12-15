@@ -5,8 +5,6 @@ The Microsoft Azure Messaging team invites you and your organization to preview 
 ## Overview
 MQTT broker functionality in Event Grid delivers the flexibility to leverage hierarchical topics and supports messaging using the light weight MQTT protocol.  Clients (both devices and cloud applications) can publish and subscribe over these flexible topics for scenarios such as command and control and high scale broadcast.
 
-
-
 |Concepts|
 | ------------ |
 | [MQTT standard protocol](https://mqtt.org/) |
@@ -33,7 +31,8 @@ When the private preview program ends, or when your tests are completed, you can
 ## Capabilities available in this preview
 This private preview provides the following capabilities
 - Cloud MQTT broker functionality in Event Grid enabling publish and subscribe on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
-- MQTT v3.1.1. compliance with limitations (LWT, Retain messages, Message ordering and QoS 2 are not supported) 
+- MQTT v3.1.1 compliance with limitations: LWT, Retain messages, Message ordering and QoS 2 are not supported. [Learn more](#mqttv311-level-of-support-and-limitations) 
+- MQTT v5 compliance with limitations: LWT, Retain messages, Message ordering, QoS 2, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID are not supported. [Learn more](mqttv5-level-of-support-and-limitations)
 - QoS 0, 1: QoS 0 level guarantees a best-effort delivery. QoS1 guarantees that the message will be delivered at least once.
 - Flexible access control model:  Grouping clients into ClientGroups and topic references into TopicSpaces to ease access control management.  See the [concepts](#concepts) section for a fuller description of all functionality
 - Fine-grained access control model:  Introducing TopicTemplates with variables support to enable fine-grained access control.
@@ -47,13 +46,11 @@ This private preview provides the following capabilities
 ## Capabilities coming up in future releases
 The following features are not in scope for this release, but they will be supported in future -
 - Azure Portal UX, CLI, custom Azure SDK libraries along with APIs
-- MQTT v5 support
 - Ability to publish messages to topics using HTTP
 - Edge MQTT Broker bridging
-- Last Will and Testament (LWT) support
-- Retain flag support
+- Extended MQTT v3.1.1 support: LWT and Retain support
+- Extended MQTT v5 support: LWT, Retain, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID support
 - Metrics and diagnostic logs 
-- Large message of 512KB 
 - TLS 1.3 support
 - Enhanced performance and scale limits 
 - Pay As You Go Billing
@@ -63,7 +60,7 @@ The following features are not in scope for this release, but they will be suppo
 
 - We will enable the feature for the subscription ID you shared in the sign up form. If you haven't responded, please fill out this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u)
 
-- You can use any ARM client to deploy the service's resources and any compliant MQTT client to test the service. However, this guide will only provide commands and scripts using [Azure CLI](/Azure%20CLI/README.md) for deploying resouces and Paho client in python for testing in Ubuntu. Follow these steps to take advantage of the provided instructions: 
+- You can use any ARM client or the [Azure Portal experience](/Azure%20Portal/README.md) to deploy the service's resources and any compliant MQTT client to test the service. However, this guide will only provide commands and scripts using [Azure CLI](/Azure%20CLI/README.md) for deploying resouces and Paho client in python for testing in Ubuntu. Follow these steps to take advantage of the provided instructions: 
 	1. Use any Linux environment for testing.
 		- To easily install and run Linux on Windows, run `wsl --install -d Ubuntu`. After installation is complete, you can run `wsl` to start running commands on your Ubuntu subsystem whenever you open a new terminal window. [Learn more](https://learn.microsoft.com/en-us/windows/wsl/)
 	2. Clone this repository to any directory in your Linux environment: `git clone https://github.com/Azure/MQTTBrokerPrivatePreview.git`
@@ -359,7 +356,7 @@ Routing the messages from your clients to an Azure service or your custom endpoi
 	- You can also take advantage of the [Event Subscription’s advanced filtering](https://docs.microsoft.com/en-us/azure/event-grid/event-filtering#advanced-filtering) to filter based on the MQTT topic through filtering on the subject property in the Cloud Event Schema. This enable you to set more complex filters by secifying a comparison operator, key, and value.
 
 #### The schema for the Cloud Event Schema:
-Each message being routed is enveloped in a Cloud Event according to the following schema sample: 
+Each message being routed is enveloped in a Cloud Event according to the following schema sample, regardless of the message's payload format: 
 ```bash
 {
     "specversion": "1.0",
@@ -372,28 +369,54 @@ Each message being routed is enveloped in a Cloud Event according to the followi
 }
 ```
 
-## Limits
+## Limitations
+### MQTTv3.1.1 Level of Support and Limitations
+MQTT v3.1.1 support is limited in following ways:
+- Will Message is not supported yet. Receiving a CONNECT request with Will Message will result in a connection failure.
+- QoS2 and Retain Flag are not supported yet. A publish request with a retain flag or with a QoS2 will fail and close the connection.
+- Message ordering is not guaranteed.
+- Keep Alive Maximum is 1160 seconds. 
+### MQTTv5 Level of Support and Limitations
+MQTT v5 support is limited in following ways (communicated to client via CONNACK properties unless explicitly noted otherwise):
+- Shared Subscriptions are not supported yet.
+- Retain flag is not supported yet.
+- Will Message is not supported yet. Receiving a CONNECT request with Will Message will result in CONNACK with 0x83 (Implementation specific error).
+- Maximum QoS is 1.
+- Maximum Packet Size is 512 KiB
+- Message ordering is not guaranteed.
+- Subscription Identifiers are not supported.
+- Assigned Client Identifiers are not supported yet.
+- Client-specified Session Expiry is not supported. The server will override any Session Expiry Interval value coming in the  CONNECT request (other than 0) with the fixed expiry interval in the CONNACK’s Session Expiry Interval property.
+- Since the only supported authentication mode is through certificates, the server will respond to a CONNECT request with either Authentication Method or Authentication Data with a CONNACK with code 0x8C (Bad authentication method) or 0x87 (Not Authorized) respectively. 
+- Topic Alias Maximum is 10. The server will not assign any topic aliases for outgoing messages at this time. Clients can assign and use topic aliases within set limit. 
+- CONNACK doesn't return Response Information property even if the  CONNECT request contains Request Response Information property.
+- Receiving a message that is bigger than the set maximum message size will lead to connection termination.
+- If the server recieves a PUBACK from a client with non-success response code, the connection will be terminated.
+- Keep Alive Maximum is 1160 seconds.
+
+### MQTT Messages Limits
 For this release, the following limits are supported.  Please do not stress test beyond the limits mentioned below and for other scenarios.  These limits will be revised for future releases. 
 
-|Limit Description | MQTT broker functionality in Event Grid Private Preview |
+|Limit Description | Limit |
 | ------------ | ------------ |
-|Max Message size | 256KB |
-|Topic Size| 256KB | 
-|New Connect requests | 500/second per namespace |
-|Subscribe requests | 5000 messages/second |
+|Max Message size | 512 KiB |
+|Topic Size| 256 B | 
+|Topic Alias | 10 Topic Aliases| 
+|New Connect requests | 500 requests/second |
+|Subscribe requests | 5000 requests/second |
 |Total number of subscriptions per connection | 50 |
 |Total inbound publish requests | 4000 messages/second |
 |Total outbound publish requests | 4000 messages/second |
 |Total inbound Publish requests per connection | 100 messages/second |
 |Total outbound Publish requests per connection | 100 messages/second |
 
-**Note:**  A message is counted in 1 KB increments. For example, a 6 KB message is counted as 6 messages.
+**Note:**  A message is counted in 1 KiB increments. For example, a 6 KiB message is counted as 6 messages.
 
-### Resources level limits
-| Resource Type | Description| Limit| 
+### Resources Limits
+| Resource Name | Description| Limit| 
 | ------------ | ------------ | ------------ |
 | Name spaces | Maximum number of name spaces per subscription | 10 |
-| Clients | Maximum number of clients | 10K |
+| Clients | Maximum number of clients | 10,000 |
 | CA Certificates | Maximum number of registered CA root certificates | 2 |
 | Client Groups | Maximum number of client groups| 10 |
 | Topic spaces | Maximum number of topic spaces | 10 |
