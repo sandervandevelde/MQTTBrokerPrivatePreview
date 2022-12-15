@@ -32,7 +32,7 @@ When the private preview program ends, or when your tests are completed, you can
 This private preview provides the following capabilities
 - Cloud MQTT broker functionality in Event Grid enabling publish and subscribe on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1 compliance with limitations: LWT, Retain messages, Message ordering and QoS 2 are not supported. [Learn more](#mqttv311-level-of-support-and-limitations) 
-- MQTT v5 compliance with limitations: LWT, Retain messages, Message ordering, QoS 2, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID are not supported. [Learn more](mqttv5-level-of-support-and-limitations)
+- MQTT v5 compliance with limitations: LWT, Retain messages, Message ordering, QoS 2, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID are not supported. [Learn more](https://github.com/Azure/MQTTBrokerPrivatePreview#mqttv5-level-of-support-and-limitations)
 - QoS 0, 1: QoS 0 level guarantees a best-effort delivery. QoS1 guarantees that the message will be delivered at least once.
 - Flexible access control model:  Grouping clients into ClientGroups and topic references into TopicSpaces to ease access control management.  See the [concepts](#concepts) section for a fuller description of all functionality
 - Fine-grained access control model:  Introducing TopicTemplates with variables support to enable fine-grained access control.
