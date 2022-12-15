@@ -386,7 +386,7 @@ MQTT v5 support is limited in following ways (communicated to client via CONNACK
 - Message ordering is not guaranteed.
 - Subscription Identifiers are not supported.
 - Assigned Client Identifiers are not supported yet.
-- Client-specified Session Expiry is not supported. The server will override any Session Expiry Interval value coming in the  CONNECT request (other than 0) with the fixed expiry interval in the CONNACK’s Session Expiry Interval property.
+- Client-specified Session Expiry is not supported. The server will override any Session Expiry Interval value coming in the  CONNECT request (other than 0) with a fixed expiry interval (3600) in the CONNACK’s Session Expiry Interval property.
 - Since the only supported authentication mode is through certificates, the server will respond to a CONNECT request with either Authentication Method or Authentication Data with a CONNACK with code 0x8C (Bad authentication method) or 0x87 (Not Authorized) respectively. 
 - Topic Alias Maximum is 10. The server will not assign any topic aliases for outgoing messages at this time. Clients can assign and use topic aliases within set limit. 
 - CONNACK doesn't return Response Information property even if the  CONNECT request contains Request Response Information property.
