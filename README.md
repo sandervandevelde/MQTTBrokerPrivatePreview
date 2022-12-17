@@ -390,7 +390,6 @@ MQTT v5 support is limited in following ways (communicated to client via CONNACK
 - Since the only supported authentication mode is through certificates, the server will respond to a CONNECT request with either Authentication Method or Authentication Data with a CONNACK with code 0x8C (Bad authentication method) or 0x87 (Not Authorized) respectively. 
 - Topic Alias Maximum is 10. The server will not assign any topic aliases for outgoing messages at this time. Clients can assign and use topic aliases within set limit. 
 - CONNACK doesn't return Response Information property even if the  CONNECT request contains Request Response Information property.
-- Receiving a message that is bigger than the set maximum message size will lead to connection termination.
 - If the server recieves a PUBACK from a client with non-success response code, the connection will be terminated.
 - Keep Alive Maximum is 1160 seconds.
 
