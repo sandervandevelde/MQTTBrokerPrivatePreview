@@ -25,11 +25,17 @@ The following instructions describes how to use the Azure portal to configure th
    - Resource group: Select a resource group or create a new one. For more information, see [Manage Azure Resource Manager resource groups](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
    - Name: Enter a name for your namespace. This name must be globally unique, with a length between 3 and 50 alphanumeric characters. The name can also include the hyphen ('-') character.
    - Region: Select Central US EUAP
+   
+![Namespace_Creation-Basics.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Namespace_Creation-Basics.png)   
+
 3. On the Routing tab:
    - Check Enable Routing
    - Select the Event Grid topic that you created above from the drop-down list.
      - If you don't have 'EventGrid Data Sender' permission to the selected topic, click "Add permission" to assign this permission, then click "Refresh" to update the list.
      - Note that it might take a few minutes for the permission to be reflected after assignment.
+
+![Namespace_Creation-Routing.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Namespace_Creation-Routing.png)   
+
 4. Select Review + create to review your choices.
 5. Select Create to start the deployment of your new namespace. Your deployment will be in progress a few minutes while the namespace is being created. Once the deployment is complete, select Go to resource to open the new namespace.
 6. On the Overview page, you will be able to see the hostname that your MQTT clients need to send the messages to.
@@ -40,6 +46,9 @@ The following instructions describes how to use the Azure portal to configure th
     - Add a Certificate Name to the Ca certificate
     - Upload your Ca Certificate .pem or .cer file
     - Click Upload.
+    
+![CACertificate_Creation.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/CACertificate_Creation.png)   
+
 # Create Clients
  1. In your namespace, go to the Clients menu item and click + Client.
  2. In the creation page:
@@ -54,6 +63,9 @@ The following instructions describes how to use the Azure portal to configure th
       - Type: type of the attribute. Choose between String, Integers, or Array of strings
       - Value: value of the client attribute
     - Click Create.
+
+![Client_Creation.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Client_Creation.png)   
+    
 # Create Client Groups
  1. In your namespace, go to the Client Groups menu item and click + Client group.
  2. You will see $all client group that includes all clients by default for convenience.
@@ -62,6 +74,9 @@ The following instructions describes how to use the Azure portal to configure th
     - Add a Query based on the client attributes according to these guidelines.
     - Add a Descripiton to your client group.
     - Click Create.
+    
+![ClientGroup_Creation.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/ClientGroup_Creation.png)   
+    
 # Create Topic Spaces
  1. In your namespace, go to the Topic Spaces menu item and click + Topic Space.
  2. In the creation blade:
@@ -72,6 +87,9 @@ The following instructions describes how to use the Azure portal to configure th
       - Low fanout: will specify a subscription delivery mode optimized for having a maximum of 10 subscribers per topic, with very low latency. E.g. there is a group of vehicles with each vehicle subscribing to its own command delivered to its own topic.
       - High fanout: will specify a subscription delivery mode optimized for having unlimited number of subscribers per topic, with higher latency. E.g. there is a large group of vehicles in a city subscribing to the same weather alerts that get broadcasted on the same topic.
     - Click Create.
+
+![TopicSpace_Creation.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/TopicSpace_Creation.png)   
+
 # Create Permission Bindings
  1. In your namespace, go to the Permission bindings menu item and click +  Permission binding 
  2. In the creation blade:
@@ -80,3 +98,5 @@ The following instructions describes how to use the Azure portal to configure th
     - Topic space name: the topic space that the client group needs access to.
     - Permission: Publisher or Subscriber permission that the client group needs.
     - Click Create.
+
+![PermissionBinding_Creation.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/PermissionBinding_Creation.png)   
