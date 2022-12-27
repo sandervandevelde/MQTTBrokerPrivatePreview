@@ -16,6 +16,7 @@ The following instructions describes how to use the Azure portal to configure th
 1. Use only [this](https://portal.azure.com/?microsoft_azure_marketplace_ItemHideKey=PubSubNamespace&microsoft_azure_eventgrid_assettypeoptions={"PubSubNamespace":{"options":""}}) link to reach the Azure portal for the service. 
 2. On the Azure homepage, search for "Event Grid Namespace" to land on the service's page.
 
+![Namespace_Search.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Namespace_Search.png)
 
 # Create a Namespace
 1. Once you land on the service's page, click "Create"
