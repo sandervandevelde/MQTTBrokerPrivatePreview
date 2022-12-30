@@ -196,8 +196,6 @@ Please refer to the [naming considerations table](#naming-considerations) for de
 
 
 ### Topic Spaces
-Topic space is a new concept introduced to simplify management of topics used for publishing and subscribing by your clients.
-  
 A topic space is a set of topic templates (defined below). It is used to simplify access control management by enabling you to grant publish or subscribe access to a group of topics at once instead of individual topics.  
 It is important to note that the publishing is a supported action on all topic spaces by default; however, you need to configure the subscription support as detailed below.
 
@@ -223,7 +221,7 @@ Topic templates are an extension of the topic filter that supports variables. It
 
 For example, you can provide access to client group "machines" to the topic space "machinesTelemetry" that includes the topic template "machines/${client.name}/temp". Only the machine with client name = machine1 will be able to publish on topic "machines/machine1/temp", and only the machine with client name = machine2 will be able to publish on topic "machines/machine2/temp", and so on. This prevents machine2 from publishing false information on behalf of machine1, even though it has access to the same topic space, and vice versa. 
 
-**Supported variables:**
+##### Supported variables:
 - ${client.name}: this variable represents the name of the client assigned during client creation.
 - ${client.attributes.x}: this variable represents any of the assigned attributes to a client during client creation/update, so as "x" would be equal to the exact string of the attribute key. Read more about client attributes in the Terminology section.
 
