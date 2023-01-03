@@ -32,7 +32,16 @@ When the private preview program ends, or when your tests are completed, you can
 This private preview provides the following capabilities
 - Cloud MQTT broker functionality in Event Grid enabling publish and subscribe on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1 compliance with limitations: LWT, Retain messages, Message ordering and QoS 2 are not supported. [Learn more](#mqttv311-level-of-support-and-limitations) 
-- MQTT v5 compliance with limitations: LWT, Retain messages, Message ordering, QoS 2, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID are not supported. [Learn more](https://github.com/Azure/MQTTBrokerPrivatePreview#mqttv5-level-of-support-and-limitations)
+- MQTT v5 compliance with limitations: 
+	- User Properties on publish packet: Allows you to add additional information on publish packets to provide more context about the message.
+	- Message Expiry Interval: You can set the message expiry interval (seconds) for each PUBLISH message and the message is stored by the broker for the defined period of time for any subscribing clients that are not connected currently.
+	- Negative Acknowledgements:  Server can notify the publishing client, if the server cannot currently process the message, along with the reason.
+	- Server-sent disconnect packet:  Server communicates the reason (in most scenarios) for disconnect to the client, to help client handle the disconnect better.
+	- Topic Aliases:  Helps reduce the size of published packets by reducing the size of the topic field, making the data transfer more efficient.
+	- Maximum message size:  The client can now tell the server the maximum message size the client can receive and any messages larger than this are dropped by the server.
+	- Request-response:  We support response topic and correlation data properties on publish packet allowing clients to model request-response over MQTT per specification.
+	- Flow control:  Helps adjust the message flow depending on device capabilities such as processing speed or storage capabilities by limiting number of QoS 1 messages to be dispatched to it simultaneously.
+Note: LWT, Retain messages, Message ordering, QoS 2, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID are not supported. [Learn more](https://github.com/Azure/MQTTBrokerPrivatePreview#mqttv5-level-of-support-and-limitations)
 - QoS 0, 1: QoS 0 level guarantees a best-effort delivery. QoS1 guarantees that the message will be delivered at least once.
 - Flexible access control model:  Grouping clients into ClientGroups and topic references into TopicSpaces to ease access control management.  See the [concepts](#concepts) section for a fuller description of all functionality
 - Fine-grained access control model:  Introducing TopicTemplates with variables support to enable fine-grained access control.
