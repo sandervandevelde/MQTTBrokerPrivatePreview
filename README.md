@@ -364,7 +364,7 @@ Routing the messages from your clients to an Azure service or your custom endpoi
 		- You can filter the subject begins with "factory1/Area2/" to route only the messages that belong to facotry1 and area 2 to a specific endpoint and you can replicate this configuration to route messages from other factories/areas to different endpoints.
 	- You can also take advantage of the [Event Subscription’s advanced filtering](https://docs.microsoft.com/en-us/azure/event-grid/event-filtering#advanced-filtering) to filter based on the MQTT topic through filtering on the subject property in the Cloud Event Schema. This enable you to set more complex filters by secifying a comparison operator, key, and value.
 
-#### CloudEvent Schema for the routed events:
+#### CloudEvent Schema for the routed MQTT messages:
 MQTT Messages will be routed to the Event Grid Topic as CloudEvents according to the following logic:
 - For MQTT v3 messages or MQTT v5 messages of a payload format indicator=0, the payload will be forwarded in the data_base64 object and encoded as a base 64 string according to the following schema sample.
 MQTT v3 message:
