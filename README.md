@@ -441,7 +441,7 @@ MQTT v5 message with PFI=0:
   }
  }
 ```
-- For MQTT v5 messages, user properties that meet [the requirements for compliant event attributes](requirements-for-compliant-event-attributes) will be forwarded as a CloudEvent attribute, but user properties that don’t meet the requirements will be forwarded as a JSON string value to the attribute “mqttuserproperties” according to the following sample.
+- For MQTT v5 messages, user properties that meet [the requirements for compliant event attributes]([requirements-for-compliant-event-attributes](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/README.md#requirements-for-compliant-event-attributes) will be forwarded as a CloudEvent attribute, but user properties that don’t meet the requirements will be forwarded as a JSON string value to the attribute “mqttuserproperties” according to the following sample.
 ```bash
 {
    "specversion": "1.0",
