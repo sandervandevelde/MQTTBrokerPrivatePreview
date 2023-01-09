@@ -336,7 +336,7 @@ Event Grid is a highly scalable, serverless event broker that you can use to int
 
 **Note:**  To be able to take advantage of this feature, you have to either use the ARM template to create the Event Grid custom topic first and provide that topic’s ARM Id during the namespace creation.
 
-[Scenario4](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription/) showcases an example of taking advantage of the routing functionality and the [Routing and Namespace section of the generic Azure CLI instructions](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/Azure%20CLI#event-grid-topic) also provides instructions on the routing configuration.  
+[Scenario4]([/Scenario4_EventGrid_Routing]) showcases an example of taking advantage of the routing functionality and the [Routing and Namespace section of the generic Azure CLI instructions](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/Azure%20CLI#event-grid-topic) also provides instructions on the routing configuration.  
 
 #### How can I use the routing feature?
 Routing the messages from your clients to an Azure service or your custom endpoint enables you to maximize the benefits of this data. The following are some of many use cases to take advantage of this feature:
@@ -467,8 +467,8 @@ MQTT v5 message with PFI=0:
 Since routed messages are enveloped in a CloudEvent and the service applies the default enrichments, custom enrichments through user properties should fulfil the following requirements:
 - Only lower-case alphanumerics: only (a-z) and (0-9)
 - Properties should not clash with the CloudEvent’s default or extension attributes: 
- - Default attributes: specversion, id, time, type, source, subject, datacontenttype, dataschema, data
- - Extension attributes: dataref, traceparent, tracestate, partitionkey, value, sequence, or sequencetype
+	- Default attributes: specversion, id, time, type, source, subject, datacontenttype, dataschema, data
+	- Extension attributes: dataref, traceparent, tracestate, partitionkey, value, sequence, or sequencetype
 - Enrichments shoud not start with “mqtt” as these prefixes are reserved for MQTT properties.
 - There should not be 2 enrichments with the same key. 
 
