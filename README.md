@@ -52,7 +52,7 @@ This private preview provides the following capabilities
 - Compatibility with standard MQTT client libraries (ex. Eclipse Paho) allows users to migrate configuration much faster
 - Route MQTT messages through Event Grid subscriptions to integrate data with Azure services or custom endpoints for flexibility to further process the data
 - Support for TLS 1.2 endpoints for data plane operations to keep the data transmission secure
-- Also, see [throttle limit tables](#limits) below
+- Also, see [throttle limit tables](#mqtt-messages-limits) below
 
 ## Capabilities coming up in future releases
 The following features are not in scope for this release, but they will be supported in future -
