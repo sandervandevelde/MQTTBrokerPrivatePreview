@@ -401,7 +401,7 @@ MQTT v5 message with PFI=0:
   }
  }
 ```
-- For MQTT v5 messages of content type= “application/json; charset=utf-8” or of a payload format indicator=1, the payload will be forwarded in the data object, and the message will be serialized as a JSON or a JSON string if the payload not a JSON. This will enable you to filter on your payload properties. For example, you would be able to add this filter for the following sample: "advancedFilters": [{"operatorType": "NumberGreaterThan","key": "Temp","value": 100}] 
+- For MQTT v5 messages of content type= “application/json; charset=utf-8” or of a payload format indicator=1, the payload will be forwarded in the data object, and the message will be serialized as a JSON or a JSON string if the payload not a JSON. This will enable you to filter on your payload properties. For example, you would be able to add this filter for the following sample: "advancedFilters": [{"operatorType": "NumberGreaterThan","data.key": "Temp","value": 100}] 
 ```bash
 {
    "specversion": "1.0",
