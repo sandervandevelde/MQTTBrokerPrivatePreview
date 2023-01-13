@@ -466,11 +466,9 @@ MQTT v5 message with PFI=0:
 ##### Requirements for Compliant Event Attributes:
 Since routed messages are enveloped in a CloudEvent and the service applies the default enrichments, custom enrichments through user properties should fulfil the following requirements:
 - Only lower-case alphanumerics: only (a-z) and (0-9)
-- Properties should not clash with the CloudEvent’s default or extension attributes: 
-	- Default attributes: specversion, id, time, type, source, subject, datacontenttype, dataschema, data
-	- Extension attributes: dataref, traceparent, tracestate, partitionkey, value, sequence, or sequencetype
-- Enrichments shoud not start with “mqtt” as these prefixes are reserved for MQTT properties.
-- There should not be 2 enrichments with the same key. 
+- Properties should not clash with the CloudEvent’s default attributes: specversion, id, time, type, source, subject, datacontenttype, dataschema, data
+- Properties shoud not start with “mqtt” as these prefixes are reserved for MQTT properties.
+- There should not be 2 properties with the same key. 
 
 ## Limitations
 ### MQTTv3.1.1 Level of Support and Limitations
