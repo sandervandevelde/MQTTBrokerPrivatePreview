@@ -87,8 +87,9 @@ The following features are not in scope for this release, but they will be suppo
 <video width="320" height="240" controls>
   <source src="https://github.com/Azure/MQTTBrokerPrivatePreview/raw/main/Event%20Grid%20Namespaces%20-%20Portal%20Experience%20Demo.mp4" type="video/mp4">
 </video>
-https://user-images.githubusercontent.com/59579210/215551696-6e2c92e7-8f79-479c-b996-bb9272566e4b.mp4
-
+<video width="320" height="240" controls>
+  <source src="https://user-images.githubusercontent.com/59579210/215551696-6e2c92e7-8f79-479c-b996-bb9272566e4b.mp4" type="video/mp4">
+</video>
 ## QuickStart
 Let us get started with a simple scenario, with a publisher and subscriber communicating on a topic. 
 
