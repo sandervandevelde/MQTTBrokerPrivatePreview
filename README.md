@@ -93,6 +93,10 @@ The following features are not in scope for this release, but they will be suppo
 </video>
 
 
+https://user-images.githubusercontent.com/59579210/215560272-083fa542-cb7c-4c48-8952-ed6ede4a2a38.mp4
+
+
+
 ## QuickStart
 Let us get started with a simple scenario, with a publisher and subscriber communicating on a topic. 
 
