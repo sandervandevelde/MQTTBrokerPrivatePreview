@@ -84,28 +84,8 @@ The following features are not in scope for this release, but they will be suppo
 - To route your messages from your clients to different Azure services or your custom endpoint, an Event Grid topic needs to be created and referenced during namespace creation to forward the messages to that topic for routing; this reference cannot be added/updated afterwards. [Scenario4](/Scenario4_Route%20MQTT%20data%20through%20Event%20Grid%20subscription) showcases an example of the configuration to take advantage of the routing functionality and the [Routing and Namespace sections of the generic Azure CLI instructions](https://github.com/Azure/MQTTBrokerPrivatePreview/tree/main/Azure%20CLI#event-grid-topic) also provide instructions on the generic routing configuration.  
 
 ## Demo
-<video width="320" height="240" controls>
-  <source src="https://github.com/Azure/MQTTBrokerPrivatePreview/raw/main/Event%20Grid%20Namespaces%20-%20Portal%20Experience%20Demo.mp4" type="video/mp4">
-</video>
-
-<video width="320" height="240" controls>
-  <source src="https://user-images.githubusercontent.com/59579210/215551696-6e2c92e7-8f79-479c-b996-bb9272566e4b.mp4" type="video/mp4">
-</video>
-
-
-https://user-images.githubusercontent.com/59579210/215560272-083fa542-cb7c-4c48-8952-ed6ede4a2a38.mp4
-
-
-
-https://user-images.githubusercontent.com/59579210/215560539-10042564-731f-446c-81a8-eaf9bbfd2d9e.mp4
-
-
-
 
 https://user-images.githubusercontent.com/59579210/215560807-df83c50f-38a8-49d7-a61d-d9d1b0ca3ddb.mp4
-
-
-
 
 ## QuickStart
 Let us get started with a simple scenario, with a publisher and subscriber communicating on a topic. 
