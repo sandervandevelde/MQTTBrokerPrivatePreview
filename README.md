@@ -51,7 +51,7 @@ This private preview provides the following capabilities
 - Support for one-one, one-many, many-one messaging patterns to accommodate for a variety of scenarios
 - Compatibility with standard MQTT client libraries (ex. Eclipse Paho) allows users to migrate configuration much faster
 - Route MQTT messages through Event Grid subscriptions to integrate data with Azure services or custom endpoints for flexibility to further process the data
-- Support for TLS 1.2 endpoints for data plane operations to keep the data transmission secure
+- Support for TLS 1.2 and TLS 1.3 endpoints for data plane operations to keep the data transmission secure
 - Also, see [throttle limit tables](#mqtt-messages-limits) below
 
 ## Capabilities coming up in future releases
@@ -62,7 +62,6 @@ The following features are not in scope for this release, but they will be suppo
 - Extended MQTT v3.1.1 support: LWT and Retain support
 - Extended MQTT v5 support: LWT, Retain, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID support
 - Metrics and diagnostic logs 
-- TLS 1.3 support
 - Enhanced performance and scale limits 
 - Pay As You Go Billing
 
