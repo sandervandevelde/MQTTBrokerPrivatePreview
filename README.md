@@ -379,7 +379,6 @@ MQTT v3 message:
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
    "data_base64": {
           IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
   }
@@ -394,11 +393,6 @@ MQTT v5 message with PFI=0:
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
-   "mqttresponsetopic": "topic/response" // response topic of the MQTT publish request
-   "mqttcorrelationdata": "cmVxdWVzdDE=" // correlation data of the MQTT publish request encoded in base64
-   "mqttmessageexpiry": "2019-11-18T15:23:39.4589254Z" // message expiration timestamp based of the MQTT message expiry interval of the MQTT publish request
-   "datacontenttype": "application/octet-stream" //content type of the MQTT publish request
    "data_base64": {
           IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
   }
@@ -413,11 +407,6 @@ MQTT v5 message with PFI=0:
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
-   "mqttresponsetopic": "topic/response" // response topic of the MQTT publish request
-   "mqttcorrelationdata": " cmVxdWVzdDE=" // correlation data of the MQTT publish request encoded in base64
-   "mqttmessageexpiry": "2019-11-18T15:23:39.4589254Z" // message expiration timestamp based of the MQTT message expiry interval of the MQTT publish request
-   "datacontenttype": "application/json" //content type of the MQTT publish request
    "data": {
          "Temp": "70",
          "humidity": "40"
@@ -433,45 +422,12 @@ MQTT v5 message with PFI=0:
   "type": "Custom.Type", // original type value stamped by the client
   "source": "Custom.Source", // original source value stamped by the client
   "subject": " Custom.Subject", // original subjectvalue stamped by the client
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
-   "mqttresponsetopic": "topic/response" // response topic of the MQTT publish request
-   "mqttcorrelationdata": " cmVxdWVzdDE=" // correlation data of the MQTT publish request encoded in base64
-   "mqttmessageexpiry": "2019-11-18T15:23:39.4589254Z" // message expiration timestamp based of the MQTT message expiry interval of the MQTT publish request
-   "datacontenttype": "application/json" //content type of the MQTT publish request
    "data": {
          "Temp": "70",
          "humidity": "40"
   }
  }
 ```
-- For MQTT v5 messages, user properties that meet [the requirements for compliant event attributes](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/README.md#requirements-for-compliant-event-attributes) will be forwarded as a CloudEvent attribute, but user properties that don’t meet the requirements will be forwarded as a JSON string value to the attribute “mqttuserproperties” according to the following sample.
-```bash
-{
-   "specversion": "1.0",
-   "id": "9aeb0fdf-c01e-0131-0922-9eb54906e20", // unique id stamped by the service
-   "time": "2019-11-18T15:13:39.4589254Z", // timestamp when messages was received by the service
-   "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
-   "source": "testnamespace", // namespace name
-   "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
-   "mqttresponsetopic": "topic/response" // response topic of the MQTT publish request
-   "mqttcorrelationdata": " cmVxdWVzdDE=" // correlation data of the MQTT publish request encoded in base64
-   "mqttmessageexpiry": "2019-11-18T15:23:39.4589254Z" // message expiration timestamp based of the MQTT message expiry interval of the MQTT publish request
-   "datacontenttype": "application/json" //content type of the MQTT publish request
-   "priority": "2", // user property that meets the requirements for compliant event attributes
-   "mqttuserproperties": "{\"Bldg-Region\":\"Redmond\",\"type\":\"room \"}", // user properties that don’t meet the requirements for compliant event attributes
-   "data": {
-         "Temp": "70",
-         "humidity": "40"
-  }
- }
-```
-##### Requirements for Compliant Event Attributes:
-Since routed messages are enveloped in a CloudEvent and the service applies the default enrichments, custom enrichments through user properties should fulfil the following requirements:
-- Only lower-case alphanumerics: only (a-z) and (0-9)
-- Properties should not clash with the CloudEvent’s default attributes: specversion, id, time, type, source, subject, datacontenttype, dataschema, data
-- Properties shoud not start with “mqtt” as these prefixes are reserved for MQTT properties.
-- There should not be 2 properties with the same key. 
 
 ## Limitations
 ### MQTTv3.1.1 Level of Support and Limitations
