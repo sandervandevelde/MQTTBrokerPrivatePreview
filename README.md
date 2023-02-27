@@ -154,7 +154,11 @@ The following credential types are supported:
 **Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the certificate thumbprint alongside the identity record. In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
 
 One and only one authentication type properties (CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
-
+#### Multi-Session Support
+To create multiple sessions per client, provide the Username property in the CONNECT packet to signify your client name, and the Client Identifier (ClientID) property in the CONNECT packet to signify the session name such as there are one or more values for the ClientID for each Username.
+- If the Username property is not present in the CONNECT packet, the service will use the ClientID as the client name and session name.
+- ClientID cannot be empty.
+ 
 ### Client Groups
 Client group is a new concept introduced to make management of client access controls (publish/subscribe) easy – multiple clients can be grouped together based on certain commonalities to provide similar levels of authorization to publish and/or subscribe to Topic spaces.
 
