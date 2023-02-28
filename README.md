@@ -158,6 +158,10 @@ One and only one authentication type properties (CertificateThumbprint or Certif
 To create multiple sessions per client, provide the Username property in the CONNECT packet to signify your client name, and the Client Identifier (ClientID) property in the CONNECT packet to signify the session name such as there are one or more values for the ClientID for each Username.
 - If the Username property is not present in the CONNECT packet, the service will use the ClientID as the client name and session name.
 - ClientID cannot be empty.
+
+If a client tries to take over another client's active session by presenting its session name, its connection request will be rejected with an unauthorized error. E.g. if Client B tries to connect to session 123 that is assigned at that time for client A, Client B's connection request will be rejected. 
+
+If a client resource is deleted without ending its session, other clients will not be able to use its session name until the session expires. E.g. If client B creates a session with session name 123 then client B deleted, client A will not be able to connect to session 123 until it expires. 
  
 ### Client Groups
 Client group is a new concept introduced to make management of client access controls (publish/subscribe) easy – multiple clients can be grouped together based on certain commonalities to provide similar levels of authorization to publish and/or subscribe to Topic spaces.
