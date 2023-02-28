@@ -60,7 +60,7 @@ The following features are not in scope for this release, but they will be suppo
 - Ability to publish messages to topics using HTTP
 - Edge MQTT Broker bridging
 - Extended MQTT v3.1.1 support: LWT and Retain support
-- Extended MQTT v5 support: LWT, Retain, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID support
+- Extended MQTT v5 support: LWT, Retain, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID support
 - Metrics and diagnostic logs 
 - Enhanced performance and scale limits 
 - Pay As You Go Billing
