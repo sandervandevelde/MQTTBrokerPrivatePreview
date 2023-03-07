@@ -443,11 +443,9 @@ The following is a list of the supported values:
 - ${client.attributes.x}: an attribute of the publishing client, where x is the attribute key name. 
 
 ###### MQTT Properties
-- \${mqtt.message.userProperties.x} or ${mqtt.message.userProperties['x']}): user properties in the MQTTv5 publish request, where x is the user property key name 
+- ${mqtt.message.userProperties.x}: user properties in the MQTTv5 publish request, where x is the user property key name 
   - Type: string
-  - Note: you need to escape an apostrophe and backslash:
-    - "N'x" becomes "N\\'x".
-    - "PN\t" becomes "PN\\\\t".
+  - Use the following variable format instead if your user property includes special characters ${mqtt.message.userProperties['x']}. You will still need to escape an apostrophe and backslash as follows: and "PN\t" becomes "PN\\\\t".
 - ${mqtt.message.topicName}: the topic in the MQTT publish request.
   - Type: string
 - ${mqtt.message.responseTopic}: the response topic in the MQTTv5 publish request.
@@ -545,6 +543,9 @@ The following is a sample output of a MQTTv5 message with PFI=0 after applying t
   }
  }
 ```
+###### Handling special cases:
+- Unspecified clinet attributes/user properties: if a dynamic enrichment pointed to a client attribute/user property that doesn’t exist, the enrichment will include the specified key with an empty string for a value. e.g. "emptyproperty": ""
+- Arrays: Arrays in client attributes and duplicate userproperties will be transformed to a comma-separated string. For example: if the enriched client attribute is set to be “array”: “value1”, “value2”, “value3”, the resulting enriched property will be “array”: “value1,value2,value3”. Another example: if the same MQTT publish request has the following user properties >  "userproperty1": "value1", "userproperty1": "value2", resulting enriched property will be “userproperty1”: “value1,value2”.
 
 ## Limitations
 ### MQTTv3.1.1 Level of Support and Limitations
