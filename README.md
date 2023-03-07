@@ -520,6 +520,10 @@ Enrichment can be configured on the namespace creation/update through Azure CLI.
     "tags": {},
 }
 ```
+######  Known Issue
+-  If an invalid enrichment configuration was attempted, the namespace might be unusable.
+	- Mitigation: update the namespace configuration to correct the enrichment configuration or recreate the namespace.
+	
 ##### Sample Output
 
 The following is a sample output of a MQTTv5 message with PFI=0 after applying the enrichment configuration above: 
@@ -617,9 +621,6 @@ All the names are of String type
 | TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| |
 | Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
 
-## Known Issues
--  If a client resource is deleted, recreating a client with the same name will fail for a day after the deletion.
-	- Mitigation: change the name of the client while recreating it.
 
 ## Frequently asked questions 
 - Is Azure monitoring metrics and logging available? 
