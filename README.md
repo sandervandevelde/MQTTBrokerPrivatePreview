@@ -4,7 +4,7 @@ The Microsoft Azure Messaging team invites you and your organization to preview 
 
 **The Private Preview will be closing on 3/30/2023.**
 
-==You can continue testing till the end of March.  After 3/30/2023, we will be cleaning the Event Grid Namespace resources created during private preview.  This means that the Event Grid namespace you created will not be usable after 3/30/2023.  As we cannot delete any other resources, we recommend that you review your configuration and delete any other resources beyond Event Grid Namespaces that you may have created during the private preview, to avoid any further costs associated with those resources.==
+<mark>You can continue testing till the end of March.  After 3/30/2023, we will be cleaning the Event Grid Namespace resources created during private preview.  This means that the Event Grid namespace you created will not be usable after 3/30/2023.  As we cannot delete any other resources, we recommend that you review your configuration and delete any other resources beyond Event Grid Namespaces that you may have created during the private preview, to avoid any further costs associated with those resources.</mark>
 
 Please reach out to us with questions and comments at askmqtt@microsoft.com.
 
