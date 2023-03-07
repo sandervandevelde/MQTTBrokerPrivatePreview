@@ -450,9 +450,11 @@ The enrichment key is a string that needs to comply with these requirements:
 - Must not be more than 20 characters.
 
 The enrichment value could be a static string for static enrichments or one of the following supported values that represent the client attributes or the MQTT message properties for dynamic enrichment. Enrichment values must not be more than 128 characters.
+
 **Client attributes**
 - ${client.name}: the name of the publishing client.
 - ${client.attributes.x}: an attribute of the publishing client, where x is the attribute key name. 
+
 **MQTT Properties**
 - ${mqtt.message.userProperties.x} or ${mqtt.message.userProperties['x']}: user properties in the MQTTv5 publish request, where x is the user property key name 
   - Type: string
