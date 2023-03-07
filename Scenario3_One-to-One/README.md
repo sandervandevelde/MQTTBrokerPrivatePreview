@@ -85,10 +85,10 @@ az resource create --resource-type ${base_type}/clientGroups --id ${resource_pre
 			- vehicles/unlock/req/${client.name}/#
 		- Subscription Support: LowFanout
 ```bash
-az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-publisher --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-publisher.json
-az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/vehicle-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_vehicle-subscriber.json
-az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/mobile-publisher --api-version 2022-10-15-preview --properties @./resources/PB_mobile-publisher.json
-az resource create --resource-type ${base_type}/permissionBindings --id ${resource_prefix}/permissionBindings/mobile-subscriber --api-version 2022-10-15-preview --properties @./resources/PB_mobile-subscriber.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/mobile-publish --api-version 2022-10-15-preview --properties @./resources/TS_mobile-publish.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/mobile-subscribe --api-version 2022-10-15-preview --properties @./resources/TS_mobile-subscribe.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/vehicle-publish --api-version 2022-10-15-preview --properties @./resources/TS_vehicle-publish.json
+az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/vehicle-subscribe --api-version 2022-10-15-preview --properties @./resources/TS_vehicle-subscribe.json
 ```
 - Create the following permission bindings:
 	- mobile-publisher: to grant access for the client group mobile to publish to the topic space mobile-publish

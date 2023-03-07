@@ -1,16 +1,16 @@
 # Scenario 4 – Route MQTT data through Event Grid subscription
-This scenario showcases how to configure routing to send filtered messages from the MQTT Broker to an [Azure storage queue](https://learn.microsoft.com/en-us/azure/storage/queues/storage-quickstart-queues-portal). Consider a use case where one needs to identify the location of vehicles, and want to route the vehicles’ location data from each area to a separate storage queue.
+This scenario showcases how to configure routing to send filtered messages from the MQTT Broker to an [Azure storage queue](https://learn.microsoft.com/en-us/azure/storage/queues/storage-quickstart-queues-portal). Consider a use case where one needs to identify the location of vehicles, and want to route the vehicles’ location data from a specific client to a separate storage queue.
 
 ## Scenario:
 
 |Client | Role | Topic/Topic Filter|
 | ------------ | ------------ | ------------ |
-|s4-vehicle1 | Publisher | areas/area1/vehicles/vehicle1/GPS|
+|s4-vehicle1 | Publisher | vehicles/vehicle1/GPS/position|
 
 ## Resource Configuration:
 |Client| Client Group| PermissionBinding (Role)| TopicSpaces|
 | ------------ | ------------ | ------------ | ------------ |
-|s4-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle | vehicle-publisher|  VehiclesLocation: (Topic Templates: areas/+/vehicles/${principal.deviceid}/GPS/#  -Subscription Support: Not supported)|'
+|s4-vehicle1 (Attributes: “Type”:”vehicle”)| vehicle | vehicle-publisher|  VehiclesLocation: (Topic Templates: vehicles/{client.name}/GPS/position  -Subscription Support: Not supported)|'
 
 Follow the instructions in the Prerequisites to test this scenarios. Use the following instructions to configure the resources and test the scenario.
 
@@ -67,7 +67,7 @@ az resource create --resource-type ${base_type}/clientGroups --id ${resource_pre
 ```
 - Create the following topic space:
 	- vehicle-publish 
-		- Topic Template: vehicles/${principal.deviceid}/GPS/#
+		- Topic Template: vehicles/${client.name}/GPS/#
 		- Subscription Support: Not supported
 ```bash
 az resource create --resource-type ${base_type}/topicSpaces --id ${resource_prefix}/topicSpaces/vehicle-publish --api-version 2022-10-15-preview --properties @./resources/TS_vehicle-publish.json
@@ -89,8 +89,8 @@ Use the following steps to set up a subscription on your created event grid topi
 	- Endpoint type: Storage Queues
 	- Endpoint: your Storage Queues endpoint
 - Go to the Filters tab, and “Enable subject filtering”
-	- In the field “Subject Begins With”, type “areas/area1/vehicles/”
-		- The MQTT topic is represented by the Subject field in the routed Cloud Event Schema so this configuration will filter all the messages with the MQTT Topic that starts with “areas/area1/vehicles/”.
+	- In the field “Subject Begins With”, type “vehicles/s4-vehicle1”
+		- The MQTT topic is represented by the Subject field in the routed Cloud Event Schema so this configuration will filter all the messages with the MQTT Topic that starts with “vehicles/s4-vehicle1”.
 
 - Select "Create"
 		

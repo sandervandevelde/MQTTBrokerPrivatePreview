@@ -58,7 +58,7 @@ This private preview provides the following capabilities
 - Support for one-one, one-many, many-one messaging patterns to accommodate for a variety of scenarios
 - Compatibility with standard MQTT client libraries (ex. Eclipse Paho) allows users to migrate configuration much faster
 - Route MQTT messages through Event Grid subscriptions to integrate data with Azure services or custom endpoints for flexibility to further process the data
-- Support for TLS 1.2 endpoints for data plane operations to keep the data transmission secure
+- Support for TLS 1.2 and TLS 1.3 endpoints for data plane operations to keep the data transmission secure
 - Also, see [throttle limit tables](#mqtt-messages-limits) below
 
 ## Capabilities coming up in future releases
@@ -67,9 +67,8 @@ The following features are not in scope for this release, but they will be suppo
 - Ability to publish messages to topics using HTTP
 - Edge MQTT Broker bridging
 - Extended MQTT v3.1.1 support: LWT and Retain support
-- Extended MQTT v5 support: LWT, Retain, Session Expiry, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID support
+- Extended MQTT v5 support: LWT, Retain, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID support
 - Metrics and diagnostic logs 
-- TLS 1.3 support
 - Enhanced performance and scale limits 
 - Pay As You Go Billing
 
@@ -162,7 +161,15 @@ The following credential types are supported:
 **Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the certificate thumbprint alongside the identity record. In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
 
 One and only one authentication type properties (CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
+#### Multi-Session Support
+To create multiple sessions per client, provide the Username property in the CONNECT packet to signify your client name, and the Client Identifier (ClientID) property in the CONNECT packet to signify the session name such as there are one or more values for the ClientID for each Username.
+- If the Username property is not present in the CONNECT packet, the service will use the ClientID as the client name and session name.
+- ClientID cannot be empty.
 
+If a client tries to take over another client's active session by presenting its session name, its connection request will be rejected with an unauthorized error. E.g. if Client B tries to connect to session 123 that is assigned at that time for client A, Client B's connection request will be rejected. 
+
+If a client resource is deleted without ending its session, other clients will not be able to use its session name until the session expires. E.g. If client B creates a session with session name 123 then client B deleted, client A will not be able to connect to session 123 until it expires. 
+ 
 ### Client Groups
 Client group is a new concept introduced to make management of client access controls (publish/subscribe) easy – multiple clients can be grouped together based on certain commonalities to provide similar levels of authorization to publish and/or subscribe to Topic spaces.
 
@@ -377,7 +384,6 @@ Routing the messages from your clients to an Azure service or your custom endpoi
 #### CloudEvent Schema for the routed MQTT messages:
 MQTT Messages will be routed to the Event Grid Topic as CloudEvents according to the following logic:
 - For MQTT v3 messages or MQTT v5 messages of a payload format indicator=0, the payload will be forwarded in the data_base64 object and encoded as a base 64 string according to the following schema sample.
-MQTT v3 message:
 ```bash
 {
    "specversion": "1.0",
@@ -386,31 +392,12 @@ MQTT v3 message:
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
    "data_base64": {
           IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
   }
  }
  ```
-MQTT v5 message with PFI=0:
-```bash
-{
-   "specversion": "1.0",
-   "id": "9aeb0fdf-c01e-0131-0922-9eb54906e20", // unique id stamped by the service
-   "time": "2019-11-18T15:13:39.4589254Z", // timestamp when messages was received by the service
-   "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
-   "source": "testnamespace", // namespace name
-   "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
-   "mqttresponsetopic": "topic/response" // response topic of the MQTT publish request
-   "mqttcorrelationdata": "cmVxdWVzdDE=" // correlation data of the MQTT publish request encoded in base64
-   "mqttmessageexpiry": "2019-11-18T15:23:39.4589254Z" // message expiration timestamp based of the MQTT message expiry interval of the MQTT publish request
-   "datacontenttype": "application/octet-stream" //content type of the MQTT publish request
-   "data_base64": {
-          IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
-  }
- }
-```
+
 - For MQTT v5 messages of content type= “application/json; charset=utf-8” or of a payload format indicator=1, the payload will be forwarded in the data object, and the message will be serialized as a JSON or a JSON string if the payload not a JSON. This will enable you to filter on your payload properties. For example, you would be able to add this filter for the following sample: "advancedFilters": [{"operatorType": "NumberGreaterThan","key": "data.Temp","value": 100}] 
 ```bash
 {
@@ -420,11 +407,6 @@ MQTT v5 message with PFI=0:
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
-   "mqttresponsetopic": "topic/response" // response topic of the MQTT publish request
-   "mqttcorrelationdata": " cmVxdWVzdDE=" // correlation data of the MQTT publish request encoded in base64
-   "mqttmessageexpiry": "2019-11-18T15:23:39.4589254Z" // message expiration timestamp based of the MQTT message expiry interval of the MQTT publish request
-   "datacontenttype": "application/json" //content type of the MQTT publish request
    "data": {
          "Temp": "70",
          "humidity": "40"
@@ -440,18 +422,111 @@ MQTT v5 message with PFI=0:
   "type": "Custom.Type", // original type value stamped by the client
   "source": "Custom.Source", // original source value stamped by the client
   "subject": " Custom.Subject", // original subjectvalue stamped by the client
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
-   "mqttresponsetopic": "topic/response" // response topic of the MQTT publish request
-   "mqttcorrelationdata": " cmVxdWVzdDE=" // correlation data of the MQTT publish request encoded in base64
-   "mqttmessageexpiry": "2019-11-18T15:23:39.4589254Z" // message expiration timestamp based of the MQTT message expiry interval of the MQTT publish request
-   "datacontenttype": "application/json" //content type of the MQTT publish request
    "data": {
          "Temp": "70",
          "humidity": "40"
   }
  }
 ```
-- For MQTT v5 messages, user properties that meet [the requirements for compliant event attributes](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/README.md#requirements-for-compliant-event-attributes) will be forwarded as a CloudEvent attribute, but user properties that don’t meet the requirements will be forwarded as a JSON string value to the attribute “mqttuserproperties” according to the following sample.
+#### Enrichments
+
+The enrichments support enable you to add up to 10 custom key-value properties to your messages before they are sent to the Event Grid topic. These enrichments enable you to:
+- Add contextual data to your messages. For example, enriching the message with the client's name or the namespace name could provide endpoints with information about the source of the message.
+- Reduce computing load on endpoints. For example, enriching the message with the MQTT publish request's content type value informs endpoints how to process the message's payload without trying multiple parsers first.
+- Filter your routed messages through Event Grid Subscriptions based on the added data. For example, enriching a client attribute will enable you to filter the messages to be routed to the endpoint based on the different attribute's values.
+
+The enrichment key is a string that needs to comply with these requirements:
+- Include only lower-case alphanumerics: only (a-z) and (0-9)
+- Must not be "specversion", "id", "time", "type", "source", "subject", "datacontenttype", "dataschema", or "data".
+- Must not start with “azsp”.
+- Must not be duplicated.
+- Must not be more than 20 characters.
+
+The enrichment value could be a static string for static enrichments or one of the supported values that represent the client attributes or the MQTT message properties for dynamic enrichment. Enrichment values must not be more than 128 characters.
+The following is a list of the supported values:
+
+###### Client attributes
+- ${client.name}: the name of the publishing client.
+- ${client.attributes.x}: an attribute of the publishing client, where x is the attribute key name. 
+
+###### MQTT Properties
+- ${mqtt.message.userProperties.x}: user properties in the MQTTv5 publish request, where x is the user property key name 
+  - Type: string
+  - Use the following variable format instead if your user property includes special characters ${mqtt.message.userProperties['x']}. You will still need to escape an apostrophe and backslash as follows: and "PN\t" becomes "PN\\\\t".
+- ${mqtt.message.topicName}: the topic in the MQTT publish request.
+  - Type: string
+- ${mqtt.message.responseTopic}: the response topic in the MQTTv5 publish request.
+  - Type: string
+- ${mqtt.message.correlationData}: the correlation data in the MQTTv5 publish request.
+  - Type: binary
+- ${mqtt.message.pfi}: the payload format indicator in the MQTTv5 publish request.
+  - Type: integer
+
+##### Enrichments Configuration
+
+Enrichment can be configured on the namespace creation/update through Azure CLI. The following is a sample JSON for the namespace payload:
+
+ ```
+{
+    "properties": {
+        "topicSpacesConfiguration": {
+            "state": "Enabled",
+            "routeTopicResourceId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/test-resrouce-group/providers/Microsoft.EventGrid/topics/test-topic",
+            "routingEnrichments": {
+                "static": [
+                    {
+                        "key": "namespaceid",
+                        "value": "123",
+                        "valueType": "string"
+                    }
+                ],
+                "dynamic": [
+                    {
+                        "key": "clientname",
+                        "value": "${client.name}"
+                    },
+                    {
+                        "key": "clienttype",
+                        "value": "${client.attributes.type}"
+                    },
+                    {
+                        "key": "address",
+                        "value": "${mqtt.message.userProperties['client.address']}"
+                    },
+                    {
+                        "key": "region",
+                        "value": "${mqtt.message.userProperties.location}"
+                    },
+                    {
+                        "key": "mqtttopic",
+                        "value": "${mqtt.message.topicName}"
+                    },
+                    {
+                        "key": "mqttresponsetopic",
+                        "value": "${mqtt.message.responseTopic}"
+                    },
+                    {
+                        "key": "mqttcorrelationdata",
+                        "value": "${mqtt.message.correlationData}"
+                    },
+                    {
+                        "key": "mqttpfi",
+                        "value": "${mqtt.message.pfi}"
+                    }
+                ]
+            }
+        }
+    },
+    "location": "centraluseuap",
+    "tags": {},
+    "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/test-resrouce-group/providers/Microsoft.EventGrid/namespaces/testNamespace",
+    "name": "testNamespace"
+}
+```
+##### Sample Output
+
+The following is a sample output of a MQTTv5 message with PFI=0 after applying the enrichment configuration above: 
+
 ```bash
 {
    "specversion": "1.0",
@@ -460,25 +535,24 @@ MQTT v5 message with PFI=0:
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "mqtttopic": " campus/buildings/building17" // topic of the MQTT publish request
-   "mqttresponsetopic": "topic/response" // response topic of the MQTT publish request
-   "mqttcorrelationdata": " cmVxdWVzdDE=" // correlation data of the MQTT publish request encoded in base64
-   "mqttmessageexpiry": "2019-11-18T15:23:39.4589254Z" // message expiration timestamp based of the MQTT message expiry interval of the MQTT publish request
-   "datacontenttype": "application/json" //content type of the MQTT publish request
-   "priority": "2", // user property that meets the requirements for compliant event attributes
-   "mqttuserproperties": "{\"Bldg-Region\":\"Redmond\",\"type\":\"room \"}", // user properties that don’t meet the requirements for compliant event attributes
-   "data": {
-         "Temp": "70",
-         "humidity": "40"
+   "namespaceid": "123" // static enrichment
+   "clientname": "client1" // dynamic enrichment of the name of the publishing client
+   "clienttype": "operator" // dynamic enrichment of an attribute of the publishing client
+   "address": "1 Microsoft Way, Redmond, WA 98052" // dynamic enrichment of a user property in the MQTT publish request
+   "region": "North America" // dynamic enrichment of another user property in the MQTT publish request
+   "mqtttopic": "campus/buildings/building17" // dynamic enrichment of the topic of the MQTT publish request
+   "mqttresponsetopic": "campus/buildings/building17/response" // dynamic enrichment of the response topic of the MQTT publish request
+   "mqttcorrelationdata": "cmVxdWVzdDE=" // dynamic enrichment of the correlation data of the MQTT publish request encoded in base64
+   "mqttpfi": "0" // dynamic enrichment of the payload format indicator of the MQTT publish request
+   "datacontenttype": "application/octet-stream" //content type of the MQTT publish request
+   "data_base64": {
+          IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
   }
  }
 ```
-##### Requirements for Compliant Event Attributes:
-Since routed messages are enveloped in a CloudEvent and the service applies the default enrichments, custom enrichments through user properties should fulfil the following requirements:
-- Only lower-case alphanumerics: only (a-z) and (0-9)
-- Properties should not clash with the CloudEvent’s default attributes: specversion, id, time, type, source, subject, datacontenttype, dataschema, data
-- Properties shoud not start with “mqtt” as these prefixes are reserved for MQTT properties.
-- There should not be 2 properties with the same key. 
+###### Handling special cases:
+- Unspecified clinet attributes/user properties: if a dynamic enrichment pointed to a client attribute/user property that doesn’t exist, the enrichment will include the specified key with an empty string for a value. e.g. "emptyproperty": ""
+- Arrays: Arrays in client attributes and duplicate userproperties will be transformed to a comma-separated string. For example: if the enriched client attribute is set to be “array”: “value1”, “value2”, “value3”, the resulting enriched property will be “array”: “value1,value2,value3”. Another example: if the same MQTT publish request has the following user properties >  "userproperty1": "value1", "userproperty1": "value2", resulting enriched property will be “userproperty1”: “value1,value2”.
 
 ## Limitations
 ### MQTTv3.1.1 Level of Support and Limitations
@@ -545,6 +619,10 @@ All the names are of String type
 | Client Group| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| $all is the default client group that includes all the clients.  This group cannot be edited or deleted; Name needs to be unique per namespace| 
 | TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| |
 | Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
+
+## Known Issues
+-  If a client resource is deleted, recreating a client with the same name will fail for a day after the deletion.
+	- Mitigation: change the name of the client while recreating it.
 
 ## Frequently asked questions 
 - Is Azure monitoring metrics and logging available? 
