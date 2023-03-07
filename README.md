@@ -2,6 +2,13 @@
 
 The Microsoft Azure Messaging team invites you and your organization to preview the MQTT broker functionality in Event Grid.  During this preview, we will provide full support with a high level of engagement from the Azure Messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
+{{< panel title="Important!" style="info" >}}
+**The Private Preview will be closing on 3/30/2023.**
+
+You can continue testing till the end of March.  After 3/30/2023, we will be cleaning the Event Grid Namespace resources created during private preview.  This means that the Event Grid namespace you created will not be usable after 3/30/2023.  As we cannot delete any other resources, we recommend that you review your configuration and delete any other resources beyond Event Grid Namespaces that you may have created during the private preview, to avoid any further costs associated with those resources.
+
+{{< /panel >}}
+
 ## Overview
 MQTT broker functionality in Event Grid delivers the flexibility to leverage hierarchical topics and supports messaging using the light weight MQTT protocol.  Clients (both devices and cloud applications) can publish and subscribe over these flexible topics for scenarios such as command and control and high scale broadcast.
 
