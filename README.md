@@ -431,7 +431,7 @@ MQTT Messages will be routed to the Event Grid Topic as CloudEvents according to
 
 The enrichments support enable you to add up to 10 custom key-value properties to your messages before they are sent to the Event Grid topic. These enrichments enable you to:
 - Add contextual data to your messages. For example, enriching the message with the client's name or the namespace name could provide endpoints with information about the source of the message.
-- Reduce computing load on endpoints. For example, enriching the message with the MQTT publish request's content type value informs endpoints how to process the message's payload without trying multiple parsers first.
+- Reduce computing load on endpoints. For example, enriching the message with the MQTT publish request's payload format indicator informs endpoints how to process the message's payload without trying multiple parsers first.
 - Filter your routed messages through Event Grid Subscriptions based on the added data. For example, enriching a client attribute will enable you to filter the messages to be routed to the endpoint based on the different attribute's values.
 
 The enrichment key is a string that needs to comply with these requirements:
@@ -518,8 +518,6 @@ Enrichment can be configured on the namespace creation/update through Azure CLI.
     },
     "location": "centraluseuap",
     "tags": {},
-    "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/test-resrouce-group/providers/Microsoft.EventGrid/namespaces/testNamespace",
-    "name": "testNamespace"
 }
 ```
 ##### Sample Output
