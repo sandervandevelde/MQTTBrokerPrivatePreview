@@ -377,7 +377,6 @@ Routing the messages from your clients to an Azure service or your custom endpoi
 #### CloudEvent Schema for the routed MQTT messages:
 MQTT Messages will be routed to the Event Grid Topic as CloudEvents according to the following logic:
 - For MQTT v3 messages or MQTT v5 messages of a payload format indicator=0, the payload will be forwarded in the data_base64 object and encoded as a base 64 string according to the following schema sample.
-MQTT v3 message:
 ```bash
 {
    "specversion": "1.0",
@@ -391,20 +390,7 @@ MQTT v3 message:
   }
  }
  ```
-MQTT v5 message with PFI=0:
-```bash
-{
-   "specversion": "1.0",
-   "id": "9aeb0fdf-c01e-0131-0922-9eb54906e20", // unique id stamped by the service
-   "time": "2019-11-18T15:13:39.4589254Z", // timestamp when messages was received by the service
-   "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
-   "source": "testnamespace", // namespace name
-   "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "data_base64": {
-          IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
-  }
- }
-```
+
 - For MQTT v5 messages of content type= “application/json; charset=utf-8” or of a payload format indicator=1, the payload will be forwarded in the data object, and the message will be serialized as a JSON or a JSON string if the payload not a JSON. This will enable you to filter on your payload properties. For example, you would be able to add this filter for the following sample: "advancedFilters": [{"operatorType": "NumberGreaterThan","key": "data.Temp","value": 100}] 
 ```bash
 {
@@ -482,8 +468,8 @@ Enrichment can be configured on the namespace creation/update through Azure CLI.
             "routingEnrichments": {
                 "static": [
                     {
-                        "key": "namespaceName",
-                        "value": "my namespace",
+                        "key": "namespaceid",
+                        "value": "123",
                         "valueType": "string"
                     }
                 ],
@@ -541,7 +527,7 @@ The following is a sample output of a MQTTv5 message with PFI=0 after applying t
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "namespaceName": "my namespace" // static enrichment
+   "namespaceid": "123" // static enrichment
    "clientname": "client1" // dynamic enrichment of the name of the publishing client
    "clienttype": "operator" // dynamic enrichment of an attribute of the publishing client
    "address": "1 Microsoft Way, Redmond, WA 98052" // dynamic enrichment of a user property in the MQTT publish request
