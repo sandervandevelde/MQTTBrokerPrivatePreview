@@ -532,16 +532,16 @@ The following is a sample output of a MQTTv5 message with PFI=0 after applying t
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "namespaceid": "123" // static enrichment
-   "clientname": "client1" // dynamic enrichment of the name of the publishing client
-   "clienttype": "operator" // dynamic enrichment of an attribute of the publishing client
-   "address": "1 Microsoft Way, Redmond, WA 98052" // dynamic enrichment of a user property in the MQTT publish request
-   "region": "North America" // dynamic enrichment of another user property in the MQTT publish request
-   "mqtttopic": "campus/buildings/building17" // dynamic enrichment of the topic of the MQTT publish request
-   "mqttresponsetopic": "campus/buildings/building17/response" // dynamic enrichment of the response topic of the MQTT publish request
-   "mqttcorrelationdata": "cmVxdWVzdDE=" // dynamic enrichment of the correlation data of the MQTT publish request encoded in base64
-   "mqttpfi": "0" // dynamic enrichment of the payload format indicator of the MQTT publish request
-   "datacontenttype": "application/octet-stream" //content type of the MQTT publish request
+   "namespaceid": "123", // static enrichment
+   "clientname": "client1", // dynamic enrichment of the name of the publishing client
+   "clienttype": "operator", // dynamic enrichment of an attribute of the publishing client
+   "address": "1 Microsoft Way, Redmond, WA 98052", // dynamic enrichment of a user property in the MQTT publish request
+   "region": "North America", // dynamic enrichment of another user property in the MQTT publish request
+   "mqtttopic": "campus/buildings/building17", // dynamic enrichment of the topic of the MQTT publish request
+   "mqttresponsetopic": "campus/buildings/building17/response", // dynamic enrichment of the response topic of the MQTT publish request
+   "mqttcorrelationdata": "cmVxdWVzdDE=", // dynamic enrichment of the correlation data of the MQTT publish request encoded in base64
+   "mqttpfi": 0, // dynamic enrichment of the payload format indicator of the MQTT publish request
+   "datacontenttype": "application/octet-stream", //content type of the MQTT publish request
    "data_base64": {
           IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
   }
