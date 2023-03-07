@@ -443,7 +443,7 @@ The following is a list of the supported values:
 - ${client.attributes.x}: an attribute of the publishing client, where x is the attribute key name. 
 
 ###### MQTT Properties
-- ${mqtt.message.userProperties.x} or \${mqtt.message.userProperties['x']}): user properties in the MQTTv5 publish request, where x is the user property key name 
+- \${mqtt.message.userProperties.x} or ${mqtt.message.userProperties['x']}): user properties in the MQTTv5 publish request, where x is the user property key name 
   - Type: string
   - Note: you need to escape an apostrophe and backslash:
     - "N'x" becomes "N\\'x".
