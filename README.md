@@ -438,11 +438,11 @@ The enrichment key is a string that needs to comply with these requirements:
 The enrichment value could be a static string for static enrichments or one of the supported values that represent the client attributes or the MQTT message properties for dynamic enrichment. Enrichment values must not be more than 128 characters.
 The following is a list of the supported values:
 
-**Client attributes**
+###### Client attributes
 - ${client.name}: the name of the publishing client.
 - ${client.attributes.x}: an attribute of the publishing client, where x is the attribute key name. 
 
-**MQTT Properties**
+###### MQTT Properties
 - ${mqtt.message.userProperties.x} or ${mqtt.message.userProperties['x']}: user properties in the MQTTv5 publish request, where x is the user property key name 
   - Type: string
   - Note: you need to escape an apostrophe and backslash:
@@ -457,7 +457,7 @@ The following is a list of the supported values:
 - ${mqtt.message.pfi}: the payload format indicator in the MQTTv5 publish request.
   - Type: integer
 
-**Enrichments Configuration**
+##### Enrichments Configuration
 
 Enrichment can be configured on the namespace creation/update through Azure CLI. The following is a sample JSON for the namespace payload:
 
@@ -518,7 +518,7 @@ Enrichment can be configured on the namespace creation/update through Azure CLI.
     "name": "testNamespace"
 }
 ```
-**Sample Output**
+##### Sample Output
 
 The following is a sample output of a MQTTv5 message with PFI=0 after applying the enrichment configuration above: 
 
