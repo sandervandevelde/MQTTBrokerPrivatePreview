@@ -435,6 +435,125 @@ MQTT v5 message with PFI=0:
   }
  }
 ```
+#### Enrichments
+
+The enrichments support enable you to add up to 10 custom key-value properties to your messages before they are sent to the Event Grid topic. These enrichments enable you to:
+- Add contextual data to your messages. For example, enriching the message with the client's name or the namespace name could provide endpoints with information about the source of the message.
+- Reduce computing load on endpoints. For example, enriching the message with the MQTT publish request's content type value informs endpoints how to process the message's payload without trying multiple parsers first.
+- Filter your routed messages through Event Grid Subscriptions based on the added data. For example, enriching a client attribute will enable you to filter the messages to be routed to the endpoint based on the different attribute's values.
+
+The enrichment key is a string that needs to comply with these requirements:
+- Include only lower-case alphanumerics: only (a-z) and (0-9)
+- Must not be "specversion", "id", "time", "type", "source", "subject", "datacontenttype", "dataschema", or "data".
+- Must not start with “azsp”.
+- Must not be duplicated.
+- Must not be more than 20 characters.
+
+The enrichment value could be a static string for static enrichments or one of the following supported values that represent the client attributes or the MQTT message properties for dynamic enrichment. Enrichment values must not be more than 128 characters.
+**Client attributes**
+- ${client.name}: the name of the publishing client.
+- ${client.attributes.x}: an attribute of the publishing client, where x is the attribute key name. 
+**MQTT Properties**
+- ${mqtt.message.userProperties.x} or ${mqtt.message.userProperties['x']}: user properties in the MQTTv5 publish request, where x is the user property key name 
+  - Type: string
+  - Note: you need to escape an apostrophe and backslash:
+    - "N'x" becomes "N\\'x".
+    - "PN\t" becomes "PN\\\\t".
+- ${mqtt.message.topicName}: the topic in the MQTT publish request.
+  - Type: string
+- ${mqtt.message.responseTopic}: the response topic in the MQTTv5 publish request.
+  - Type: string
+- ${mqtt.message.correlationData}: the correlation data in the MQTTv5 publish request.
+  - Type: binary
+- ${mqtt.message.pfi}: the payload format indicator in the MQTTv5 publish request.
+  - Type: integer
+
+##### Enrichments Configuration
+Enrichment can be configured on the namespace creation/update through Azure CLI. The following is a sample JSON for the namespace payload:
+
+ ```
+{
+    "properties": {
+        "topicSpacesConfiguration": {
+            "state": "Enabled",
+            "routeTopicResourceId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/test-resrouce-group/providers/Microsoft.EventGrid/topics/test-topic",
+            "routingEnrichments": {
+                "static": [
+                    {
+                        "key": "namespaceName",
+                        "value": "my namespace",
+                        "valueType": "string"
+                    }
+                ],
+                "dynamic": [
+                    {
+                        "key": "clientname",
+                        "value": "${client.name}"
+                    },
+                    {
+                        "key": "clienttype",
+                        "value": "${client.attributes.type}"
+                    },
+                    {
+                        "key": "address",
+                        "value": "${mqtt.message.userProperties['client.address']}"
+                    },
+                    {
+                        "key": "region",
+                        "value": "${mqtt.message.userProperties.location}"
+                    },
+                    {
+                        "key": "mqtttopic",
+                        "value": "${mqtt.message.topicName}"
+                    },
+                    {
+                        "key": "mqttresponsetopic",
+                        "value": "${mqtt.message.responseTopic}"
+                    },
+                    {
+                        "key": "mqttcorrelationdata",
+                        "value": "${mqtt.message.correlationData}"
+                    },
+                    {
+                        "key": "mqttpfi",
+                        "value": "${mqtt.message.pfi}"
+                    }
+                ]
+            }
+        }
+    },
+    "location": "centraluseuap",
+    "tags": {},
+    "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/test-resrouce-group/providers/Microsoft.EventGrid/namespaces/testNamespace",
+    "name": "testNamespace"
+}
+```
+**Sample Output**
+The following is a sample output of a MQTTv5 message with PFI=0 after applying the enrichment configuration above: 
+
+```bash
+{
+   "specversion": "1.0",
+   "id": "9aeb0fdf-c01e-0131-0922-9eb54906e20", // unique id stamped by the service
+   "time": "2019-11-18T15:13:39.4589254Z", // timestamp when messages was received by the service
+   "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
+   "source": "testnamespace", // namespace name
+   "subject": "campus/buildings/building17", // topic of the MQTT publish request 
+   "namespaceName": "my namespace" // static enrichment
+   "clientname": "client1" // dynamic enrichment of the name of the publishing client
+   "clienttype": "operator" // dynamic enrichment of an attribute of the publishing client
+   "address": "1 Microsoft Way, Redmond, WA 98052" // dynamic enrichment of a user property in the MQTT publish request
+   "region": "North America" // dynamic enrichment of another user property in the MQTT publish request
+   "mqtttopic": "campus/buildings/building17" // dynamic enrichment of the topic of the MQTT publish request
+   "mqttresponsetopic": "campus/buildings/building17/response" // dynamic enrichment of the response topic of the MQTT publish request
+   "mqttcorrelationdata": "cmVxdWVzdDE=" // dynamic enrichment of the correlation data of the MQTT publish request encoded in base64
+   "mqttpfi": "0" // dynamic enrichment of the payload format indicator of the MQTT publish request
+   "datacontenttype": "application/octet-stream" //content type of the MQTT publish request
+   "data_base64": {
+          IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
+  }
+ }
+```
 
 ## Limitations
 ### MQTTv3.1.1 Level of Support and Limitations
