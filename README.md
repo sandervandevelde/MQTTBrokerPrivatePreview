@@ -521,8 +521,8 @@ Enrichment can be configured on the namespace creation/update through Azure CLI.
 }
 ```
 ######  Known Issue
--  If an invalid enrichment configuration was attempted, the namespace might be unusable.
-	- Mitigation: update the namespace configuration to correct the enrichment configuration or recreate the namespace.
+-  If an invalid enrichment configuration was attempted, MQTT messages could start failing.
+	- Mitigation: update the namespace configuration to correct the enrichment configuration.
 	
 ##### Sample Output
 
