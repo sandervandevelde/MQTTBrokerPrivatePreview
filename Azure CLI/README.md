@@ -37,14 +37,33 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
 #### ARM Contract
 ~~~
 {
-    "location": "centraluseuap",
     "properties": {
         "inputSchema": "CloudEventSchemaV1_0",
         "topicSpacesConfiguration": {
-          "state": "Enabled",
-          "routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group>/providers/Microsoft.EventGrid/topics/<Event Grid Topic name>"
+            "state": "Enabled",
+            "routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group>/providers/Microsoft.EventGrid/topics/<Event Grid Topic name>",
+            "routingEnrichments": {
+                "static": [
+                    {
+                        "key": "statickey",
+                        "value": "staticvalue",
+                        "valueType": "string"
+                    }
+                ],
+                "dynamic": [
+                    {
+                        "key": "clientname",
+                        "value": "${client.name}"
+                    },
+                    {
+                        "key": "userproperty1",
+                        "value": "${mqtt.message.userProperties.userProperty1}"
+                    }
+                ]
+            }
         }
     },
+    "location": "centraluseuap",
     "tags": {
         "tag1": "value1",
         "tag2": "value2",

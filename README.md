@@ -431,7 +431,7 @@ MQTT Messages will be routed to the Event Grid Topic as CloudEvents according to
 
 The enrichments support enable you to add up to 10 custom key-value properties to your messages before they are sent to the Event Grid topic. These enrichments enable you to:
 - Add contextual data to your messages. For example, enriching the message with the client's name or the namespace name could provide endpoints with information about the source of the message.
-- Reduce computing load on endpoints. For example, enriching the message with the MQTT publish request's content type value informs endpoints how to process the message's payload without trying multiple parsers first.
+- Reduce computing load on endpoints. For example, enriching the message with the MQTT publish request's payload format indicator informs endpoints how to process the message's payload without trying multiple parsers first.
 - Filter your routed messages through Event Grid Subscriptions based on the added data. For example, enriching a client attribute will enable you to filter the messages to be routed to the endpoint based on the different attribute's values.
 
 The enrichment key is a string that needs to comply with these requirements:
@@ -518,10 +518,12 @@ Enrichment can be configured on the namespace creation/update through Azure CLI.
     },
     "location": "centraluseuap",
     "tags": {},
-    "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/test-resrouce-group/providers/Microsoft.EventGrid/namespaces/testNamespace",
-    "name": "testNamespace"
 }
 ```
+######  Known Issue
+-  If an invalid enrichment configuration was attempted, MQTT messages could start failing.
+	- Mitigation: update the namespace configuration to correct the enrichment configuration.
+	
 ##### Sample Output
 
 The following is a sample output of a MQTTv5 message with PFI=0 after applying the enrichment configuration above: 
@@ -534,16 +536,16 @@ The following is a sample output of a MQTTv5 message with PFI=0 after applying t
    "type": "MQTT.EventPublished", // set type for all MQTT messages enveloped by the service
    "source": "testnamespace", // namespace name
    "subject": "campus/buildings/building17", // topic of the MQTT publish request 
-   "namespaceid": "123" // static enrichment
-   "clientname": "client1" // dynamic enrichment of the name of the publishing client
-   "clienttype": "operator" // dynamic enrichment of an attribute of the publishing client
-   "address": "1 Microsoft Way, Redmond, WA 98052" // dynamic enrichment of a user property in the MQTT publish request
-   "region": "North America" // dynamic enrichment of another user property in the MQTT publish request
-   "mqtttopic": "campus/buildings/building17" // dynamic enrichment of the topic of the MQTT publish request
-   "mqttresponsetopic": "campus/buildings/building17/response" // dynamic enrichment of the response topic of the MQTT publish request
-   "mqttcorrelationdata": "cmVxdWVzdDE=" // dynamic enrichment of the correlation data of the MQTT publish request encoded in base64
-   "mqttpfi": "0" // dynamic enrichment of the payload format indicator of the MQTT publish request
-   "datacontenttype": "application/octet-stream" //content type of the MQTT publish request
+   "namespaceid": "123", // static enrichment
+   "clientname": "client1", // dynamic enrichment of the name of the publishing client
+   "clienttype": "operator", // dynamic enrichment of an attribute of the publishing client
+   "address": "1 Microsoft Way, Redmond, WA 98052", // dynamic enrichment of a user property in the MQTT publish request
+   "region": "North America", // dynamic enrichment of another user property in the MQTT publish request
+   "mqtttopic": "campus/buildings/building17", // dynamic enrichment of the topic of the MQTT publish request
+   "mqttresponsetopic": "campus/buildings/building17/response", // dynamic enrichment of the response topic of the MQTT publish request
+   "mqttcorrelationdata": "cmVxdWVzdDE=", // dynamic enrichment of the correlation data of the MQTT publish request encoded in base64
+   "mqttpfi": 0, // dynamic enrichment of the payload format indicator of the MQTT publish request
+   "datacontenttype": "application/octet-stream", //content type of the MQTT publish request
    "data_base64": {
           IlRlbXAiOiAiNzAiLAoiaHVtaWRpdHkiOiAiNDAiCg==
   }
@@ -619,9 +621,6 @@ All the names are of String type
 | TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| |
 | Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
 
-## Known Issues
--  If a client resource is deleted, recreating a client with the same name will fail for a day after the deletion.
-	- Mitigation: change the name of the client while recreating it.
 
 ## Frequently asked questions 
 - Is Azure monitoring metrics and logging available? 
