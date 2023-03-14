@@ -520,9 +520,6 @@ Enrichment can be configured on the namespace creation/update through Azure CLI.
     "tags": {},
 }
 ```
-######  Known Issue
--  If an invalid enrichment configuration was attempted, MQTT messages could start failing.
-	- Mitigation: update the namespace configuration to correct the enrichment configuration.
 	
 ##### Sample Output
 
