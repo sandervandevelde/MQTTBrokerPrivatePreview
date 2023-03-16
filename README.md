@@ -150,7 +150,7 @@ Some of the key terms relevant for private preview are explained below.
 A namespace is a declarative space that provides a scope to all the nested resources such as certificates, clients, client groups, topic spaces, permission bindings, etc. inside it.  Namespaces are used to organize the resources into logical groups.  Creating the namespace instantiates the MQTT broker.  Namespace is a tracked resource with 'tags' and a 'location' properties, and once created can be found on resources.azure.com.
 
 ### Client Authentication
-For private preview, we will be supporting authentication of clients using X.509 certificates.  X.509 certificate will provide the credentials to associate a particular client with the tenant, and at the same time, ensure the communication is encrypted.  In this model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity. 
+For private preview, we will be supporting authentication of clients using X.509 certificates.  X.509 certificate will provide the credentials to associate a particular client with the tenant.  In this model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity. 
 The following credential types are supported:
 - Certificates issued by a Certificate Authority (CA) 
 - Self-signed certificates
