@@ -37,7 +37,6 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
 #### ARM Contract
 ~~~
 {
-    "properties": {
         "inputSchema": "CloudEventSchemaV1_0",
         "topicSpacesConfiguration": {
             "state": "Enabled",
@@ -61,7 +60,6 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
                     }
                 ]
             }
-        }
     },
     "location": "centraluseuap",
     "tags": {
@@ -111,7 +109,6 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
 ##### For CA Certificate Subject based authentication
 ~~~
 {
-  "properties": {
     "state": "Enabled",
     "authentication": {
       "certificateSubject": {
@@ -130,14 +127,12 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
         ]
     },
     "description": "This is a test client"
-  },
 }
 ~~~
 
 ##### For Self-Signed Certificate Thumbprint based authentication
 ~~~
 {
-  "properties": {
     "state": "Enabled",
     "authentication": {
         "certificateThumbprint": {
@@ -155,7 +150,6 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
         ]
     },
     "description": "This is a test client"
-  },
 }
 ~~~
 
@@ -172,10 +166,8 @@ Delete Client | az resource delete --id /subscriptions/\<Subscription ID>/resour
 #### ARM Contract
 ~~~
 {
-  "properties": {
     "description": "This is a test client group",
     "query": "attributes.b IN ['a', 'b', 'c']"
-  }
 }
 ~~~
 
@@ -192,13 +184,11 @@ Delete clientGroup | az resource delete --id /subscriptions/\<Subscription ID>/r
 #### ARM Contract
 ~~~
 { 
-    "properties":{
         "subscriptionSupport": "LowFanout",
         "topicTemplates": [
             "segment1/+/segment3/${client.name}",
             "segment1/${client.attributes.attribute1}/segment3/#"
         ]
-    }
 }
 ~~~
 #### Commands
@@ -215,11 +205,9 @@ Delete topicSpace | az resource delete --id /subscriptions/\<Subscription ID>/re
 #### ARM Contract
 ~~~
 {
-  "properties": {
     "clientGroupName": "clientGroup1",
     "permission": "Publisher", //or Subscriber
     "topicSpaceName": "topicSpace1"
-  },
 }
 ~~~
 #### Commands
