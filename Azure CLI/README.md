@@ -37,6 +37,7 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
 #### ARM Contract
 ~~~
 {
+    "properties": {
         "inputSchema": "CloudEventSchemaV1_0",
         "topicSpacesConfiguration": {
             "state": "Enabled",
@@ -60,6 +61,7 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
                     }
                 ]
             }
+        }
     },
     "location": "centraluseuap",
     "tags": {
@@ -95,7 +97,7 @@ Delete Namespace | az resource delete --id /subscriptions/\<Subscription ID>/res
 #### Commands
 | Action           | Azure CLI |
 | ---------------- | --------- |
-| Create caCertificate |  az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/caCertificates/\<Ca Certificate Name> --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json | 
+| Create caCertificate |  az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/caCertificates/\<Ca Certificate Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json | 
 Get caCertificate | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/caCertificates/\<Ca Certificate Name> |
 Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/caCertificates/\<Ca Certificate Name> |
 
@@ -109,6 +111,7 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
 ##### For CA Certificate Subject based authentication
 ~~~
 {
+    "properties": {
     "state": "Enabled",
     "authentication": {
       "certificateSubject": {
@@ -127,12 +130,14 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
         ]
     },
     "description": "This is a test client"
+    }
 }
 ~~~
 
 ##### For Self-Signed Certificate Thumbprint based authentication
 ~~~
 {
+    "properties": {
     "state": "Enabled",
     "authentication": {
         "certificateThumbprint": {
@@ -150,13 +155,14 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
         ]
     },
     "description": "This is a test client"
+    }
 }
 ~~~
 
 #### Commands
 | Action           | Azure CLI |
 | ---------------- | --------- |
-| Create Client | az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clients/\<Client Name> --api-version 2022-10-15-preview --properties @./resources/client.json | 
+| Create Client | az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clients/\<Client Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/client.json | 
 Get Client | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clients/\<Client Name> |
 Delete Client | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clients/\<Client Name> |
 
@@ -166,15 +172,17 @@ Delete Client | az resource delete --id /subscriptions/\<Subscription ID>/resour
 #### ARM Contract
 ~~~
 {
+    "properties": {
     "description": "This is a test client group",
     "query": "attributes.b IN ['a', 'b', 'c']"
+    }
 }
 ~~~
 
 #### Commands
 | Action           |Azure CLI |
 | ---------------- | --------- |
-| Create clientGroup |  az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clientGroups/\<Client Group Name> --api-version 2022-10-15-preview --properties @./resources/CG.json | 
+| Create clientGroup |  az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clientGroups/\<Client Group Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/CG.json | 
 Get clientGroup | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clientGroups/\<Client Group Name> |
 Delete clientGroup | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clientGroups/\<Client Group Name>|
 
@@ -184,17 +192,19 @@ Delete clientGroup | az resource delete --id /subscriptions/\<Subscription ID>/r
 #### ARM Contract
 ~~~
 { 
+    "properties": {
         "subscriptionSupport": "LowFanout",
         "topicTemplates": [
             "segment1/+/segment3/${client.name}",
             "segment1/${client.attributes.attribute1}/segment3/#"
         ]
+    }
 }
 ~~~
 #### Commands
 | Action           | Azure CLI |
 | ---------------- | --------- |
-| Create topicSpace |  az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/topicSpaces/\<Topic Space Name> --api-version 2022-10-15-preview --properties @./resources/TS.json | 
+| Create topicSpace |  az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/topicSpaces/\<Topic Space Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/TS.json | 
 Get topicSpace | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/topicSpaces/\<Topic Space Name> |
 Delete topicSpace | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/topicSpaces/\<Topic Space Name> |
 
@@ -205,9 +215,11 @@ Delete topicSpace | az resource delete --id /subscriptions/\<Subscription ID>/re
 #### ARM Contract
 ~~~
 {
+    "properties": {
     "clientGroupName": "clientGroup1",
     "permission": "Publisher", //or Subscriber
     "topicSpaceName": "topicSpace1"
+    }
 }
 ~~~
 #### Commands
