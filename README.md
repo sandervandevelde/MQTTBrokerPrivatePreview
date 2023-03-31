@@ -162,7 +162,9 @@ Once MQTT is enabled, it cannot be disabled for the Namespace.  Also, after enab
 
 We recommend that you include the Client Authentication Name in the Username field of the client's CONNECT packet.  Using this authentication name along with the client certificate, service will be able to authenticate the client.
 
-If you anticipate any client not having the authentication name in the Username field while connecting to the service, you can choose alternative source fields in client certificate for the client authentication name.  Service will fetch the client identity from the client certificate based on the fields mentioned on the Configuration page.  We support 5 certificate fields, you can find the information [here](#client-authentication-source-options).  
+If you anticipate any client not having the authentication name in the Username field while connecting to the service, you can choose alternative source fields in client certificate for the client authentication name.  Service will look for the client identity from the client certificate in the order the fields are mentioned on the Configuration page.
+
+We support 5 certificate fields, you can find the information [here](#client-authentication-source-options).  
 
 
 ### Client Authentication
