@@ -28,18 +28,17 @@ The following instructions describes how to use the Azure portal to configure th
    
 ![Namespace_Creation-Basics.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Namespace_Creation-Basics.png)   
 
-3. Select Review + create to review your choices.
-4. Select Create to start the deployment of your new namespace. Your deployment will be in progress a few minutes while the namespace is being created. Once the deployment is complete, select Go to resource to open the new namespace.
-5. On the Overview page, you will be able to see the hostname that your MQTT clients need to send the messages to.
+3. On the Routing tab:
+   - Check Enable Routing
+   - Select the Event Grid topic that you created above from the drop-down list.
+     - If you don't have 'EventGrid Data Sender' permission to the selected topic, click "Add permission" to assign this permission, then click "Refresh" to update the list.
+     - Note that it might take a few minutes for the permission to be reflected after assignment.
 
+![Namespace_Creation-Routing.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Namespace_Creation-Routing.png)   
 
-# Namespace Configuration page:
-In this page you can enable MQTT and add client authentication settings if needed.
-   - Check Enable MQTT
-   - Enable alternative client authentication name sources only if client identity is not included in the Username field of CONNECT packet.  
-
-![Namespace_Configuration_Page.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Namespace_Configuration_Page.png)   
-
+4. Select Review + create to review your choices.
+5. Select Create to start the deployment of your new namespace. Your deployment will be in progress a few minutes while the namespace is being created. Once the deployment is complete, select Go to resource to open the new namespace.
+6. On the Overview page, you will be able to see the hostname that your MQTT clients need to send the messages to.
 
 # Create CA Certificates
  1. In your namespace, go to the Ca certificates menu item and click + Certificate.
@@ -50,23 +49,22 @@ In this page you can enable MQTT and add client authentication settings if neede
     
 ![CACertificate_Creation.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/CACertificate_Creation.png)   
 
-
 # Create Clients
  1. In your namespace, go to the Clients menu item and click + Client.
  2. In the creation page:
     - Add a Client Name to the client
-    - Add a Client Description to the client
-    - In Authentication settings, add the Client authetication name.  This field cannot be updated, as this identifies the client for authentication.
-    - Select the Authentication Validation Scheme
-      - Select "Thumbprint Match" if the client uses self-signed certificate thumbprint for authentication
-      - If using CA certificate based authentication, select any of the other 5 fields depending on which certificate field has the client authentication name/identity
+    - Add a Client Descriptionto the client
+    - Select the Authentication type
+      - Select "X.509 Certificate subject" if the client uses CA-signed certificate 
+      - Select "X.509 Certificate thumbprint" if the client uses self-signed certificate
+    - Check "Use certificate to get the certificate values" and upload the client's cerficate or manually enter the certificate values as follows
     - Click Add attribute to add Client Attributes up to 4 KB of attributes' size.
       - Key: key of the client attribute
       - Type: type of the attribute. Choose between String, Integers, or Array of strings
       - Value: value of the client attribute
     - Click Create.
 
-![Client_Creation_new.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Client_Creation_new.png)   
+![Client_Creation.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Client_Creation.png)   
     
 # Create Client Groups
  1. In your namespace, go to the Client Groups menu item and click + Client group.
@@ -78,7 +76,7 @@ In this page you can enable MQTT and add client authentication settings if neede
     - Click Create.
     
 ![ClientGroup_Creation.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/ClientGroup_Creation.png)   
-
+    
 # Create Topic Spaces
  1. In your namespace, go to the Topic Spaces menu item and click + Topic Space.
  2. In the creation blade:
