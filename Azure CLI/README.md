@@ -41,13 +41,16 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
         "inputSchema": "CloudEventSchemaV1_0",
         "topicSpacesConfiguration": {
             "state": "Enabled",
+            
             "clientAuthentication": {
                 "alternativeAuthenticationNameSources": [
                     "ClientCertificateSubject",
                     "ClientCertificateIp",
                     "ClientCertificateDns"
-                ] // Optional - required only if client CONNECT packet doesn't have client authentication name in username. Allowed Values: ClientCertificateSubject, ClientCertificateDns, ClientCertificateUri, ClientCertificateIp,ClientCertificateEmail      
+                ]   // Optional. Required only if client CONNECT packet doesn't have client authentication name in username. 
+                    //Allowed Values: ClientCertificateSubject, ClientCertificateDns, ClientCertificateUri, ClientCertificateIp,ClientCertificateEmail
             }
+            
             "routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group>/providers/Microsoft.EventGrid/topics/<Event Grid Topic name>",
             "routingEnrichments": {
                 "static": [
