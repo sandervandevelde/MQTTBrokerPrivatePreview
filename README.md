@@ -149,17 +149,51 @@ Some of the key terms relevant for private preview are explained below.
 ### Namespace
 A namespace is a declarative space that provides a scope to all the nested resources such as certificates, clients, client groups, topic spaces, permission bindings, etc. inside it.  Namespaces are used to organize the resources into logical groups.  Creating the namespace instantiates the MQTT broker.  Namespace is a tracked resource with 'tags' and a 'location' properties, and once created can be found on resources.azure.com.
 
+Currently, Namespace resource type is enabled in following regions only.  
+
+- East US2
+- West US3
+- Canary East US 2 EUAP
+- Canary Central US EUAP
+
+**After creating a Namespace, you will need to explicitly enable MQTT for the Namespace on the Configuration page.**
+
+Once MQTT is enabled, it cannot be disabled for the Namespace.  Also, after enabling MQTT, you can choose client authentication settings.  
+
+We recommend that you include the Client Authentication Name in the Username field of the client's CONNECT packet.  Using this authentication name along with the client certificate, service will be able to authenticate the client.
+
+If you anticipate any client not having the authentication name in the Username field while connecting to the service, you can choose alternative source fields in client certificate for client authentication name.  Service will fetch the client identity from the client certificate based on the fields mentioned on the Configuration page.
+
 ### Client Authentication
-For private preview, we will be supporting authentication of clients using X.509 certificates.  X.509 certificate will provide the credentials to associate a particular client with the tenant.  In this model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity. 
+For private preview, we are supporting authentication of clients using X.509 certificates.  X.509 certificate will provide the credentials to associate a particular client with the tenant.  In this model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity. 
 The following credential types are supported:
 - Certificates issued by a Certificate Authority (CA) 
 - Self-signed certificates
 
 **CA signed certificates:**  In this method, a root or intermediate X.509 certificate is registered with the service.  Essentially, the root or intermediary certificate that is used to sign the client certificate, must be registered with the service first.  Later, clients are authenticated if they have a valid leaf certificate that's signed by the root or intermediate certificate that was supplied to the service.  While registering the clients, the subject common name of the leaf certificate needs to be supplied for authentication. Service will validate the subject values match the subject values from the client certificate and also validate the client certificate is signed the root or intermediary certificate that was registered earlier.  
 
-**Self-signed certificates:**  For self-signed certificates, clients are onboarded to the service using the certificate thumbprint alongside the identity record. In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
+**Certificate Thumbprint:**  Clients are onboarded to the service using the certificate thumbprint alongside the identity record. In this method of authentication, the client registry will store the exact ID of the certificate that the client is going to use to authenticate. 
 
-One and only one authentication type properties (CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
+
+**Client Authentication Name:**  For the client, you can provide a unique identifier which is not restricted by Azure Resource Manager naming constraints.  It is a mandatory field and if not explicitly provided, it will be defaulted to the Client Name.
+
+No two clients can have same authentication name within a Namespace.  While authenticating a client, we treat Client authentication name as case insensitive.
+
+We preserve the original case of client authentication name that you configure in the client.  We use the original client authentication name (case sensitive) that was provided when client was created, in routing enrichments, topic space matching, etc.  
+
+
+**Client Certificate Authentication Validation Scheme:**
+To use CA certificate for authentication, you can choose from one of following options to specify the location of the client identity in the client certificate.  When the client tries to connect to the service, service will find the client identify from this certificate field and matches it with the client authentication name to authenciate the client.  
+
+- Subject Matches Authentication Name
+- Dns Matches Authentication Name
+- Uri Matches Authentication Name
+- IP Matches Authentication Name
+- Email Matches Authentication Name
+
+Use the "Thumbprint Match" option while using the client certificate thumbprint to authenticate the client.
+
+
 #### Multi-Session Support
 To create multiple sessions per client, provide the Username property in the CONNECT packet to signify your client name, and the Client Identifier (ClientID) property in the CONNECT packet to signify the session name such as there are one or more values for the ClientID for each Username.
 - If the Username property is not present in the CONNECT packet, the service will use the ClientID as the client name and session name.
@@ -613,6 +647,7 @@ All the names are of String type
 | Namespace| 3-50 characters| Alphanumeric, and hyphens(-); no spaces|  Name needs to be unique per region | 
 |CA Certificate| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
 | Client| 1-128 characters| Alphanumeric, hyphen(-), colon(:), dot(.), and underscore(_), no spaces| Case sensitive; Name needs to be unique per namespace | 
+| Client authentication name| 1-128 characters| UTf-8 strings, no restrictions | Case sensitive; Authentication Name needs to be unique per namespace (case is ignored while determining uniqueness)  | 
 | Client attributes| Total size of the attributes is <=4KB| Alphanumeric and underscores(_)| Case sensitive; Attribute values can be strings, string arrays, integers; Name needs to be unique per namespace| 
 | Client Group| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| $all is the default client group that includes all the clients.  This group cannot be edited or deleted; Name needs to be unique per namespace| 
 | TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| |
