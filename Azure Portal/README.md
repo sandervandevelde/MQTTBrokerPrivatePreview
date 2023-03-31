@@ -26,7 +26,7 @@ The following instructions describes how to use the Azure portal to configure th
    - Name: Enter a name for your namespace. This name must be globally unique, with a length between 3 and 50 alphanumeric characters. The name can also include the hyphen ('-') character.
    - Region: Select Central US EUAP
    
-![Namespace_Creation-Basics.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Namespace_Creation-Basics.png)   
+![Namespace_Creation_Basics.png](https://github.com/Azure/MQTTBrokerPrivatePreview/blob/main/Azure%20Portal/Namespace_Creation_Basics.png)
 
 3. Select Review + create to review your choices.
 4. Select Create to start the deployment of your new namespace. Your deployment will be in progress a few minutes while the namespace is being created. Once the deployment is complete, select Go to resource to open the new namespace.
