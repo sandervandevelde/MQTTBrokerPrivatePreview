@@ -168,7 +168,7 @@ If you anticipate any client not having the authentication name in the Username 
 For private preview, we are supporting authentication of clients using X.509 certificates.  X.509 certificate will provide the credentials to associate a particular client with the tenant.  In this model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity. 
 The following credential types are supported:
 - Certificates issued by a Certificate Authority (CA) 
-- Self-signed certificates
+- Certificate thumbprint
 
 **CA signed certificates:**  In this method, a root or intermediate X.509 certificate is registered with the service.  Essentially, the root or intermediary certificate that is used to sign the client certificate, must be registered with the service first.  Later, clients are authenticated if they have a valid leaf certificate that's signed by the root or intermediate certificate that was supplied to the service.  While registering the clients, the subject common name of the leaf certificate needs to be supplied for authentication. Service will validate the subject values match the subject values from the client certificate and also validate the client certificate is signed the root or intermediary certificate that was registered earlier.  
 
