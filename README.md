@@ -162,7 +162,8 @@ Once MQTT is enabled, it cannot be disabled for the Namespace.  Also, after enab
 
 We recommend that you include the Client Authentication Name in the Username field of the client's CONNECT packet.  Using this authentication name along with the client certificate, service will be able to authenticate the client.
 
-If you anticipate any client not having the authentication name in the Username field while connecting to the service, you can choose alternative source fields in client certificate for client authentication name.  Service will fetch the client identity from the client certificate based on the fields mentioned on the Configuration page.
+If you anticipate any client not having the authentication name in the Username field while connecting to the service, you can choose alternative source fields in client certificate for the client authentication name.  Service will fetch the client identity from the client certificate based on the fields mentioned on the Configuration page.  We support 5 certificate fields, you can find the information [here](#client-authentication-source-options).  
+
 
 ### Client Authentication
 For private preview, we are supporting authentication of clients using X.509 certificates.  X.509 certificate will provide the credentials to associate a particular client with the tenant.  In this model, authentication generally happens once during session establishment.  Then, all future operations using the same session are assumed to come from that identity. 
@@ -183,7 +184,9 @@ We preserve the original case of client authentication name that you configure i
 
 
 **Client Certificate Authentication Validation Scheme:**
-To use CA certificate for authentication, you can choose from one of following options to specify the location of the client identity in the client certificate.  When the client tries to connect to the service, service will find the client identify from this certificate field and matches it with the client authentication name to authenciate the client.  
+To use CA certificate for authentication, you can choose from one of following options to specify the location of the client identity in the client certificate.  When the client tries to connect to the service, service will find the client identify from this certificate field and matches it with the client authentication name to authenciate the client.
+
+We support 5 certificate fields, you can find the information [here](#client-authentication-source-options) corresponding to below options.  
 
 - Subject Matches Authentication Name
 - Dns Matches Authentication Name
@@ -652,6 +655,17 @@ All the names are of String type
 | Client Group| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| $all is the default client group that includes all the clients.  This group cannot be edited or deleted; Name needs to be unique per namespace| 
 | TopicSpace| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| |
 | Permission Bindings| 3-50 characters| Alphanumeric, hyphen(-) and, no spaces| Name needs to be unique per namespace | 
+
+
+## Client authentication source options 
+| Authentication Source Option | Certificate field | Description |
+| ------------ | ------------ | ------------ |
+| Certificate Subject Name | tls_client_auth_subject_dn | The subject distinguished name of the certificate. |
+| Certificate Dns | tls_client_auth_san_dns | The dNSName SAN entry in the certificate. |
+| Certificate Uri | tls_client_auth_san_uri | The uniformResourceIdentifier SAN entry in the certificate. |
+| Certificate Ip | tls_client_auth_san_ip | The IPv4 or IPv6 address present in the iPAddress SAN entry in the certificate. |
+| Certificate Email | tls_client_auth_san_email | The rfc822Name SAN entry in the certificate. |
+
 
 
 ## Frequently asked questions 
