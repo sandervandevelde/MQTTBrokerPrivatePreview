@@ -251,6 +251,7 @@ To setup a client group, user needs to build a query that filters a set of clien
 Here are a few sample queries:
 - (attributes.sensors = "motion" or attributes.sensors = "humidity") or attributes.type = "home-sensors"
 - attributes.sensors IN ["motion", "humidity", "temperature"] and attributes.floor <= 5
+- authenticationName IN ['client1', 'client2']
 
 In group queries, following operands are allowed:
 - Equality operator "="
@@ -285,13 +286,13 @@ See [Topic Wilcards](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1
 #### Topic template: 
 Topic templates are an extension of the topic filter that supports variables. It is used for fine-grained access control within a client group. You can provide access to a client group to publish or subscribe on a topic space with multiple topic templates. If any of the topic templates include a variable, only the clients associated with this variable will have access to the corresponding topic.
 
-For example, you can provide access to client group "machines" to the topic space "machinesTelemetry" that includes the topic template "machines/${client.name}/temp". Only the machine with client name = machine1 will be able to publish on topic "machines/machine1/temp", and only the machine with client name = machine2 will be able to publish on topic "machines/machine2/temp", and so on. This prevents machine2 from publishing false information on behalf of machine1, even though it has access to the same topic space, and vice versa. 
+For example, you can provide access to client group "machines" to the topic space "machinesTelemetry" that includes the topic template "machines/${client.authenticationName}/temp". Only the machine with client name = machine1 will be able to publish on topic "machines/machine1/temp", and only the machine with client name = machine2 will be able to publish on topic "machines/machine2/temp", and so on. This prevents machine2 from publishing false information on behalf of machine1, even though it has access to the same topic space, and vice versa. 
 
 ##### Supported variables:
-- ${client.name}: this variable represents the name of the client assigned during client creation.
+- ${client.authenticationName}: this variable represents the name of the client assigned during client creation.
 - ${client.attributes.x}: this variable represents any of the assigned attributes to a client during client creation/update, so as "x" would be equal to the exact string of the attribute key. Read more about client attributes in the Terminology section.
 
-**Note:** A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment. E.g. a topic template could include "machines/${client.name|.factory1}/temp" will match topics "machines/machine1.factory1/temp", "machines/machine2.factory1/temp", etc
+**Note:** A variable can represent a portion of a segment or an entire segment but cannot cover more than one segment. E.g. a topic template could include "machines/${client.authenticationName|.factory1}/temp" will match topics "machines/machine1.factory1/temp", "machines/machine2.factory1/temp", etc
 
 #### Subscription support:
 Subscription support is used to optimize the service’s mode of  message delivery to your clients based on your scenario. There are three modes: 
@@ -307,12 +308,12 @@ To publish or subscribe to any topic, a matching topic space must be configured,
 - **Topic templates Overlap:**
 If you set your topic space with a low fanout or high fanout subscription modes, the corresponding topic templates cannot overlap with each other, but they can overlap with a topic space with "not supported" subscription support. The overlap exists if a topic could match more than one topic template: 
 	- Examples:
-		- "machines/${client.name}/temp" and "machines/+/temp" overlap because the second template covers the first one via wildcard. 
-		- vehicles/vehicle1/telemetry/# and vehicles/${client.name}/telemetry/# conflict because in the second template the segment with variable is treated as single level wildcard + and hence, covers the first topic template. PublishOnly topic spaces can overlap with LowFanout topic spaces.
+		- "machines/${client.authenticationName}/temp" and "machines/+/temp" overlap because the second template covers the first one via wildcard. 
+		- vehicles/vehicle1/telemetry/# and vehicles/${client.authenticationName}/telemetry/# conflict because in the second template the segment with variable is treated as single level wildcard + and hence, covers the first topic template. PublishOnly topic spaces can overlap with LowFanout topic spaces.
 - **Configuration:**
 	- Topic templates use special characters $ and | and these need to be escaped differently based on the shell being used. In PowerShell, $ can be escaped with vehicles/${dollar}telemetry/#. If you’re using PowerShell, you can accomplish this as shown in the examples below: 
-		- '"vehicles/${client.name|dollar}/#"'
-		- 'vehicles/${client.name"|"dollar}/#'
+		- '"vehicles/${client.authenticationName|dollar}/#"'
+		- 'vehicles/${client.authenticationName"|"dollar}/#'
 	- Subscription support is immutable. To reconfigure the subscription support, delete the topic space and create a new topic space with the desired subscription support.
 	- Topic space updates may take up to 5 minutes to propagate.
 
@@ -484,7 +485,7 @@ The enrichment value could be a static string for static enrichments or one of t
 The following is a list of the supported values:
 
 ###### Client attributes
-- ${client.name}: the name of the publishing client.
+- ${client.authenticationName}: the name of the publishing client.
 - ${client.attributes.x}: an attribute of the publishing client, where x is the attribute key name. 
 
 ###### MQTT Properties
@@ -521,7 +522,7 @@ Enrichment can be configured on the namespace creation/update through Azure CLI.
                 "dynamic": [
                     {
                         "key": "clientname",
-                        "value": "${client.name}"
+                        "value": "${client.authenticationName}"
                     },
                     {
                         "key": "clienttype",
