@@ -41,6 +41,13 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
         "inputSchema": "CloudEventSchemaV1_0",
         "topicSpacesConfiguration": {
             "state": "Enabled",
+            "clientAuthentication": {
+                "alternativeAuthenticationNameSources": [
+                    "ClientCertificateSubject",
+                    "ClientCertificateIp",
+                    "ClientCertificateDns"
+                ] // Optional - required only if client CONNECT packet doesn't have client authentication name in username. Allowed Values: ClientCertificateSubject, ClientCertificateDns, ClientCertificateUri, ClientCertificateIp,ClientCertificateEmail      
+            }
             "routeTopicResourceId": "/subscriptions/<Subscription ID>/resourceGroups/<Resource Group>/providers/Microsoft.EventGrid/topics/<Event Grid Topic name>",
             "routingEnrichments": {
                 "static": [
@@ -112,15 +119,24 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
 ~~~
 {
     "properties": {
-    "state": "Enabled",
-    "authentication": {
-      "certificateSubject": {
-        "commonName": "client.mqtt.contoso.com",
-        "countryCode": "US",
-        "organization": "Contoso",
-        "organizationUnit": "IoT"
-      }
+
+        "state": "Enabled",
+
+        "authenticationName": "@abc_123:y", //New client identifier apart from client name.  Defaulted to client name value, but can be changed.
+
+        "clientCertificateAuthentication": {
+            
+            "validationScheme": "SubjectMatchesAuthenticationName", 
+                // Required, Possible Values: [ThumbprintMatch, SubjectMatchesAuthenticationName, DnsMatchesAuthenticationName, UriMatchesAuthenticationName, IpMatchesAuthenticationName, EmailMatchesAuthenticationName]
+            
+            "allowedThumbprints": [
+                "8E7968B9C434EAA8139BE58A21F2E7FB15D94C344B3B2ED8F8BC02E4C5FEB7E7", //Primary thumbprint required if validationScheme is ThumbprintMatch.  Sample thumbprint shown.
+                "6C93323180FC326618437231435DFD4CEB9C2192" //Secondary thumbprint is optional.  Sample thumbprint shown.
+            ] // Only relevant if ThumbprintMatch is selected for validationScheme
+
+        }, 
     },
+
     "attributes": {
         "attribute1": "345",
         "arrayAttribute": [
@@ -134,30 +150,6 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
 }
 ~~~
 
-##### For Self-Signed Certificate Thumbprint based authentication
-~~~
-{
-    "properties": {
-    "state": "Enabled",
-    "authentication": {
-        "certificateThumbprint": {
-            "primary": "primaryThumbprint",
-            "secondary": "secondaryThumbprint"
-        }
-      }
-    },
-    "attributes": {
-        "attribute1": "345",
-        "arrayAttribute": [
-            "value1",
-            "value2",
-            "value"
-        ]
-    },
-    "description": "This is a test client"
-    }
-}
-~~~
 
 #### Commands
 | Action           | Azure CLI |
@@ -173,8 +165,8 @@ Delete Client | az resource delete --id /subscriptions/\<Subscription ID>/resour
 ~~~
 {
     "properties": {
-    "description": "This is a test client group",
-    "query": "attributes.b IN ['a', 'b', 'c']"
+        "description": "This is a test client group",
+        "query": "attributes.b IN ['a', 'b', 'c']"
     }
 }
 ~~~
@@ -216,9 +208,9 @@ Delete topicSpace | az resource delete --id /subscriptions/\<Subscription ID>/re
 ~~~
 {
     "properties": {
-    "clientGroupName": "clientGroup1",
-    "permission": "Publisher", //or Subscriber
-    "topicSpaceName": "topicSpace1"
+        "clientGroupName": "clientGroup1",
+        "permission": "Publisher", //or Subscriber
+        "topicSpaceName": "topicSpace1"
     }
 }
 ~~~
