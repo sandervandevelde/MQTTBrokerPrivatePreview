@@ -147,7 +147,7 @@ Some of the key terms relevant for private preview are explained below.
 ## Concepts
 
 ### Namespace
-A namespace is a declarative space that provides a scope to all the nested resources such as certificates, clients, client groups, topic spaces, permission bindings, etc. inside it.  Namespaces are used to organize the resources into logical groups.  Creating the namespace instantiates the MQTT broker.  Namespace is a tracked resource with 'tags' and a 'location' properties, and once created can be found on resources.azure.com.
+A namespace is a declarative space that provides a scope to all the nested resources such as certificates, clients, client groups, topic spaces, permission bindings, etc. inside it.  Namespaces are used to organize the resources into logical groups.  Namespace is a tracked resource with 'tags' and a 'location' properties, and once created can be found on resources.azure.com.
 
 Currently, Namespace resource type is enabled in following regions only.  
 
