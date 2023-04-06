@@ -86,7 +86,7 @@ az role assignment create --assignee "<alias>@contoso.com" --role "EventGrid Dat
 #### Commands
 | Action           | Azure CLI |
 | ---------------- | --------- |
-| Create namespace |  az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/NS.json | 
+| Create namespace |  az resource create --resource-type Microsoft.EventGrid/namespaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name> --is-full-object --api-version 2023-06-01-preview --properties @./resources/NS.json | 
 Get namespace | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name> |
 Delete Namespace | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name> |
 
@@ -107,7 +107,7 @@ Delete Namespace | az resource delete --id /subscriptions/\<Subscription ID>/res
 #### Commands
 | Action           | Azure CLI |
 | ---------------- | --------- |
-| Create caCertificate |  az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/caCertificates/\<Ca Certificate Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/CAC_test-ca-cert.json | 
+| Create caCertificate |  az resource create --resource-type Microsoft.EventGrid/namespaces/caCertificates --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/caCertificates/\<Ca Certificate Name> --is-full-object --api-version 2023-06-01-preview --properties @./resources/CAC_test-ca-cert.json | 
 Get caCertificate | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/caCertificates/\<Ca Certificate Name> |
 Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/caCertificates/\<Ca Certificate Name> |
 
@@ -157,7 +157,7 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
 #### Commands
 | Action           | Azure CLI |
 | ---------------- | --------- |
-| Create Client | az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clients/\<Client Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/client.json | 
+| Create Client | az resource create --resource-type Microsoft.EventGrid/namespaces/clients --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clients/\<Client Name> --is-full-object --api-version 2023-06-01-preview --properties @./resources/client.json | 
 Get Client | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clients/\<Client Name> |
 Delete Client | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clients/\<Client Name> |
 
@@ -177,7 +177,7 @@ Delete Client | az resource delete --id /subscriptions/\<Subscription ID>/resour
 #### Commands
 | Action           |Azure CLI |
 | ---------------- | --------- |
-| Create clientGroup |  az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clientGroups/\<Client Group Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/CG.json | 
+| Create clientGroup |  az resource create --resource-type Microsoft.EventGrid/namespaces/clientGroups --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clientGroups/\<Client Group Name> --is-full-object --api-version 2023-06-01-preview --properties @./resources/CG.json | 
 Get clientGroup | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clientGroups/\<Client Group Name> |
 Delete clientGroup | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/clientGroups/\<Client Group Name>|
 
@@ -199,7 +199,7 @@ Delete clientGroup | az resource delete --id /subscriptions/\<Subscription ID>/r
 #### Commands
 | Action           | Azure CLI |
 | ---------------- | --------- |
-| Create topicSpace |  az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/topicSpaces/\<Topic Space Name> --is-full-object --api-version 2022-10-15-preview --properties @./resources/TS.json | 
+| Create topicSpace |  az resource create --resource-type Microsoft.EventGrid/namespaces/topicSpaces --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/topicSpaces/\<Topic Space Name> --is-full-object --api-version 2023-06-01-preview --properties @./resources/TS.json | 
 Get topicSpace | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/topicSpaces/\<Topic Space Name> |
 Delete topicSpace | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/topicSpaces/\<Topic Space Name> |
 
@@ -220,7 +220,7 @@ Delete topicSpace | az resource delete --id /subscriptions/\<Subscription ID>/re
 #### Commands
 | Action           | Azure CLI |
 | ---------------- | --------- |
-| Create permissionBinding |  az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/permissionBindings/\<Permission Binding Name> --api-version 2022-10-15-preview --properties @./resources/PB.json | 
+| Create permissionBinding |  az resource create --resource-type Microsoft.EventGrid/namespaces/permissionBindings --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/permissionBindings/\<Permission Binding Name> --api-version 2023-06-01-preview --properties @./resources/PB.json | 
 Get permissionBinding | az resource show --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/permissionBindings/\<Permission Binding Name> |
 Delete permissionBinding | az resource delete --id /subscriptions/\<Subscription ID>/resourceGroups/\<Resource Group>/providers/Microsoft.EventGrid/namespaces/\<Namespace Name>/permissionBindings/\<Permission Binding Name> |
 
