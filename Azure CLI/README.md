@@ -118,7 +118,6 @@ Delete caCertificate | az resource delete --id /subscriptions/\<Subscription ID>
 #### ARM Contract
 > Note: Only one authentication property type (from CertificateThumbprint or CertificateSubject) must be provided in the Create/Update Payload for Client.
 
-##### For CA Certificate Subject based authentication
 ~~~
 {
     "properties": {
