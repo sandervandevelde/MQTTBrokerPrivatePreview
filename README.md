@@ -151,10 +151,7 @@ A namespace is a declarative space that provides a scope to all the nested resou
 
 Currently, Namespace resource type is enabled in following regions only.  
 
-- East US2
-- West US3
 - Canary East US 2 EUAP
-- Canary Central US EUAP
 
 **After creating a Namespace, you will need to explicitly enable MQTT for the Namespace on the Configuration page.**
 
