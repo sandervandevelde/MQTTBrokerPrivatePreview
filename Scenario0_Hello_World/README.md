@@ -78,7 +78,7 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 # Make sure you have the `mqtt-broker` virtual environment activated 
 source ~/env/mqtt-broker/bin/activate
 # Set up the following variable
-export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"
+export gw_url="<namespace name>.eastus2euap-1.ts.eventgrid.azure.net"
 ```
 3. In one terminal window, run the subscribe sample script through the following command: `python ./subscribe.py`.
 4. In the other terminal window, run the publish sample script through the following command: `python ./publish.py`.

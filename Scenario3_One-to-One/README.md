@@ -109,7 +109,7 @@ az resource create --resource-type ${base_type}/permissionBindings --id ${resour
 # Make sure you have the `mqtt-broker` virtual environment activated 
 source ~/env/mqtt-broker/bin/activate
 # Set up the following variable
-export gw_url="<namespace name>.centraluseuap-1.ts.eventgrid.azure.net"
+export gw_url="<namespace name>.eastus2euap-1.ts.eventgrid.azure.net"
 ```
 3. In one terminal window, run the vehicle_device sample script through the following command: `python ./vehicle_device.py`.
 4. In another terminal window, run the mobile_device sample script through the following command: `python ./mobile_device.py`.
