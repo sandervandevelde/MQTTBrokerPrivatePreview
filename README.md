@@ -90,11 +90,6 @@ The following features are not in scope for this release, but they will be suppo
 
 ## Demo
 
-https://user-images.githubusercontent.com/59579210/215560807-df83c50f-38a8-49d7-a61d-d9d1b0ca3ddb.mp4
-
-
-
-
 https://user-images.githubusercontent.com/59579210/233129413-4e6099e3-58ef-4678-927f-41e61c2fd13c.mp4
 
 
