@@ -2,7 +2,7 @@
 
 The Microsoft Azure Messaging team invites you and your organization to preview the MQTT broker functionality in Event Grid.  During this preview, we will provide full support with a high level of engagement from the Azure Messaging product group.  Please note that this preview is available by invitation only and requires an NDA.  By participating in the private preview, you agree to the [Terms of Use](https://www.microsoft.com/legal/terms-of-use).  Please submit the [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURURXNEw4UkpTOEdNVTVXSllLQVhBUUo0US4u) to signup for private preview.  We look forward to your feedback as you leverage this capability. You can submit your feedback using this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdDENSpgZtIq581m55eAQpURDA2RVRTV1VBSUQ2MDBCM1g3WkY4Q1k2Sy4u).  
 
-The preview is currently available in East US 2 EUAP region.  
+The preview is currently available in Canary East US 2 EUAP region.  
 
 Please reach out to us with questions and comments at askmqtt@microsoft.com.
 
@@ -26,10 +26,10 @@ The private preview is only for testing.  Please do NOT use it for your producti
 **Cost to use:**  For this release, MQTT broker functionality in Event Grid is available for no additional charge. You will be charged for routing MQTT messages through Event Grid subscriptions.  Please check the Event Grid pricing [here](https://azure.microsoft.com/en-us/pricing/details/event-grid/).
 
 **Supported Region**
-This private preview is currently supported only in East US 2 EUAP region.
+This private preview is currently supported only in Canary East US 2 EUAP region.
 
 **Post private preview program**
-When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview East US 2 EUAP region.
+When the private preview program ends, or when your tests are completed, you can choose to either cleanup your configuration or retain the configuration in private preview Canary East US 2 EUAP region.
 
 
 ## Capabilities available in this preview
