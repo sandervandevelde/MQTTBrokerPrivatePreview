@@ -36,7 +36,7 @@ When the private preview program ends, or when your tests are completed, you can
 This private preview provides the following capabilities
 - Cloud MQTT broker functionality in Event Grid enabling publish and subscribe on flexible topic structure: support of wildcards in topic structure to allow subscription to filtered messages
 - MQTT v3.1.1 compliance: 
-	- Persistent sessions ensure that a client's subscription information and messages are preserved for 2 days when a client disconnects, and the messages are resent to the client when it reconnects on the same session.
+	- Persistent sessions ensure that a client's subscription information and messages are preserved for 8 hours when a client disconnects, and the messages are resent to the client when it reconnects on the same session.
 	- Limitations:  LWT, Retain messages, Message ordering and QoS 2 are not supported. [Learn more](#mqttv311-level-of-support-and-limitations) 
 - MQTT v5 compliance, below are some key features we support: 
 	- User Properties on publish packet: Allows you to add additional information on publish packets to provide more context about the message.
@@ -47,7 +47,7 @@ This private preview provides the following capabilities
 	- Maximum message size:  The client can now tell the server the maximum message size the client can receive and any messages larger than this are dropped by the server.
 	- Request-response:  We support response topic and correlation data properties on publish packet allowing clients to model request-response over MQTT per specification.
 	- Flow control:  Helps adjust the message flow depending on device capabilities such as processing speed or storage capabilities by limiting number of QoS 1 messages to be dispatched to it simultaneously.
-	- Clean Start and Session Expiry:  Helps preserve client's subscription details and messages for up to 2 days if configured (configurable between 0 and 172,800 seconds), in case the client disconnets.  When the client reconnects on the same session within the session expiry interval timeframe, all the messages are resent to the client.  Also, client doesn't need to resubscribe to topics.
+	- Clean Start and Session Expiry:  Helps preserve client's subscription details and messages for up to 8 hours if configured (configurable between 0 and 172,800 seconds), in case the client disconnets.  When the client reconnects on the same session within the session expiry interval timeframe, all the messages are resent to the client.  Also, client doesn't need to resubscribe to topics.
 	- Limitations:  LWT, Retain messages, Message ordering, QoS 2, Shared subscriptions, Subscription IDs, Auth packet, and Assigned Client ID are not supported. [Learn more](https://github.com/Azure/MQTTBrokerPrivatePreview#mqttv5-level-of-support-and-limitations)
 - QoS 0, 1: QoS 0 level guarantees a best-effort delivery. QoS1 guarantees that the message will be delivered at least once.
 - Flexible access control model:  Grouping clients into ClientGroups and topic references into TopicSpaces to ease access control management.  See the [concepts](#concepts) section for a fuller description of all functionality
