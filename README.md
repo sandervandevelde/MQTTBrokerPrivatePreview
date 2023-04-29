@@ -686,13 +686,17 @@ Handling high rate of fluctuations in connection states: When a client disconnec
 
 Use the following steps to emit the client life cycle events:
 1.	Create a system topic
+ 
+ ```
 az eventgrid system-topic create --resource-group <Resource Group > --name <System Topic Name> --location <Region> --topic-type Microsoft.EventGrid.Namespaces --source /subscriptions//resourceGroups/<Resource Group >/providers/Microsoft.EventGrid/namespaces/<Namespace Name>
+ ```
+ 
 1.	Go to your system topic that you just created in the portal.
 2.	Select +Event Subscription
-	a. 	Provide a name for your Event Grid subscription.
-	b.	Select the Event Schema that you prefer for event consumption.
-	c.	Filter the events under Event Types
-	d.	Fill your endpoint details
+- Provide a name for your Event Grid subscription.
+- Select the Event Schema that you prefer for event consumption.
+- Filter the events under Event Types
+- Fill your endpoint details
 3.	Select Create
 
 ### Considerations
