@@ -15,6 +15,8 @@ MQTT broker functionality in Event Grid delivers the flexibility to leverage hie
 | [Client Authentication](#client-authentication) |
 | [Client Groups](#client-groups) |
 | [Topic Spaces](#topic-spaces)|
+| [Routing](#routing)|
+| [Client Life Cycle Events](#client-life-cycle-events)|
 
 ## Private preview program information
 The private preview is only for testing.  Please do NOT use it for your production.
@@ -587,6 +589,109 @@ The following is a sample output of a MQTTv5 message with PFI=0 after applying t
 ###### Handling special cases:
 - Unspecified clinet attributes/user properties: if a dynamic enrichment pointed to a client attribute/user property that doesn’t exist, the enrichment will include the specified key with an empty string for a value. e.g. "emptyproperty": ""
 - Arrays: Arrays in client attributes and duplicate userproperties will be transformed to a comma-separated string. For example: if the enriched client attribute is set to be “array”: “value1”, “value2”, “value3”, the resulting enriched property will be “array”: “value1,value2,value3”. Another example: if the same MQTT publish request has the following user properties >  "userproperty1": "value1", "userproperty1": "value2", resulting enriched property will be “userproperty1”: “value1,value2”.
+
+## Client Life Cycle Eventts
+Client Life Cycle events allow applications to react to client connection or disconnection events. For example, you can build an application that updates a database, creates a ticket, and delivers an email notification every time a to a client is disconnected for mitigative action.
+
+	| Event | Description | 
+	| ------------ | ------------ | ------------ |
+	| Microsoft.EventGrid.MQTTClientSessionConnected | Published when an MQTT client’s session is  connected to Event Grid. |
+	|Microsoft.EventGrid.MQTTClientSessionDisconnected | Published when an MQTT client’s session is disconnected from Event Grid. | 
+	
+### Event Schema
+Not only does  the client life cycle events provide you with all the information about the client and session that got connected or disconnected, it also will provide a disconnectionReason that you can use for diagnostics scenarios that enable you to have automated mitigative actions. For more information about how to use Event Grid event properties, see the Event Grid event schema.
+
+#### MQTT Client Session Connected Schema
+The following example shows the CloudEvent schema of the event:
+{
+  "id": "6f1b70b8-557a-4865-9a1c-94cc3def93db",
+  "time": "2023-04-28T00:49:04.0211141Z",
+  "type": "Microsoft.EventGrid.MQTTClientSessionConnected",
+  "source": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myrg/providers/Microsoft.EventGrid/namespaces/myns",
+  "subject": "/clients/device1/sessions/session1",
+  "specversion": "1.0",
+  "data": {
+    "namespaceName": "myns",
+    "clientAuthenticationName": "device1",
+    "clientSessionName": "session1",
+    "sequenceNumber": 1
+  }
+}
+The following example shows the Event Grid schema of the event:
+{
+  "id": "6f1b70b8-557a-4865-9a1c-94cc3def93db",
+  "eventTime": "2023-04-28T00:49:04.0211141Z",
+  "eventType": "Microsoft.EventGrid.MQTTClientSessionConnected",
+  "topic": "/subscriptions/ 00000000-0000-0000-0000-000000000000/resourceGroups/myrg/providers/Microsoft.EventGrid/namespaces/myns",
+  "subject": "/clients/device1/sessions/session1",
+  "dataVersion": "1",
+  "metadataVersion": "1",
+  "data": {
+    "namespaceName": "myns",
+    "clientAuthenticationName": "device1",
+    "clientSessionName": "session1",
+    "sequenceNumber": 1
+  }
+}
+
+#### MQTT Client Session Disconnected Schema
+
+The following example shows the CloudEvent schema of the event:
+{
+  "id": "3b93123d-5427-4dec-88d5-3b6da87b0f64",
+  "time": "2023-04-28T00:51:28.6037385Z",
+  "type": "Microsoft.EventGrid.MQTTClientSessionDisconnected",
+  "source": "/subscriptions/ 00000000-0000-0000-0000-000000000000/resourceGroups/myrg/providers/Microsoft.EventGrid/namespaces/myns",
+  "subject": "/clients/device1/sessions/session1",
+  "specversion": "1.0",
+  "data": {
+    "namespaceName": "myns",
+    "clientAuthenticationName": "device1",
+    "clientSessionName": "session1",
+    "sequenceNumber": 1,
+    "disconnectionReason": "ClientError"
+  }
+}
+
+The following example shows the Event Grid schema of the event:
+{
+  "id": "641fd543-a788-48aa-b22a-f54be3f7e1e2",
+  "eventTime": "2023-04-28T02:54:56.9162492Z",
+  "eventType": "Microsoft.EventGrid.MQTTClientSessionDisconnected",
+  "topic": "/subscriptions/ 00000000-0000-0000-0000-000000000000/resourceGroups/myrg/providers/Microsoft.EventGrid/namespaces/myns",
+  "subject": "/clients/device1/sessions/session1",
+  "dataVersion": "1",
+  "metadataVersion": "1",
+  "data": {
+    "namespaceName": "myns",
+    "clientAuthenticationName": "device1",
+    "clientSessionName": "session1",
+    "sequenceNumber": 1,
+    "disconnectionReason": "ClientError"
+  },
+}
+*Recommendation for handling events:*
+Handling high rate of fluctuations in connection states: When a client disconnect event is received, wait for a period (e.g., 30 seconds) and verify that the client is still offline before taking a mitigation action. This will improve efficiency in handling rapidly changing states.
+
+### Configuration
+
+Use the following steps to emit the client life cycle events:
+1.	Create a system topic
+az eventgrid system-topic create --resource-group <Resource Group > --name <System Topic Name> --location <Region> --topic-type Microsoft.EventGrid.Namespaces --source /subscriptions//resourceGroups/<Resource Group >/providers/Microsoft.EventGrid/namespaces/<Namespace Name>
+1.	Go to your system topic that you just created in the portal.
+2.	Select +Event Subscription
+	a. 	Provide a name for your Event Grid subscription.
+	b.	Select the Event Schema that you prefer for event consumption.
+	c.	Filter the events under Event Types
+	d.	Fill your endpoint details
+3.	Select Create
+
+### Considerations
+- There is no latency guarantee for the client connection status events.
+- The client life cycle events' timestamp indicates when the service detected the events, which may differ from the actual time of connection status change.
+- The order of client connection status events is not guaranteed, events may arrive out of order. However, the sequence number can be used to realize
+- Duplicate client connection status events may be published.
+
 
 ## Limitations
 ### MQTTv3.1.1 Level of Support and Limitations
