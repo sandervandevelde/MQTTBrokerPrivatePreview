@@ -592,18 +592,17 @@ The following is a sample output of a MQTTv5 message with PFI=0 after applying t
 - Arrays: Arrays in client attributes and duplicate userproperties will be transformed to a comma-separated string. For example: if the enriched client attribute is set to be “array”: “value1”, “value2”, “value3”, the resulting enriched property will be “array”: “value1,value2,value3”. Another example: if the same MQTT publish request has the following user properties >  "userproperty1": "value1", "userproperty1": "value2", resulting enriched property will be “userproperty1”: “value1,value2”.
 
 ## Client Life Cycle Events
-Client Life Cycle events allow applications to react to client connection or disconnection events. For example, you can build an application that updates a database, creates a ticket, and delivers an email notification every time a to a client is disconnected for mitigative action.
-
-	| Event | Description | 
-	| ------------ | ------------ |
-	| Microsoft.EventGrid.MQTTClientSessionConnected | Published when an MQTT client’s session is  connected to Event Grid. |
-	|Microsoft.EventGrid.MQTTClientSessionDisconnected | Published when an MQTT client’s session is disconnected from Event Grid. | 
+Client Life Cycle events allow applications to react to client connection or disconnection events. For example, you can build an application that updates a database, creates a ticket, and delivers an email notification every time a to a client is disconnected for mitigative action. The following events will be published:
+- Microsoft.EventGrid.MQTTClientSessionConnected: Published when an MQTT client’s session is  connected to Event Grid.
+- Microsoft.EventGrid.MQTTClientSessionDisconnected: Published when an MQTT client’s session is disconnected from Event Grid. 
 	
 ### Event Schema
 Not only does  the client life cycle events provide you with all the information about the client and session that got connected or disconnected, it also will provide a disconnectionReason that you can use for diagnostics scenarios that enable you to have automated mitigative actions. For more information about how to use Event Grid event properties, see the Event Grid event schema.
 
 #### MQTT Client Session Connected Schema
 The following example shows the CloudEvent schema of the event:
+
+ ```
 {
   "id": "6f1b70b8-557a-4865-9a1c-94cc3def93db",
   "time": "2023-04-28T00:49:04.0211141Z",
@@ -618,7 +617,10 @@ The following example shows the CloudEvent schema of the event:
     "sequenceNumber": 1
   }
 }
+ ```
+
 The following example shows the Event Grid schema of the event:
+ ```
 {
   "id": "6f1b70b8-557a-4865-9a1c-94cc3def93db",
   "eventTime": "2023-04-28T00:49:04.0211141Z",
@@ -634,10 +636,12 @@ The following example shows the Event Grid schema of the event:
     "sequenceNumber": 1
   }
 }
-
+ ```
+ 
 #### MQTT Client Session Disconnected Schema
 
 The following example shows the CloudEvent schema of the event:
+ ```
 {
   "id": "3b93123d-5427-4dec-88d5-3b6da87b0f64",
   "time": "2023-04-28T00:51:28.6037385Z",
@@ -653,8 +657,10 @@ The following example shows the CloudEvent schema of the event:
     "disconnectionReason": "ClientError"
   }
 }
+ ```
 
 The following example shows the Event Grid schema of the event:
+ ```
 {
   "id": "641fd543-a788-48aa-b22a-f54be3f7e1e2",
   "eventTime": "2023-04-28T02:54:56.9162492Z",
@@ -671,6 +677,8 @@ The following example shows the Event Grid schema of the event:
     "disconnectionReason": "ClientError"
   },
 }
+ ```
+ 
 *Recommendation for handling events:*
 Handling high rate of fluctuations in connection states: When a client disconnect event is received, wait for a period (e.g., 30 seconds) and verify that the client is still offline before taking a mitigation action. This will improve efficiency in handling rapidly changing states.
 
