@@ -15,6 +15,7 @@ MQTT broker functionality in Event Grid delivers the flexibility to leverage hie
 | [Client Authentication](#client-authentication) |
 | [Client Groups](#client-groups) |
 | [Topic Spaces](#topic-spaces)|
+| [Access Control](#access-control)|
 | [Routing](#routing)|
 | [Client Life Cycle Events](#client-life-cycle-events)|
 
@@ -590,11 +591,11 @@ The following is a sample output of a MQTTv5 message with PFI=0 after applying t
 - Unspecified clinet attributes/user properties: if a dynamic enrichment pointed to a client attribute/user property that doesn’t exist, the enrichment will include the specified key with an empty string for a value. e.g. "emptyproperty": ""
 - Arrays: Arrays in client attributes and duplicate userproperties will be transformed to a comma-separated string. For example: if the enriched client attribute is set to be “array”: “value1”, “value2”, “value3”, the resulting enriched property will be “array”: “value1,value2,value3”. Another example: if the same MQTT publish request has the following user properties >  "userproperty1": "value1", "userproperty1": "value2", resulting enriched property will be “userproperty1”: “value1,value2”.
 
-## Client Life Cycle Eventts
+## Client Life Cycle Events
 Client Life Cycle events allow applications to react to client connection or disconnection events. For example, you can build an application that updates a database, creates a ticket, and delivers an email notification every time a to a client is disconnected for mitigative action.
 
 	| Event | Description | 
-	| ------------ | ------------ | ------------ |
+	| ------------ | ------------ |
 	| Microsoft.EventGrid.MQTTClientSessionConnected | Published when an MQTT client’s session is  connected to Event Grid. |
 	|Microsoft.EventGrid.MQTTClientSessionDisconnected | Published when an MQTT client’s session is disconnected from Event Grid. | 
 	
