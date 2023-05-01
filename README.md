@@ -678,7 +678,25 @@ The following example shows the Event Grid schema of the event:
   },
 }
  ```
- 
+##### Disconnection Reasons:
+
+The following list details the different values for the disconnectionReason and their discription:
+
+
+| Disconnection Reason                              | Description                                                                                                                                                          |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ClientAuthenticationError           | the client got disconnected for any authentication reasons (for example, certificate expired, client got disabled, or client configuration changed)                                            |
+| ClientAuthorizationError            | the client got disconnected for any authorization reasons (for example, because of a change in the configuration of topic spaces, permission bindings, or client groups)                                                                  |
+| ClientError                         | the client sent a bad request or used one of the unsupported features that resulted in a connection termination by the service.                                          |
+| ClientInitiatedDisconnect           | the client initiates a graceful disconnect through a DISCONNECT packet for MQTT or a close frame for MQTT over websockets.                                                                                                                |
+| ConnectionLost                      | the client-server connection is lost.                           |
+| IpForbidden                         | the client's IP address is blocked by IP filter or Private links. |
+| QuotaExceeded                       | the client exceeded one or more of the throttling limits that resulted in a connection termination by the service.                                                                                                                      |
+| ServerError                         | the connection got terminated due to an unexpected server error                                                                             |
+| ServerInitiatedDisconnect           | the server initiates a graceful disconnect for any operational reason|
+| SessionOverflow                     | the client's queue for unacknowledged QoS1 messages reached its limit which resulted ina a connection termination by the server                                                                          |
+| SessionTakenOver                    | the client reconnected with the same authentication name which resulted in the termination of the previous connection.                                                                                                                |
+
 *Recommendation for handling events:*
 Handling high rate of fluctuations in connection states: When a client disconnect event is received, wait for a period (e.g., 30 seconds) and verify that the client is still offline before taking a mitigation action. This will improve efficiency in handling rapidly changing states.
 
